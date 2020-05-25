@@ -1,7 +1,7 @@
 package Domain;
 
 import ch.qos.logback.core.net.server.Client;
-import com.example.demo.model.Person;
+//import com.example.demo.model.Person;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;

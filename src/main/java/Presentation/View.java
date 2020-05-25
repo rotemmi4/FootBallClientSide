@@ -1,7 +1,7 @@
 package Presentation;
 
 
-import Domain.AlertSystem.AlertPop;
+//import Domain.AlertSystem.AlertPop;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -1333,13 +1333,13 @@ public class View extends Observable implements IView{
         }
     }
 
-    public void addAlerts(ArrayList<AlertPop> alerts){
-        for (AlertPop alert :alerts) {
-            listAlert.getItems().add(alert.showAlert());
-        }
+//    public void addAlerts(ArrayList<AlertPop> alerts){
+//        for (AlertPop alert :alerts) {
+//            listAlert.getItems().add(alert.showAlert());
+//        }
 
 
-    }
+    //}
 
     //Team Member
     public void backTM(ActionEvent actionEvent){

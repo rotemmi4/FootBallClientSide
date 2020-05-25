@@ -1,7 +1,7 @@
 package Service;
 
 import Domain.Model;
-import Domain.User.*;
+//import Domain.User.*;
 import Presentation.View;
 import javafx.scene.control.Alert;
 
@@ -87,9 +87,9 @@ public class Presenter implements Observer {
             if(arg.equals("team was added successfully")){
                 view.alert("The team was added successfully", Alert.AlertType.INFORMATION);
             }
-            if(arg.equals("new alerts")){//*******************************
-               view.addAlerts(model.getAlert());
-            }
+//            if(arg.equals("new alerts")){//*******************************
+//               view.addAlerts(model.getAlert());
+//            }
 //            if(arg.equals("Subscribe")){
 //                view.subscribe();
 //            }

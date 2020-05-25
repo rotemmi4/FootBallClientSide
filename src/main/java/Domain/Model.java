@@ -1,8 +1,8 @@
 package Domain;
 
-import Data.SystemDB.UserDaoMdb;
-import Domain.AlertSystem.AlertPop;
-import Domain.AlertSystem.AlertSystem;
+//import Data.SystemDB.UserDaoMdb;
+//import Domain.AlertSystem.AlertPop;
+//import Domain.AlertSystem.AlertSystem;
 import Domain.AssociationManagement.League;
 import Domain.AssociationManagement.Match;
 import Domain.ClubManagement.TeamInfo;
@@ -14,23 +14,23 @@ import java.util.Vector;
 
 public class Model extends Observable {
 
-    private UserDaoMdb db;
-    private AlertSystem alertSystem;
+    //private UserDaoMdb db;
+    //private AlertSystem alertSystem;
     private TeamMember tm;
     private AssociationUser au;
     private Referee ref;
     private SystemManager sys;
-    private Fan fan;
+    //private Fan fan;
 
-    private ArrayList<AlertPop> alerts;//*****************************
+    //private ArrayList<AlertPop> alerts;//*****************************
 
     private int currentSeasonYear;
 
     public Model() {
-        db = UserDaoMdb.getInstance();
-        alertSystem= AlertSystem.getInstance();
+        //db = UserDaoMdb.getInstance();
+        //alertSystem= AlertSystem.getInstance();
 
-        this.alerts=new ArrayList<AlertPop>();//*******************
+        //this.alerts=new ArrayList<AlertPop>();//*******************
 
 
     }
