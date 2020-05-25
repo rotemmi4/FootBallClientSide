@@ -1,7 +1,7 @@
 package ExternalSystems;
 
 public class proxy implements AccountingSystem, TaxSystem {
-
+//check
     @Override
     public boolean addPayment(String teamName, String date, double amount) {
         if (amount>0) {
