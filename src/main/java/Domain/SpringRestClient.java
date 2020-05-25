@@ -25,7 +25,7 @@ public class SpringRestClient {
     
     private static RestTemplate restTemplate = new RestTemplate();
 
-
+//jjj
 
     public static void main(String [] args) {
         SpringRestClient springRestClient = new SpringRestClient();
