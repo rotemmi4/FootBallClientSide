@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="500.0" prefWidth="511.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label layoutX="87.0" layoutY="14.0" text="Set points per game in league :">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Label>
+      <Label layoutX="133.0" layoutY="274.0" text="Points per Win :" />
+      <Label layoutX="130.0" layoutY="313.0" text="Points per Draw :" />
+      <Label layoutX="132.0" layoutY="352.0" text="Points per Loss :" />
+      <TextField fx:id="newPointsWin_txtfld" layoutX="240.0" layoutY="270.0" />
+      <TextField fx:id="newPointsDraw_txtfld" layoutX="240.0" layoutY="309.0" />
+      <TextField fx:id="newPointsLoss_txtfld" layoutX="240.0" layoutY="348.0" />
+      <Label layoutX="215.0" layoutY="63.0" text="Choose League :" />
+      <ListView fx:id="changeLeagePolicy" layoutX="136.0" layoutY="80.0" prefHeight="181.0" prefWidth="239.0" />
+      <Button fx:id="backback2" layoutX="14.0" layoutY="461.0" mnemonicParsing="false" onAction="#backToAssociation" text="Back" />
+      <Button layoutX="218.0" layoutY="436.0" mnemonicParsing="false" onAction="#SetPointsPerGame" text="Set Changes" />
+      <Label layoutX="154.0" layoutY="389.0" text="Tie Breaker :" />
+      <ChoiceBox fx:id="TieBreaker_CBX" layoutX="239.0" layoutY="387.0" prefWidth="150.0" />
+   </children>
+</AnchorPane>

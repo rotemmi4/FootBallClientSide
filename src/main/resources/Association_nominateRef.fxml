@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="502.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label layoutX="132.0" layoutY="48.0" text="Choose Referee To Nominate :">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Label>
+      <Button fx:id="nominateRef_back" layoutX="32.0" layoutY="446.0" mnemonicParsing="false" onAction="#backToAssociation" text="Back" />
+      <ListView fx:id="candidateRefs" layoutX="132.0" layoutY="96.0" prefHeight="332.0" prefWidth="337.0" />
+      <Button fx:id="nominateBTN" layoutX="255.0" layoutY="440.0" mnemonicParsing="false" onAction="#nominateRefToSeason" text="Nominate">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>

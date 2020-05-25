@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="460.0" prefWidth="450.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label layoutX="44.0" layoutY="14.0" text="Set number of rounds to league :">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Label>
+      <Button layoutX="189.0" layoutY="417.0" mnemonicParsing="false" onAction="#SetRoundsPerGame" text="Set change" />
+      <Label layoutX="183.0" layoutY="57.0" text="Choose League :" />
+      <ListView fx:id="changeLeagePolicy" layoutX="85.0" layoutY="84.0" prefHeight="264.0" prefWidth="282.0" />
+      <Label layoutX="122.0" layoutY="365.0" text="Rounds :" />
+      <ChoiceBox fx:id="rounds_CBX" layoutX="191.0" layoutY="361.0" prefWidth="150.0" />
+      <Button fx:id="backbackback" layoutX="18.0" layoutY="417.0" mnemonicParsing="false" onAction="#backToAssociation" text="Back" />
+   </children>
+</AnchorPane>

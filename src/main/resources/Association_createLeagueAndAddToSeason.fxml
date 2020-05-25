@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="480.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Accordion />
+      <Label layoutX="137.0" layoutY="43.0" text="Set New League Properties :">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Label>
+      <Label layoutX="136.0" layoutY="106.0" text="League Name :" />
+      <Label layoutX="100.0" layoutY="145.0" text="Number Of Teams in League :" />
+      <Label layoutX="137.0" layoutY="184.0" text="Points Per Win :" />
+      <Label layoutX="133.0" layoutY="262.0" text="Points Per Loss :" />
+      <Label layoutX="131.0" layoutY="224.0" text="Points Per Draw :" />
+      <Label layoutX="148.0" layoutY="297.0" text="Tie Breaker :" />
+      <Label layoutX="127.0" layoutY="332.0" text="Number of Rounds :" />
+      <Label layoutX="142.0" layoutY="369.0" text="Starting Date :" />
+
+      <TextField fx:id="createLeague_leagueName" layoutX="277.0" layoutY="102.0" />
+      <TextField fx:id="createLeague_numberTeams" layoutX="277.0" layoutY="141.0" />
+      <TextField fx:id="createLeague_pointsWin" layoutX="277.0" layoutY="180.0" />
+      <TextField fx:id="createLeague_pointsLoss" layoutX="278.0" layoutY="258.0" />
+      <TextField fx:id="createLeague_pointsDraw" layoutX="278.0" layoutY="220.0" />
+      <ChoiceBox fx:id="createLeague_chooseTieBreaker" layoutX="277.0" layoutY="293.0" prefWidth="150.0" />
+      <ChoiceBox fx:id="createLeague_rounds" layoutX="277.0" layoutY="328.0" prefWidth="150.0" />
+      <DatePicker fx:id="createLeague_startDate" editable="false" layoutX="277.0" layoutY="365.0" showWeekNumbers="true" />
+      <Button fx:id="createLeague_backBTN" layoutX="31.0" layoutY="441.0" mnemonicParsing="false" onAction="#backToAssociation" text="Back" />
+      <Button fx:id="createSeason_createBTN" layoutX="248.0" layoutY="409.0" mnemonicParsing="false" onAction="#createTheLeague" text="Create League In System">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>

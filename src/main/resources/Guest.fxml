@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label layoutX="191.0" layoutY="39.0" text="WelCome!">
+         <font>
+            <Font size="45.0" />
+         </font>
+      </Label>
+      <Label layoutX="195.0" layoutY="134.0" text="Username :" />
+      <Label layoutX="195.0" layoutY="163.0" text="Password :" />
+      <TextField fx:id="login_username_txtfld" layoutX="257.0" layoutY="130.0" />
+      <PasswordField fx:id="login_password_txtfld" layoutX="257.0" layoutY="159.0" />
+      <Button fx:id="login_signInBtn" layoutX="419.0" layoutY="128.0" mnemonicParsing="false" onAction="#pressedLogInBtn" prefHeight="58.0" prefWidth="73.0" text="Log-In !" />
+      <Button fx:id="gotoRegister" layoutX="191.0" layoutY="273.0" mnemonicParsing="false" onAction="#displayRegisterWindow" text="Not Registered? Click here To Create a user !" />
+      <Button fx:id="gotoSearch" layoutX="221.0" layoutY="318.0" mnemonicParsing="false" text="Search something in our system !" />
+      <ProgressBar fx:id="progBar" layoutX="292.0" layoutY="212.0" prefHeight="25.0" prefWidth="200.0" progress="0.0" />
+      <Label layoutX="195.0" layoutY="213.0" text="Login Progress :" />
+
+   </children>
+</AnchorPane>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="484.0" prefWidth="769.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+
+    <Label layoutX="194.0" layoutY="125.0" text="First Name:" />
+    <Label layoutX="195.0" layoutY="162.0" text="Last Name:" />
+    <Label layoutX="196.0" layoutY="197.0" text="Username:" />
+    <Label layoutX="198.0" layoutY="230.0" text="Password:" />
+    <Label layoutX="209.0" layoutY="267.0" text="Email:" />
+    <Label layoutX="192.0" layoutY="303.0" text="Occupation:" />
+    <Label layoutX="201.0" layoutY="338.0" text="Birthday:" />
+    <Label layoutX="193.0" layoutY="374.0" text="Verification Code:" />
+    <TextField fx:id="register_firstName_txtfield" layoutX="259.0" layoutY="121.0" />
+    <TextField fx:id="register_lastName_txtfield" layoutX="259.0" layoutY="158.0" />
+    <TextField fx:id="register_username_txtfield" layoutX="259.0" layoutY="193.0" />
+    <PasswordField fx:id="register_password_txtfield" layoutX="259.0" layoutY="226.0" />
+    <TextField fx:id="register_email_txtfield" layoutX="259.0" layoutY="263.0" />
+    <TextField fx:id="register_verification_txtfield" layoutX="293.0" layoutY="370.0" prefHeight="25.0" prefWidth="115.0" />
+   <Label layoutX="52.0" layoutY="53.0" text="Hello guest, please enter your personal details:">
+      <font>
+         <Font size="25.0" />
+      </font>
+   </Label>
+   <Button fx:id="register_goBack_btn" layoutX="249.0" layoutY="425.0" mnemonicParsing="false" onAction="#backToGuestScreen" prefHeight="25.0" prefWidth="115.0" text="Register!">
+      <font>
+         <Font size="21.0" />
+      </font>
+   </Button>
+   <ListView fx:id="register_rolesList" layoutX="500.0" layoutY="163.0" prefHeight="200.0" prefWidth="200.0" />
+   <Label layoutX="554.0" layoutY="138.0" text="Selcet Your Role :" />
+   <ChoiceBox fx:id="register_occupation_choiceBox" layoutX="259.0" layoutY="299.0" prefWidth="150.0" />
+   <Button fx:id="backToLogin" layoutX="42.0" layoutY="425.0" mnemonicParsing="false" onAction="#backToLoginScreen" text="Back">
+      <font>
+         <Font size="21.0" />
+      </font>
+   </Button>
+   <DatePicker fx:id="register_birthday_txtfield" layoutX="256.0" layoutY="334.0" />
+
+</AnchorPane>

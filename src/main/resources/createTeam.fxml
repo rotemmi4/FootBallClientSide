@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Text layoutX="200.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create Team">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Text>
+      <Text layoutX="158.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Team name :" />
+      <TextField fx:id="teamName_txtfld" layoutX="236.0" layoutY="83.0" />
+      <Button fx:id="createTeam_Btn" layoutX="341.0" layoutY="314.0" mnemonicParsing="false" onAction="#createNewTeam" prefHeight="33.0" prefWidth="87.0" text="Create">
+         <font>
+            <Font size="18.0" />
+         </font></Button>
+      <Button fx:id="cancle_Btn" layoutX="182.0" layoutY="314.0" mnemonicParsing="false" onAction="#cancleTM" prefHeight="33.0" prefWidth="87.0" text="Cancel">
+         <font>
+            <Font size="18.0" />
+         </font></Button>
+      <Text layoutX="146.0" layoutY="146.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Establish year :" />
+      <Text layoutX="144.0" layoutY="196.0" strokeType="OUTSIDE" strokeWidth="0.0" text="City represent :" />
+      <TextField fx:id="establishYear_txtfld" layoutX="236.0" layoutY="129.0" />
+      <TextField fx:id="city_txtfld" layoutX="236.0" layoutY="179.0" />
+      <CheckBox fx:id="activate_CHKBX" layoutX="236.0" layoutY="269.0" mnemonicParsing="false" text="Activate " />
+      <Text layoutX="154.0" layoutY="241.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Home court :" />
+      <ChoiceBox fx:id="homeCourt_CBX" layoutX="235.0" layoutY="224.0" prefWidth="150.0" />
+   </children>
+</AnchorPane>
