@@ -50,7 +50,7 @@ public class Presenter implements Observer {
                 view.alert("Wrong password, try again", Alert.AlertType.ERROR);
                 view.setUi(View.userInstance.blank);
             } else {
-                if (arg instanceof AssociationUser) {
+                if (arg.equals(model.getOcupation.equals("AssociationUser"))) {
                     view.setUi(View.userInstance.associationUser);
                 } else if (arg instanceof Referee) {
                     view.setUi(View.userInstance.referee);

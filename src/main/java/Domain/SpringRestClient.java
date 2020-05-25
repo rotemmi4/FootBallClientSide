@@ -5,52 +5,70 @@ import ch.qos.logback.core.net.server.Client;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
-
+import java.util.Observable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-public class SpringRestClient {
+import static Presentation.View.userInstance.systemManager;
+
+public class SpringRestClient extends Observable {
     
     private static final String GET_PERSON_ENDPOINT_URL = "http://localhost:8082/api/v1/person";
     private static final String POST_PERSON_ENDPOINT_URL = "http://localhost:8082/api/v1/person";
-
 
     private static final String POST_USER_ENDPOINT_URL = "http://localhost:8082/api/v1/person";
     private static final String GET_USER_ENDPOINT_URL = "http://localhost:8082/api/v1/person";
 
 
-
-    
     private static RestTemplate restTemplate = new RestTemplate();
 
-//jjj
+//    public static void main(String [] args) {
+//        SpringRestClient springRestClient = new SpringRestClient();
+//        //Client c = Client.create();
+//
+//        //step1: create Person
+//        springRestClient.createPerson();
+//        System.out.println("End Post Method");
+//
+//        //step2: get List Persons
+//        springRestClient.getPersonList();
+//        System.out.println("End Get Method");
+//    }
 
-    public static void main(String [] args) {
-        SpringRestClient springRestClient = new SpringRestClient();
-        //Client c = Client.create();
-        
-        //step1: create Person
-        springRestClient.createPerson();
-        System.out.println("End Post Method");
 
-        //step2: get List Persons
-        springRestClient.getPersonList();
-        System.out.println("End Get Method");
 
-        
-        
+    public boolean addUser(String firstName, String lastName, String userName, String password, String occupation, String birthday, String email, String verificationCode, String role) {
+        ResponseEntity<List<String>> result = restTemplate.exchange(GET_USER_ENDPOINT_URL, HttpMethod.GET, null,
+                new ParameterizedTypeReference<List<String>>() {});
+        List<String> usersList = result.getBody();
+        for (int i = 0; i < usersList.size(); i++) {
+            String user = usersList.get(i);
+            if (!user.equals(userName)) {
+                ResponseEntity<List<String>> result2 = restTemplate.exchange(GET_SystemManager_ENDPOINT_URL, HttpMethod.GET, null,
+                        new ParameterizedTypeReference<List<String>>() {
+                        });
+                List<String> sysManagerList = result2.getBody();
+                for (int j = 0; j < usersList.size(); j++) {
+                    String sysManagerUser = sysManagerList.getUserName("god");
+                    RestTemplate restTemplate = new RestTemplate();
+                    boolean result3 = restTemplate.postForObject(POST_USER_ENDPOINT_URL, addNewUserToDB(firstName, lastName, userName, password, occupation, birthday, email, verificationCode, role), Boolean.class);
+                    if (result3) {
+                        System.out.println(result3 + " - The user inserted!");
+                    }
+                }
+                setChanged();
+                notifyObservers("User added successfully");
+                return true;
+            } else {
+                setChanged();
+                notifyObservers("user already exist");
+                return false;
+            }
+        }
+        return false;
     }
-
-
-
-
-
-
-
-
-
 
     private void getPersonList() {
         //-------------work with return json-----------------
@@ -62,7 +80,7 @@ public class SpringRestClient {
 
         //-------------work with return object-----------------
         ResponseEntity<List<String>> result= restTemplate.exchange(GET_PERSON_ENDPOINT_URL,HttpMethod.GET,null,
-                new ParameterizedTypeReference<List<Person>>() {});
+                new ParameterizedTypeReference<List<String>>() {});
         List <Person> personsList = result.getBody();
         for(int i = 0; i<personsList.size();i++) {
             Person p = personsList.get(i);
