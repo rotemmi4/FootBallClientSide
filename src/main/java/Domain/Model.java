@@ -20,7 +20,7 @@ public class Model extends Observable {
     private AssociationUser au;
     private Referee ref;
     private SystemManager sys;
-    //private Fan fan;
+    private Fan fan;
 
     //private ArrayList<AlertPop> alerts;//*****************************
 

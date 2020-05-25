@@ -61,7 +61,7 @@ public class SpringRestClient {
 //        System.out.println(result);
 
         //-------------work with return object-----------------
-        ResponseEntity<List<Person>> result= restTemplate.exchange(GET_PERSON_ENDPOINT_URL,HttpMethod.GET,null,
+        ResponseEntity<List<String>> result= restTemplate.exchange(GET_PERSON_ENDPOINT_URL,HttpMethod.GET,null,
                 new ParameterizedTypeReference<List<Person>>() {});
         List <Person> personsList = result.getBody();
         for(int i = 0; i<personsList.size();i++) {
