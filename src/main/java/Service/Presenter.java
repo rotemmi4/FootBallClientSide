@@ -143,6 +143,18 @@ public class Presenter implements Observer {
                 }
                 view.setLogin_successful(true);
             }
+            else if(arg.equals("get requests for referee")){
+                String ans=client.openConnection("getRefReqs"+":"+this.username);
+                String[] splittedAns=splitData(ans);
+                for(int i=0;i<splittedAns.length;i++) {
+                    if(!splittedAns[i].equals("")) {
+                        view.refsProposals.getItems().add(splittedAns[i]);
+                    }
+                }
+            }
+            else if(arg.equals(view.approvedReq)){
+                String ans=client.openConnection("refApprovesToJudge"+":"+this.username+":"+view.approvedReq);
+            }
             else
                 username="";
 
@@ -347,9 +359,9 @@ public class Presenter implements Observer {
 //                }
 //            }
 //
-//            if(arg.equals(view.approvedReq)){
-//                model.refApprovesToJudge(view.approvedReq);
-//            }
+            if(arg.equals(view.approvedReq)){
+                String ans=client.openConnection("refApprovesToJudge"+":"+this.username+":"+view.approvedReq);
+            }
 
 
         }

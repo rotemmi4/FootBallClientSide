@@ -347,7 +347,7 @@ public class View extends Observable implements IView{
 
         if(!register_verification_txtfield.getText().trim().isEmpty()){
             String verification = register_verification_txtfield.getText();
-            if(verification.equals("#") || verification.equals("MainReferee") || verification.equals("SideReferee") || verification.equals("Coach") ||
+            if(verification.equals("#") || verification.equals("Referee") ||  verification.equals("MainReferee") || verification.equals("SideReferee") || verification.equals("Coach") ||
                     verification.equals("Association") || verification.equals("Owner") || verification.equals("Player") || verification.equals("TeamManager") ){
                 filled_verification = true;
             }else{
