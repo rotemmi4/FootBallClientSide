@@ -1,22 +1,25 @@
 package Service;
 
-import Domain.Model;
-//import Domain.User.*;
+
 import Presentation.View;
+import Service.Client;
 import javafx.scene.control.Alert;
 
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 public class Presenter implements Observer {
 
-    private Model model;
+    private Client client;
     private View view;
     private String username;
     private String verificationCode;
 
 
-    public Presenter(Model model, View view) {
-        this.model = model;
+    public Presenter(Client client,View view) {
+        this.client=client;
         this.view = view;
     }
 
@@ -28,21 +31,21 @@ public class Presenter implements Observer {
          * Model Update
          * ================
          * */
-        if (model != null && o == model) {
-
-            /**
-             * Register
-             */
-            if (arg.equals("user already exist")) {
-                view.alert("Username already exist, pick another username", Alert.AlertType.ERROR);
-            } else if (arg.equals("User added successfully")) {
-                view.alert("User added successfully to the system", Alert.AlertType.INFORMATION);
-            }
-
-            /**
-             * Login
-             */
-
+        if (client != null && o == client) {
+//
+//            /**
+//             * Register
+//             */
+//            if (arg.equals("user already exist")) {
+//                view.alert("Username already exist, pick another username", Alert.AlertType.ERROR);
+//            } else if (arg.equals("User added successfully")) {
+//                view.alert("User added successfully to the system", Alert.AlertType.INFORMATION);
+//            }
+//
+//            /**
+//             * Login
+//             */
+//
             if (arg.equals("login failed, user doesn't exist")) {
                 view.alert("Username doesn't exist, try again", Alert.AlertType.ERROR);
                 view.setUi(View.userInstance.blank);
@@ -50,50 +53,45 @@ public class Presenter implements Observer {
                 view.alert("Wrong password, try again", Alert.AlertType.ERROR);
                 view.setUi(View.userInstance.blank);
             } else {
-                if (arg.equals(model.getOcupation.equals("AssociationUser"))) {
+                if (arg.equals("Association")) {
                     view.setUi(View.userInstance.associationUser);
-                } else if (arg instanceof Referee) {
+                } else if (arg.equals("Referee")) {
                     view.setUi(View.userInstance.referee);
-                } else if (arg instanceof TeamMember) {
+                } else if (arg.equals("TeamMember")) {
                     view.setUi(View.userInstance.teamMember);
-                } else if (arg instanceof SystemManager) {
+                } else if (arg.equals("SystemManager")) {
                     view.setUi(View.userInstance.systemManager);
-                } else if(arg instanceof Fan) {
+                } else if(arg.equals("Fan")) {
                     view.setUi(View.userInstance.fan);
                 }
+                view.setLogin_successful(true);
             }
-
-            if (arg.equals("season was added to system!")) {
-                view.setDoesSeasonExist(false);
-            }
-
-            if (arg.equals("team was added to system!")) {
-                view.setValidate_team(true);
-            }
-
-            if (arg.equals("The League " + view.getLeagueName() + " was added!")) {
-                view.alert("The League " + view.getLeagueName() + " was added!", Alert.AlertType.INFORMATION);
-            }
-
-            if(arg.equals("odd number of teams in league")){
-                view.alert("The League has odd number of teams\nPlease add one more team or remove one", Alert.AlertType.WARNING);
-            }
-
-            if(arg.equals("team isnt complete")){
-                view.alert("The team does not complete, check players,coaches and owners", Alert.AlertType.WARNING);
-            }
-
-            //
-            if(arg.equals("team was added successfully")){
-                view.alert("The team was added successfully", Alert.AlertType.INFORMATION);
-            }
-//            if(arg.equals("new alerts")){//*******************************
-//               view.addAlerts(model.getAlert());
+//
+//            if (arg.equals("season was added to system!")) {
+//                view.setDoesSeasonExist(false);
 //            }
-//            if(arg.equals("Subscribe")){
-//                view.subscribe();
+//
+//            if (arg.equals("team was added to system!")) {
+//                view.setValidate_team(true);
 //            }
-
+//
+//            if (arg.equals("The League " + view.getLeagueName() + " was added!")) {
+//                view.alert("The League " + view.getLeagueName() + " was added!", Alert.AlertType.INFORMATION);
+//            }
+//
+//            if(arg.equals("odd number of teams in league")){
+//                view.alert("The League has odd number of teams\nPlease add one more team or remove one", Alert.AlertType.WARNING);
+//            }
+//
+//            if(arg.equals("team isnt complete")){
+//                view.alert("The team does not complete, check players,coaches and owners", Alert.AlertType.WARNING);
+//            }
+//
+//            //
+//            if(arg.equals("team was added successfully")){
+//                view.alert("The team was added successfully", Alert.AlertType.INFORMATION);
+//            }
+//
         }
 
 
@@ -104,23 +102,43 @@ public class Presenter implements Observer {
          * */
 
         if (view != null && o == view) {
-            if (arg.equals("register")) {
+/*            if (arg.equals("register")) {
                 ArrayList<String> details = view.getRegisterDetails();
                 if (model.addUser(details.get(0), details.get(1), details.get(2), details.get(3), details.get(4), details.get(5)
                         , details.get(6), details.get(7), details.get(8)))
                     view.setValidate_user(true);
 
-            }
+            }*/
             if (arg.equals("login")) {
                 ArrayList<String> details = view.getLoginDetails();
-                if (model.loginUser(details.get(0), details.get(1))) {
+                String ans=client.openConnection("loginUser"+":"+details.get(0)+":"+details.get(1));
+                if (ans.equals("login failed, user doesn't exist")) {
+                    view.alert("Username doesn't exist, try again", Alert.AlertType.ERROR);
+                    view.setUi(View.userInstance.blank);
+                } else if (ans.equals("login failed, wrong password")) {
+                    view.alert("Wrong password, try again", Alert.AlertType.ERROR);
+                    view.setUi(View.userInstance.blank);
+                } else {
+                    if (ans.equals("Association")) {
+                        view.setUi(View.userInstance.associationUser);
+                    } else if (ans.equals("Referee")) {
+                        view.setUi(View.userInstance.referee);
+                    } else if (ans.equals("TeamMember")) {
+                        view.setUi(View.userInstance.teamMember);
+                    } else if (ans.equals("SystemManager")) {
+                        view.setUi(View.userInstance.systemManager);
+                    } else if(ans.equals("Fan")) {
+                        view.setUi(View.userInstance.fan);
+                    }
                     view.setLogin_successful(true);
                 }
+                view.setLogin_successful(true);
             }
 
-            /**
+            /*            *//**
              * association
              */
+/*
 
             if (arg instanceof Double) {
                 double sumOfIncome = view.getSumOfIncome();
@@ -219,7 +237,7 @@ public class Presenter implements Observer {
 
 
             if (arg.equals(view.refUsernameToNominate)) {
-                model.setRefToSeason(view.refUsernameToNominate);
+                model.inviteRefereeToJudge(view.refUsernameToNominate);
             }
 
             if (arg.equals("add "+ view.getAssetNameToAdd())) {
@@ -256,7 +274,7 @@ public class Presenter implements Observer {
 
 
             if(arg.equals("change points policy")){
-                model.changePointsForLeague(view.leagueChangePoints, Integer.parseInt(view.newPointsWin),Integer.parseInt(view.newPointsDraw),
+                model.changePointsForLeague(view.leagueChangePoints, Integer.parseInt(view.newPointsWin), Integer.parseInt(view.newPointsDraw),
                         Integer.parseInt(view.newPointsLoss) ,view.tieBreaker_goalDifference,view.tieBreaker_directResults);
             }
 
@@ -310,12 +328,17 @@ public class Presenter implements Observer {
             if(arg.equals(view.selectedReq)){
                 model.checkTeamRegistration(view.selectedReq);
             }
-            if(arg.equals("alert screen")){//*********************************************
-                model.getAlertsFromBD(view.getLoginDetails().get(0));
+
+            if(arg.equals("get requests for referee")){
+                ArrayList<String> appReq = model.getRefReqs();
+                for(int i = 0; i<appReq.size(); i++){
+                    view.refsProposals.getItems().add(appReq.get(i));
+                }
             }
-//            if(arg.equals("pressSubscribe")){
-//                model.Subscribe(view.getLoginDetails().get(0));
-//            }
+
+            if(arg.equals(view.approvedReq)){
+                model.refApprovesToJudge(view.approvedReq);
+            }*/
 
 
         }
@@ -328,7 +351,9 @@ public class Presenter implements Observer {
 
 
 
-
+    public static String[] splitData(String data){
+        return data.split(":");
+    }
 
 
 
