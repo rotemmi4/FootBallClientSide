@@ -4,7 +4,6 @@ import java.io.*;
 import java.net.Socket;
 import java.util.Observable;
 
-
 /**
  * This class implements java socket client
  * @author pankaj
@@ -104,9 +103,6 @@ public class Client extends Observable {
             ans=dis.readUTF();
             System.out.println(ans);
             System.out.println("done");
-
-
-
 
         } catch (IOException e) {
             e.printStackTrace();

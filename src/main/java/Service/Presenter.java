@@ -1,11 +1,7 @@
 package Service;
 
-
 import Presentation.View;
-import Service.Client;
 import javafx.scene.control.Alert;
-
-
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;

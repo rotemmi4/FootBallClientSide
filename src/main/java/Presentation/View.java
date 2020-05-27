@@ -1,7 +1,5 @@
 package Presentation;
 
-
-//import Domain.AlertSystem.AlertPop;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -12,7 +10,6 @@ import javafx.scene.control.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-
 import javax.swing.*;
 import java.io.IOException;
 import java.text.DateFormat;
