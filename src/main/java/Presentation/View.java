@@ -127,7 +127,7 @@ public class View extends Observable implements IView{
             }
             else if(newValue.equals("Coach") && register_occupation_choiceBox.getValue().equals("TeamMember") ){
                 register_rolesList.getItems().addAll("Head Coach","Assistant Coach", "GoalKeepers' Coach" , "Defenders' Coach"
-                                            ,"Midfielders' Coach", "Strikers' Coach");
+                        ,"Midfielders' Coach", "Strikers' Coach");
             }
             else if(newValue.equals("Referee") && register_occupation_choiceBox.getValue().equals("Referee") ){
                 register_rolesList.getItems().addAll("Main Referee", "Side Referee");
@@ -273,7 +273,7 @@ public class View extends Observable implements IView{
 
     public void backToGuestScreen(ActionEvent actionEvent) {
         boolean filled_firstname = false, filled_lastname = false, filled_username = false, filled_password = false, filled_email = false
-               , filled_birthday  = false, filled_verification = false;
+                , filled_birthday  = false, filled_verification = false;
 
         if(!register_firstName_txtfield.getText().trim().isEmpty()){
             filled_firstname = true;
@@ -816,28 +816,28 @@ public class View extends Observable implements IView{
     public TextField establishYear_txtfld;
     private boolean validTeam = true;
     private ArrayList<String> courtsByCity;
-    private boolean teamStatus;
+    private String teamStatus;
     private String ownerteamName="";
-    boolean isPlayer=false;
-    boolean isCoach=false;
-    boolean isOwner=false;
-    boolean isTeamManager=false;
+    String isPlayer="";
+    String isCoach="";
+    String isOwner="";
+    String isTeamManager="";
 
     ////////////////////////////////Create Team////////////////////////////////
 
-    public void setPlayer(boolean player) {
+    public void setPlayer(String player) {
         isPlayer = player;
     }
 
-    public void setCoach(boolean coach) {
+    public void setCoach(String coach) {
         isCoach = coach;
     }
 
-    public void setOwner(boolean owner) {
+    public void setOwner(String owner) {
         isOwner = owner;
     }
 
-    public void setTeamManager(boolean teamManager) {
+    public void setTeamManager(String teamManager) {
         isTeamManager = teamManager;
     }
 
@@ -899,7 +899,7 @@ public class View extends Observable implements IView{
     public void createNewTeam (ActionEvent actionEvent){
         boolean filled_teamName = false, filled_city = false, filled_establishYear=false, filled_homeCourt=false;
         if(!teamName_txtfld.getText().trim().isEmpty()){
-                filled_teamName = true;
+            filled_teamName = true;
         }else{
             alert("please enter team name" , Alert.AlertType.WARNING);
         }
@@ -930,7 +930,7 @@ public class View extends Observable implements IView{
 
             if(validTeam){
                 ownerteamName = teamName_txtfld.getText();
-                teamStatus= activate_CHKBX.isSelected();
+                teamStatus= String.valueOf(activate_CHKBX.isSelected());
                 alert("team was added successfully" , Alert.AlertType.INFORMATION);
                 switchTo(actionEvent, "TeamMember.fxml", 600, 400, "Hello "+login_username_txtfld);
             }
@@ -941,16 +941,16 @@ public class View extends Observable implements IView{
         }
         initTeamMember();
     }
-
+    //kjxhg
     public void changeTeamStatus(){
         if(ownerteamName!= ""){
-            if(teamStatus==true){ //team is active/open
+            if(teamStatus.equals("true")){ //team is active/open
                 int input = JOptionPane.showConfirmDialog(null, "team status is active , do you want to close the team?");
                 // 0=yes, 1=no, 2=cancel
                 if(input==0){
-                    setChanged();
-                    notifyObservers("changeTeamStatus");
-                    teamStatus=false;
+//                    setChanged();
+//                    notifyObservers("changeTeamStatus");
+                    teamStatus="false";
                     tm_addAsset.setDisable(true);
                     tm_deleteAsset.setDisable(true);
                     tm_updateAsset.setDisable(true);
@@ -964,9 +964,9 @@ public class View extends Observable implements IView{
             else{               //team is closed
                 int input = JOptionPane.showConfirmDialog(null, "team status is inactive, do you want to active the team?");
                 if(input==0){
-                    setChanged();
-                    notifyObservers("changeTeamStatus");
-                    teamStatus=true;
+//                    setChanged();
+//                    notifyObservers("changeTeamStatus");
+                    teamStatus="true";
                     tm_addAsset.setDisable(false);
                     tm_deleteAsset.setDisable(false);
                     tm_updateAsset.setDisable(false);
@@ -981,7 +981,7 @@ public class View extends Observable implements IView{
         }
     }
 
-    public void setTeamStatus(boolean status){
+    public void setTeamStatus(String status){
         teamStatus = status;
     }
 
@@ -989,11 +989,18 @@ public class View extends Observable implements IView{
         ownerteamName = name;
     }
 
+    public Boolean teamMemberID(String str){
+        if(str.equals("true"))
+            return true;
+        else
+            return false;
+    }
+
     public void initTeamMember(){
-        setChanged();
-        notifyObservers("teamMember");
+        //setChanged();
+        //notifyObservers("teamMember");
         //player or coach
-        if(isCoach||isPlayer){
+        if(teamMemberID(isCoach)||teamMemberID(isPlayer)){
             tm_createTeam.setDisable(true);
             tm_addAsset.setDisable(true);
             tm_deleteAsset.setDisable(true);
@@ -1002,7 +1009,7 @@ public class View extends Observable implements IView{
             tm_setBuget.setDisable(true);
         }
         //Team Manager
-        if(isTeamManager ){
+        if(teamMemberID(isTeamManager) ){
             tm_createTeam.setDisable(true);
             tm_addAsset.setDisable(false);
             tm_deleteAsset.setDisable(false);
@@ -1011,7 +1018,7 @@ public class View extends Observable implements IView{
             tm_setBuget.setDisable(true);
         }
         //owner
-        if(isOwner) {
+        if(teamMemberID(isOwner)) {
             tm_createTeam.setDisable(false);
             tm_addAsset.setDisable(false);
             tm_deleteAsset.setDisable(false);
@@ -1020,7 +1027,7 @@ public class View extends Observable implements IView{
             tm_setBuget.setDisable(true);
         }
 
-        if(ownerteamName==""){ //owner have no team
+        if(teamMemberID(isOwner) && teamMemberID(ownerteamName)==false){ //owner have no team
             tm_addAsset.setDisable(true);
             tm_deleteAsset.setDisable(true);
             tm_updateAsset.setDisable(true);
@@ -1028,7 +1035,7 @@ public class View extends Observable implements IView{
             tm_setBuget.setDisable(true);
         }
 
-        if(ownerteamName!="" && teamStatus==false){ //owner have inactive team
+        if(teamMemberID(isOwner) && teamMemberID(teamStatus)==false){ //owner have inactive team
             tm_addAsset.setDisable(true);
             tm_deleteAsset.setDisable(true);
             tm_updateAsset.setDisable(true);
@@ -1359,4 +1366,3 @@ public class View extends Observable implements IView{
 //
 //    }
 }
-
