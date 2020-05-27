@@ -15,6 +15,7 @@ public class Presenter implements Observer {
     private String teamName;
     private String leagueName;
     private String season;
+    private ArrayList<String> courts=new ArrayList<String>();
 
 
 
@@ -111,9 +112,10 @@ public class Presenter implements Observer {
             }*/
             if (arg.equals("login")) {
                 ArrayList<String> details = view.getLoginDetails();
-                String ans=client.openConnection("loginUser"+":"+details.get(0)+":"+details.get(1));
-                String[] splittedAns=splitData(ans);
-                username=details.get(0);
+                String ans = client.openConnection("loginUser" + ":" + details.get(0) + ":" + details.get(1));
+                String[] splittedAns = splitData(ans);
+                username = details.get(0);
+                teamName = splittedAns[5];
                 if (ans.equals("login failed, user doesn't exist")) {
                     view.alert("Username doesn't exist, try again", Alert.AlertType.ERROR);
                     view.setUi(View.userInstance.blank);
@@ -135,19 +137,17 @@ public class Presenter implements Observer {
                         view.setUi(View.userInstance.teamMember);
                     } else if (ans.equals("SystemManager")) {
                         view.setUi(View.userInstance.systemManager);
-                    } else if(ans.equals("Fan")) {
+                    } else if (ans.equals("Fan")) {
                         view.setUi(View.userInstance.fan);
                     }
                     view.setLogin_successful(true);
                 }
                 view.setLogin_successful(true);
-            }
-            else
-                username="";
+            } else
+                username = "";
 
 //            /*            */
 //             * association
-
 
 
 //            if (arg instanceof Double) {
@@ -219,20 +219,27 @@ public class Presenter implements Observer {
 //                }
 //            }
 //
-//            if (arg.equals("createTeam")) {
-//                ArrayList<String> details = view.getTeamDetails();
-//                if (model.addTeam(details.get(0), Integer.parseInt(details.get(1)), Boolean.parseBoolean(details.get(2)), details.get(3), details.get(4), details.get(5))) {
-//                    view.setValidate_team(true);
-//                }
-//            }
-//
-//
-//            if(arg.equals("courtByCity")){
-//                ArrayList<String> details = view.getTeamDetails();
-//                if(model.chooseCourt(details.get(3))!=null){
-//                    view.setCourts(model.chooseCourt(details.get(3)) );
-//                }
-//            }
+            if (arg.equals("createTeam")) {
+                ArrayList<String> details = view.getTeamDetails();
+                String ans = client.openConnection("addTeam" + ":" + details.get(0) + ":" + details.get(1) + ":" + details.get(2) + ":" + details.get(3) + ":" + details.get(4) + ":" + details.get(5));
+                if (ans.equals("team was added to system!")) {
+                    view.setValidate_team(true);
+                }
+                view.setValidate_team(true);
+            }
+
+            if(arg.equals("courtByCity")) {
+                ArrayList<String> details = view.getTeamDetails();
+                String ans = client.openConnection("chooseCourt" + ":" + details.get(3));
+                if (!ans.equals("")){
+                    String[] splittedans = splitData(ans);
+                    for(int i=0; i<splittedans.length;i++) {
+                        courts.add(splittedans[i]);
+                    }
+                    view.setCourts(courts);
+            }
+            }
+
 
 //            if(arg.equals("teamMember")){
 //                String teamName = model.ownerTeamName(view.getLoginDetails().get(0));
@@ -270,10 +277,10 @@ public class Presenter implements Observer {
 //            }
 //
 //
-//            if(arg.equals("changeTeamStatus")){
-//                boolean newStatus = model.changeTeamStatus();
-//                view.setTeamStatus(newStatus);
-//            }
+            if (arg.equals("changeTeamStatus")) {
+                String newStatus = client.openConnection("changeTeamStatus:" + teamName);
+                view.setTeamStatus(newStatus);
+            }
 //
 //            if(arg.equals("allTeamAsset")){
 //                ArrayList<String> teamAssets =model.getTeamAssets();
@@ -353,11 +360,11 @@ public class Presenter implements Observer {
 
         }
 
-
-
-
-
     }
+
+
+
+
 
 
 
