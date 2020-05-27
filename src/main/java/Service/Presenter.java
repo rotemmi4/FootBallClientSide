@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
+//check
 public class Presenter implements Observer {
 
     private Client client;
