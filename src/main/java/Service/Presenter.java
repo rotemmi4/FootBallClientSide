@@ -104,12 +104,17 @@ public class Presenter implements Observer {
          * */
 
         if (view != null && o == view) {
-/*            if (arg.equals("register")) {
+           if (arg.equals("register")) {
                 ArrayList<String> details = view.getRegisterDetails();
-                if (model.addUser(details.get(0), details.get(1), details.get(2), details.get(3), details.get(4), details.get(5)
-                        , details.get(6), details.get(7), details.get(8)))
-                    view.setValidate_user(true);
-            }*/
+                String ans=client.openConnection("addUser"+":"+details.get(0)+":"+details.get(1)+":"+details.get(2)+":"+details.get(3)+":"+details.get(4)+":"+details.get(5)
+                        +":"+details.get(6)+":"+details.get(7)+":"+details.get(8));
+                if (ans.equals("user already exist")) {
+                view.alert("Username already exist, pick another username", Alert.AlertType.ERROR);
+                } else if (ans.equals("User added successfully")) {
+                view.alert("User added successfully to the system", Alert.AlertType.INFORMATION);
+                }
+                view.setValidate_user(true);
+            }
             if (arg.equals("login")) {
                 ArrayList<String> details = view.getLoginDetails();
                 String ans = client.openConnection("loginUser" + ":" + details.get(0) + ":" + details.get(1));
