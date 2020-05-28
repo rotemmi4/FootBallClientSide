@@ -159,8 +159,7 @@ public class Presenter implements Observer {
                     view.setLogin_successful(true);
                 }
                 view.setLogin_successful(true);
-            } else
-                username = "";
+            }
 
 //            /*            */
 //             * association
@@ -320,6 +319,7 @@ public class Presenter implements Observer {
 
                 if(view.getAssetToAdd().equals("Owner")){
                     String ans = client.openConnection("addOwnerToTeam" + ":" + view.getAssetNameToAdd()+":"+username);
+
                 }
                 if(view.getAssetToAdd().equals("Player")){
                     String ans = client.openConnection("addPlayerToTeam" + ":" + view.getAssetNameToAdd() +":"+ view.getAssetRole()+":"+username);
