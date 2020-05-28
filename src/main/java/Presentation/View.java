@@ -208,6 +208,7 @@ public class View extends Observable implements IView{
                         switchTo(actionEvent, "Fan.fxml", 600, 400, "Welcome " + login_username_txtfld.getText() + " !");
                         break;
                 }
+
             }
         }
     }
@@ -347,7 +348,7 @@ public class View extends Observable implements IView{
 
         if(!register_verification_txtfield.getText().trim().isEmpty()){
             String verification = register_verification_txtfield.getText();
-            if(verification.equals("#") || verification.equals("MainReferee") || verification.equals("SideReferee") || verification.equals("Coach") ||
+            if(verification.equals("#") || verification.equals("Referee") ||  verification.equals("MainReferee") || verification.equals("SideReferee") || verification.equals("Coach") ||
                     verification.equals("Association") || verification.equals("Owner") || verification.equals("Player") || verification.equals("TeamManager") ){
                 filled_verification = true;
             }else{
@@ -874,7 +875,7 @@ public class View extends Observable implements IView{
     }
 
     public void createTeam (ActionEvent actionEvent) {
-        if(ownerteamName==""){
+        if(ownerteamName.equals("null")){
             switchTo(actionEvent,"createTeam.fxml",600 , 400, "Create Team");
 
             city_txtfld.textProperty().addListener( ((observable, oldValue, newValue) -> {
@@ -964,15 +965,15 @@ public class View extends Observable implements IView{
         }
         initTeamMember();
     }
-    //kjxhg
+
     public void changeTeamStatus(){
         if(ownerteamName!= ""){
             if(teamStatus.equals("true")){ //team is active/open
                 int input = JOptionPane.showConfirmDialog(null, "team status is active , do you want to close the team?");
                 // 0=yes, 1=no, 2=cancel
                 if(input==0){
-//                    setChanged();
-//                    notifyObservers("changeTeamStatus");
+                    setChanged();
+                    notifyObservers("changeTeamStatus");
                     teamStatus="false";
                     tm_addAsset.setDisable(true);
                     tm_deleteAsset.setDisable(true);
@@ -987,8 +988,8 @@ public class View extends Observable implements IView{
             else{               //team is closed
                 int input = JOptionPane.showConfirmDialog(null, "team status is inactive, do you want to active the team?");
                 if(input==0){
-//                    setChanged();
-//                    notifyObservers("changeTeamStatus");
+                    setChanged();
+                    notifyObservers("changeTeamStatus");
                     teamStatus="true";
                     tm_addAsset.setDisable(false);
                     tm_deleteAsset.setDisable(false);
@@ -1050,7 +1051,7 @@ public class View extends Observable implements IView{
             tm_setBuget.setDisable(true);
         }
 
-        if(teamMemberID(isOwner) && teamMemberID(ownerteamName)==false){ //owner have no team
+        if(teamMemberID(isOwner) && ownerteamName.equals("null")){ //owner have no team
             tm_addAsset.setDisable(true);
             tm_deleteAsset.setDisable(true);
             tm_updateAsset.setDisable(true);
@@ -1159,8 +1160,8 @@ public class View extends Observable implements IView{
         if(selectedAsset!= null && !selectedAsset.isEmpty()){
             int comma = selectedAsset.indexOf(",");
             asserNameToAdd = selectedAsset.substring(0,comma);
-            if(selectedAsset.contains("-")){
-                int x = selectedAsset.indexOf("-");
+            if(selectedAsset.contains(",")){
+                int x = selectedAsset.indexOf(",");
                 assetRole= selectedAsset.substring(x+1,selectedAsset.length());
             }
             setChanged();
@@ -1212,7 +1213,7 @@ public class View extends Observable implements IView{
             int removeFromList = allTeamMembers.getSelectionModel().getSelectedIndex();
             allTeamMembers.getItems().remove(removeFromList);
 
-            alert(asserNameToRemove +" removed from team " + ownerteamName , Alert.AlertType.WARNING);
+            //alert(asserNameToRemove +" removed from team " + ownerteamName , Alert.AlertType.WARNING);
 
         }
     }
