@@ -630,19 +630,32 @@ public class View extends Observable implements IView{
         }
     }
 
-    public ArrayList<String> getNewLeagueDetails(){
-        ArrayList<String> details = new ArrayList<>();
-        details.add(String.valueOf(yearPicked)); //1
-        details.add(createLeague_leagueName.getText());//2
-        details.add(createLeague_numberTeams.getText()); //10
-        details.add(createLeague_pointsWin.getText()); //4
-        details.add(createLeague_pointsDraw.getText()); // 6
-        details.add(createLeague_pointsLoss.getText()); // 5
-        details.add(createLeague_chooseTieBreaker.getValue()); //7-8
-        details.add(createLeague_rounds.getValue()); //9
-        details.add(createLeague_startDate.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))); //3
-        return details;
+    public String getNewLeagueDetails() {
+        StringBuilder details = new StringBuilder();
+        details.append(String.valueOf(yearPicked)).append(":").
+                append(createLeague_leagueName.getText()).append(":").
+                append(createLeague_startDate.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))).append(":").
+                append(createLeague_pointsWin.getText()).append(":").
+                append(createLeague_pointsLoss.getText()).append(":").
+                append(createLeague_pointsDraw.getText()).append(":").
+                append(createLeague_chooseTieBreaker.getValue()).append(":").
+                append(createLeague_rounds.getValue()).append(":").
+                append(createLeague_numberTeams.getText());
+
+        return details.toString();
     }
+
+//        ArrayList<String> details = new ArrayList<>();
+//        details.add(String.valueOf(yearPicked)); //1
+//        details.add(createLeague_leagueName.getText());//2
+//        details.add(createLeague_numberTeams.getText()); //10
+//        details.add(createLeague_pointsWin.getText()); //4
+//        details.add(createLeague_pointsDraw.getText()); // 6
+//        details.add(createLeague_pointsLoss.getText()); // 5
+//        details.add(createLeague_chooseTieBreaker.getValue()); //7-8
+//        details.add(createLeague_rounds.getValue()); //9
+//        details.add(); //3
+
 
 
     /**
@@ -672,6 +685,7 @@ public class View extends Observable implements IView{
 
     public ListView<String> scheduleGames_leagueList = new ListView<>();
     public String leagueNameToSchedule;
+    public boolean wasScheduleCreated = false;
 
     public void createSchedule (ActionEvent ae){
         leagueNameToSchedule = scheduleGames_leagueList.getSelectionModel().getSelectedItem();
@@ -679,8 +693,11 @@ public class View extends Observable implements IView{
             setChanged();
             notifyObservers(leagueNameToSchedule);
 
-            int toRemove = scheduleGames_leagueList.getSelectionModel().getSelectedIndex();
-            scheduleGames_leagueList.getItems().remove(toRemove);
+            if(wasScheduleCreated){
+                int toRemove = scheduleGames_leagueList.getSelectionModel().getSelectedIndex();
+                scheduleGames_leagueList.getItems().remove(toRemove);
+            }
+
         }
     }
 
@@ -702,6 +719,7 @@ public class View extends Observable implements IView{
     public Button addRef;
     public String selectedLeague;
     public String selectedRef;
+    public boolean wasRefAddedToLeage = false;
 
     public void addRefToLeague(ActionEvent actionEvent){
         selectedLeague = addRef_leagueList.getSelectionModel().getSelectedItem();
@@ -710,8 +728,11 @@ public class View extends Observable implements IView{
             setChanged();
             notifyObservers(selectedLeague+" "+selectedRef);
 
-            int toRemove = addRef_refsList.getSelectionModel().getSelectedIndex();
-            addRef_refsList.getItems().remove(toRemove);
+            if(wasRefAddedToLeage){
+                int toRemove = addRef_refsList.getSelectionModel().getSelectedIndex();
+                addRef_refsList.getItems().remove(toRemove);
+            }
+
 
         }
 
@@ -734,15 +755,17 @@ public class View extends Observable implements IView{
         notifyObservers("load team requests");
     }
 
+    public boolean wasTeamAdded = false;
+
     public void approveRequest(ActionEvent actionEvent){
         selectedReq = requestsList.getSelectionModel().getSelectedItem();
         if(selectedReq != null && !selectedReq.isEmpty() ){
             setChanged();
             notifyObservers(selectedReq);
-
-            int toRemove = requestsList.getSelectionModel().getSelectedIndex();
-            requestsList.getItems().remove(toRemove);
-
+            if(wasTeamAdded){
+                int toRemove = requestsList.getSelectionModel().getSelectedIndex();
+                requestsList.getItems().remove(toRemove);
+            }
         }
 
     }
@@ -1258,7 +1281,6 @@ public class View extends Observable implements IView{
                 leagueChangePoints=league;
                 setChanged();
                 notifyObservers("change points policy");
-                alert(leagueChangePoints+" point policy has changed" , Alert.AlertType.WARNING);
                 switchTo(actionEvent, "Association.fxml", 600, 400,  "Welcome "+login_username_txtfld.getText()+" !");
 
             }
@@ -1291,8 +1313,7 @@ public class View extends Observable implements IView{
 
 
                 setChanged();
-                notifyObservers("change game scedule policy");
-                alert(leagueChangeRounds+" Game Scedule Policy has changed" , Alert.AlertType.WARNING);
+                notifyObservers("change game schedule policy");
                 switchTo(actionEvent, "Association.fxml", 600, 400,  "Welcome "+login_username_txtfld.getText()+" !");
 
             }
