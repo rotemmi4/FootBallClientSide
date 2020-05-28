@@ -20,7 +20,7 @@ public class Presenter implements Observer {
     private ArrayList<String> playersInDB=new ArrayList<String>();
     private ArrayList<String> ownersInDB=new ArrayList<String>();
     private ArrayList<String> managersInDB=new ArrayList<String>();
-
+    private ArrayList<String> teamAssets=new ArrayList<String>();
 
 
     public Presenter(Client client,View view) {
@@ -319,38 +319,93 @@ public class Presenter implements Observer {
 
                 if(view.getAssetToAdd().equals("Owner")){
                     String ans = client.openConnection("addOwnerToTeam" + ":" + view.getAssetNameToAdd()+":"+username);
-
+                    if (ans.equals("Owner added Successful")) {
+                        //client.openConnection("checkErrorLogs"+":"+"registerError"+":"+"user already exist");
+                        view.alert("Owner added Successful", Alert.AlertType.INFORMATION);
+                    }
+                    else if (ans.equals("Owner added isn't Successful")) {
+                        //client.openConnection("checkErrorLogs"+":"+"registerError"+":"+"user already exist");
+                        view.alert("Owner added isn't Successful", Alert.AlertType.INFORMATION);
+                    }
                 }
-                if(view.getAssetToAdd().equals("Player")){
-                    String ans = client.openConnection("addPlayerToTeam" + ":" + view.getAssetNameToAdd() +":"+ view.getAssetRole()+":"+username);
+                if(view.getAssetToAdd().equals("Player")) {
+                    String ans = client.openConnection("addPlayerToTeam" + ":" + view.getAssetNameToAdd() + ":" + view.getAssetRole() + ":" + username);
+                    if (ans.equals("Player added Successful")) {
+                        //client.openConnection("checkErrorLogs"+":"+"registerError"+":"+"user already exist");
+                        view.alert("Player added Successful", Alert.AlertType.INFORMATION);
+                    } else if (ans.equals("Player added isn't Successful")) {
+                        //client.openConnection("checkErrorLogs"+":"+"registerError"+":"+"user already exist");
+                        view.alert("Player added isn't Successful", Alert.AlertType.INFORMATION);
+                    }
                 }
                 if(view.getAssetToAdd().equals("Coach")){
                     String ans = client.openConnection("addCoachToTeam" + ":" + view.getAssetNameToAdd() +":"+ view.getAssetRole()+":"+username);
+                    if (ans.equals("Coach added Successful")) {
+                        //client.openConnection("checkErrorLogs"+":"+"registerError"+":"+"user already exist");
+                        view.alert("Coach added Successful", Alert.AlertType.INFORMATION);
+                    } else if (ans.equals("Coach added isn't Successful")) {
+                        //client.openConnection("checkErrorLogs"+":"+"registerError"+":"+"user already exist");
+                        view.alert("Coach added isn't Successful", Alert.AlertType.INFORMATION);
+                    }
                 }
                 if(view.getAssetToAdd().equals("Manager")){
                     String ans = client.openConnection("addManagerToTeam" + ":" + view.getAssetNameToAdd() +":"+ String.valueOf(view.ownerP_CHKBX.isSelected())+":"+
                             String.valueOf(view.playerP_CHKBX.isSelected())+":"+ String.valueOf(view.coachP_CHKBX.isSelected())+":"+ String.valueOf(view.managerP_CHKBX.isSelected())+":"+username);
+                    if (ans.equals("Manager added Successful")) {
+                        //client.openConnection("checkErrorLogs"+":"+"registerError"+":"+"user already exist");
+                        view.alert("Manager added Successful", Alert.AlertType.INFORMATION);
+                    } else if (ans.equals("Manager added isn't Successful")) {
+                        //client.openConnection("checkErrorLogs"+":"+"registerError"+":"+"user already exist");
+                        view.alert("Manager added isn't Successful", Alert.AlertType.INFORMATION);
+                    }
                 }
             }
-//
-//            if (arg.equals("remove "+ view.getAsserNameToRemove())) {
-//                model.removeAsset(view.getAsserNameToRemove());
-//            }
-//
-//
+
+            if (arg.equals("remove "+ view.getAsserNameToRemove())) {
+                    String ans = client.openConnection("removeAsset" + ":" + view.getAsserNameToRemove() + ":" + username);
+                    if (ans.equals("Remove Successful")) {
+                        //client.openConnection("checkErrorLogs"+":"+"registerError"+":"+"user already exist");
+                        view.alert("Remove Successful", Alert.AlertType.INFORMATION);
+                    } else if (ans.equals("Remove isn't Successful")) {
+                        //client.openConnection("checkErrorLogs"+":"+"registerError"+":"+"user already exist");
+                        view.alert("Remove isn't Successful", Alert.AlertType.INFORMATION);
+                    } else if (ans.equals("The user is not nominate by: " + view.getAsserNameToRemove() + " or the team must have at least one owner")) {
+                        //client.openConnection("checkErrorLogs"+":"+"registerError"+":"+"user already exist");
+                        view.alert("The user is not nominate by: " + view.getAsserNameToRemove() + " or the team must have at least one owner", Alert.AlertType.INFORMATION);
+                    }
+            }
+
+
+
             if (arg.equals("changeTeamStatus")) {
                 String newStatus = client.openConnection("changeTeamStatus:" + teamName);
                 view.setTeamStatus(newStatus);
             }
-//
-//            if(arg.equals("allTeamAsset")){
-//                ArrayList<String> teamAssets =model.getTeamAssets();
-//                for(int i = 0; i<teamAssets.size(); i++){
-//                    view.allTeamMembers.getItems().add(teamAssets.get(i));
+
+            if(arg.equals("allTeamAsset")){
+                teamAssets.clear();
+                String ans =client.openConnection("getTeamAssets"+":"+username);
+//                if (ans.equals("Remove Successful")) {
+//                    //client.openConnection("checkErrorLogs"+":"+"registerError"+":"+"user already exist");
+//                    view.alert("Remove Successful for team "+teamName, Alert.AlertType.INFORMATION);
 //                }
-//            }
-//
-//
+//                else if (ans.equals("Remove isn't Successful")) {
+//                        //client.openConnection("checkErrorLogs"+":"+"registerError"+":"+"user already exist");
+//                        view.alert("Remove isn't Successful for team "+teamName, Alert.AlertType.INFORMATION);
+//                    }
+//                else if (ans.equals("The user is not nominate by: "+ meytalm +"or the team must have at least one coach")) {
+//                    //client.openConnection("checkErrorLogs"+":"+"registerError"+":"+"user already exist");
+//                    view.alert("The user is not nominate by: meytalm or the team must have at least one coach "+teamName, Alert.AlertType.INFORMATION);
+//                }
+                if(!ans.equals("")) {
+                    String[] splittedans=splitData(ans);
+                    for (int i = 0; i < splittedans.length; i++) {
+                        teamAssets.add(splittedans[i]);
+                    }
+                    view.allTeamMembers.getItems().addAll(teamAssets);
+                }
+            }
+
 //            if(arg.equals("change points policy")){
 //                model.changePointsForLeague(view.leagueChangePoints, Integer.parseInt(view.newPointsWin), Integer.parseInt(view.newPointsDraw),
 //                        Integer.parseInt(view.newPointsLoss) ,view.tieBreaker_goalDifference,view.tieBreaker_directResults);

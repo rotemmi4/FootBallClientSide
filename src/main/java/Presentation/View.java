@@ -1190,7 +1190,7 @@ public class View extends Observable implements IView{
             int removeFromList = allTeamMembers.getSelectionModel().getSelectedIndex();
             allTeamMembers.getItems().remove(removeFromList);
 
-            alert(asserNameToRemove +" removed from team " + ownerteamName , Alert.AlertType.WARNING);
+            //alert(asserNameToRemove +" removed from team " + ownerteamName , Alert.AlertType.WARNING);
 
         }
     }
