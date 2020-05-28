@@ -34,11 +34,11 @@ public class Presenter implements Observer {
     @Override
     public void update(Observable o, Object arg) {
 
-        /**
-         * ================
-         * Model Update
-         * ================
-         * */
+//        /**
+//         * ================
+//         * Model Update
+//         * ================
+//         * */
        // if (client != null && o == client) {
 //
 //            /**
@@ -176,8 +176,10 @@ public class Presenter implements Observer {
             else if(arg.equals(view.approvedReq)){
                 String ans=client.openConnection("refApprovesToJudge"+":"+this.username+":"+view.approvedReq);
             }
-            else
-                username="";
+            else if(arg.equals("disconnect")){
+                client.closeConnection();
+            }
+
 
 
             /**

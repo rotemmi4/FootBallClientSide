@@ -40,4 +40,14 @@ public class Client extends Observable {
         return serverResponse;
     }
 
+    public void closeConnection() {
+
+        try {
+            socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+
+        }
+    }
 }

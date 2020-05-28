@@ -50,6 +50,8 @@ public class View extends Observable implements IView{
                 alert.setContentText("Are you sure you want to exit?");
                 Optional<ButtonType> result = alert.showAndWait();
                 if (result.get() == ButtonType.OK) {
+                    setChanged();
+                    notifyObservers("disconnect");
                     // ... user chose OK
                     // Close program
                 } else {
