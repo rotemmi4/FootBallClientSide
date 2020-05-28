@@ -37,7 +37,7 @@ public class Presenter implements Observer {
          * Model Update
          * ================
          * */
-        if (client != null && o == client) {
+       // if (client != null && o == client) {
 //
 //            /**
 //             * Register
@@ -98,7 +98,7 @@ public class Presenter implements Observer {
 //                view.alert("The team was added successfully", Alert.AlertType.INFORMATION);
 //            }
 //
-        }
+        //}
 
 
         /**
@@ -112,10 +112,14 @@ public class Presenter implements Observer {
                 ArrayList<String> details = view.getRegisterDetails();
                 String ans=client.openConnection("addUser"+":"+details.get(0)+":"+details.get(1)+":"+details.get(2)+":"+details.get(3)+":"+details.get(4)+":"+details.get(5)
                         +":"+details.get(6)+":"+details.get(7)+":"+details.get(8));
-                if (ans.equals("user already exist")) {
-                view.alert("Username already exist, pick another username", Alert.AlertType.ERROR);
+               username = details.get(2);
+
+               if (ans.equals("user already exist")) {
+                    client.openConnection("checkErrorLogs"+":"+"registerError"+":"+"user already exist");
+                    view.alert("Username already exist, pick another username", Alert.AlertType.ERROR);
                 } else if (ans.equals("User added successfully")) {
-                view.alert("User added successfully to the system", Alert.AlertType.INFORMATION);
+                    client.openConnection("checkEventLogs"+":"+username+":"+" Registered to the system");
+                    view.alert("User added successfully to the system", Alert.AlertType.INFORMATION);
                 }
                 view.setValidate_user(true);
             }
@@ -126,9 +130,11 @@ public class Presenter implements Observer {
                 username = details.get(0);
                 teamName = splittedAns[5];
                 if (ans.equals("login failed, user doesn't exist")) {
+                    client.openConnection("checkErrorLogs"+":"+"loginError"+":"+"login failed, user doesn't exist");
                     view.alert("Username doesn't exist, try again", Alert.AlertType.ERROR);
                     view.setUi(View.userInstance.blank);
                 } else if (ans.equals("login failed, wrong password")) {
+                    client.openConnection("checkErrorLogs"+":"+"loginError"+":"+"login failed, wrong password");
                     view.alert("Wrong password, try again", Alert.AlertType.ERROR);
                     view.setUi(View.userInstance.blank);
                 } else {
@@ -149,6 +155,7 @@ public class Presenter implements Observer {
                     } else if (ans.equals("Fan")) {
                         view.setUi(View.userInstance.fan);
                     }
+                    client.openConnection("checkEventLogs"+":"+username+":"+" Logged into the system");
                     view.setLogin_successful(true);
                 }
                 view.setLogin_successful(true);
@@ -270,7 +277,12 @@ public class Presenter implements Observer {
                 ArrayList<String> details = view.getTeamDetails();
                 String ans = client.openConnection("addTeam" + ":" + details.get(0) + ":" + details.get(1) + ":" + details.get(2) + ":" + details.get(3) + ":" + details.get(4) + ":" + details.get(5));
                 if (ans.equals("team was added to system!")) {
-                    view.setValidate_team(true);
+                    client.openConnection("checkEventLogs"+":"+username+":"+teamName+" added to the system");
+                    //view.setValidate_team(true);
+                }
+                else if (ans.equals("team already exist")) {
+                    client.openConnection("checkErrorLogs" + ":" + username + ":" + teamName + " team already exist");
+                    view.alert("team already exist", Alert.AlertType.ERROR);
                 }
                 view.setValidate_team(true);
             }

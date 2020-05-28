@@ -208,6 +208,7 @@ public class View extends Observable implements IView{
                         switchTo(actionEvent, "Fan.fxml", 600, 400, "Welcome " + login_username_txtfld.getText() + " !");
                         break;
                 }
+
             }
         }
     }
