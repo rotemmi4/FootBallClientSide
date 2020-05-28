@@ -129,7 +129,9 @@ public class Presenter implements Observer {
                 String ans = client.openConnection("loginUser" + ":" + details.get(0) + ":" + details.get(1));
                 String[] splittedAns = splitData(ans);
                 username = details.get(0);
-                teamName = splittedAns[5];
+                if(ans.equals("TeamMember")) {
+                    teamName = splittedAns[5];
+                }
                 if (ans.equals("login failed, user doesn't exist")) {
                     client.openConnection("checkErrorLogs"+":"+"loginError"+":"+"login failed, user doesn't exist");
                     view.alert("Username doesn't exist, try again", Alert.AlertType.ERROR);
