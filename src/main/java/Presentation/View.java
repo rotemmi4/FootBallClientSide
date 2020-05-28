@@ -1136,8 +1136,8 @@ public class View extends Observable implements IView{
         if(selectedAsset!= null && !selectedAsset.isEmpty()){
             int comma = selectedAsset.indexOf(",");
             asserNameToAdd = selectedAsset.substring(0,comma);
-            if(selectedAsset.contains("-")){
-                int x = selectedAsset.indexOf("-");
+            if(selectedAsset.contains(",")){
+                int x = selectedAsset.indexOf(",");
                 assetRole= selectedAsset.substring(x+1,selectedAsset.length());
             }
             setChanged();

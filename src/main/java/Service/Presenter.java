@@ -16,6 +16,10 @@ public class Presenter implements Observer {
     private String leagueName;
     private String season;
     private ArrayList<String> courts=new ArrayList<String>();
+    private ArrayList<String> coachsInDB=new ArrayList<String>();
+    private ArrayList<String> playersInDB=new ArrayList<String>();
+    private ArrayList<String> ownersInDB=new ArrayList<String>();
+    private ArrayList<String> managersInDB=new ArrayList<String>();
 
 
 
@@ -192,13 +196,51 @@ public class Presenter implements Observer {
 //                }
 //            }
 //
-//            if (arg.equals("get available coachs")) {
-//                ArrayList<TeamMember> coachsInDB = model.getCoachs();
-//                for (int i = 0; i < coachsInDB.size(); i++) {
-//                    view.coachList.add(coachsInDB.get(i).getUserName() + ", " + coachsInDB.get(i).getFirstName()
-//                            + " " + coachsInDB.get(i).getLastName() + " - " + coachsInDB.get(i).getTeamRole());
-//                }
-//            }
+            if (arg.equals("get available coachs")) {
+                 String ans = client.openConnection("getCoachs");
+                if (!ans.equals("")){
+                    String[] splittedans = splitData(ans);
+                    for(int i=0; i<splittedans.length;i++) {
+                        coachsInDB.add(splittedans[i]);
+                    }
+                }
+                view.coachList.addAll(coachsInDB);
+            }
+
+            if (arg.equals("get available players")) {
+                String ans = client.openConnection("getPlayers");
+                if (!ans.equals("")){
+                    String[] splittedans = splitData(ans);
+                    for(int i=0; i<splittedans.length;i++) {
+                        playersInDB.add(splittedans[i]);
+                    }
+                }
+
+                view.playerList.addAll(playersInDB);
+
+            }
+
+            if (arg.equals("get available owners")) {
+                String ans = client.openConnection("getOwners");
+                if (!ans.equals("")){
+                    String[] splittedans = splitData(ans);
+                    for(int i=0; i<splittedans.length;i++) {
+                        ownersInDB.add(splittedans[i]);
+                    }
+                }
+                view.ownerList.addAll(ownersInDB);
+
+            }
+            if (arg.equals("get available managers")) {
+                String ans = client.openConnection("getManagers");
+                if (!ans.equals("")){
+                    String[] splittedans = splitData(ans);
+                    for(int i=0; i<splittedans.length;i++) {
+                        managersInDB.add(splittedans[i]);
+                    }
+                }
+                view.managerList.addAll(managersInDB);
+            }
 //
 //            if (arg.equals("get available players")) {
 //                ArrayList<TeamMember> playersInDB = model.getPlayers();
@@ -242,7 +284,7 @@ public class Presenter implements Observer {
                         courts.add(splittedans[i]);
                     }
                     view.setCourts(courts);
-            }
+                }
             }
 
 
@@ -262,20 +304,22 @@ public class Presenter implements Observer {
 //                model.inviteRefereeToJudge(view.refUsernameToNominate);
 //            }
 //
-//            if (arg.equals("add "+ view.getAssetNameToAdd())) {
-//                if(view.getAssetToAdd().equals("Owner")){
-//                    model.addOwnerToTeam(view.getAssetNameToAdd());
-//                }
-//                if(view.getAssetToAdd().equals("Player")){
-//                    model.addPlayerToTeam(view.getAssetNameToAdd(), view.getAssetRole());
-//                }
-//                if(view.getAssetToAdd().equals("Coach")){
-//                    model.addCoachToTeam(view.getAssetNameToAdd(), view.getAssetRole());
-//                }
-//                if(view.getAssetToAdd().equals("Manager")){
-//                    model.addManagerToTeam(view.getAssetNameToAdd(),view.ownerP_CHKBX.isSelected(),view.playerP_CHKBX.isSelected(),view.coachP_CHKBX.isSelected(),view.managerP_CHKBX.isSelected() );
-//                }
-//            }
+            if (arg.equals("add "+ view.getAssetNameToAdd())) {
+
+                if(view.getAssetToAdd().equals("Owner")){
+                    String ans = client.openConnection("addOwnerToTeam" + ":" + view.getAssetNameToAdd()+":"+username);
+                }
+                if(view.getAssetToAdd().equals("Player")){
+                    String ans = client.openConnection("addPlayerToTeam" + ":" + view.getAssetNameToAdd() +":"+ view.getAssetRole()+":"+username);
+                }
+                if(view.getAssetToAdd().equals("Coach")){
+                    String ans = client.openConnection("addCoachToTeam" + ":" + view.getAssetNameToAdd() +":"+ view.getAssetRole()+":"+username);
+                }
+                if(view.getAssetToAdd().equals("Manager")){
+                    String ans = client.openConnection("addManagerToTeam" + ":" + view.getAssetNameToAdd() +":"+ String.valueOf(view.ownerP_CHKBX.isSelected())+":"+
+                            String.valueOf(view.playerP_CHKBX.isSelected())+":"+ String.valueOf(view.coachP_CHKBX.isSelected())+":"+ String.valueOf(view.managerP_CHKBX.isSelected())+":"+username);
+                }
+            }
 //
 //            if (arg.equals("remove "+ view.getAsserNameToRemove())) {
 //                model.removeAsset(view.getAsserNameToRemove());
