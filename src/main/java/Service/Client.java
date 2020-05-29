@@ -10,11 +10,11 @@ import java.util.Observable;
  *
  */
 public class Client extends Observable {
-    String serverName = "132.72.65.132"; //localhost
+    String serverName = "132.72.65.132"; //localhost  OR  132.72.65.132
     int serverPortNumber = 9876;
     Socket socket = null;
 
-    public String openConnection(String data){
+    public String openConnection(String data) throws Exception {
         String serverResponse="";
         try {
             socket = new Socket(serverName, serverPortNumber);
@@ -28,21 +28,18 @@ public class Client extends Observable {
             System.out.println(serverResponse);
 
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new Exception("can't connect to the DB or the Server");
         } finally {
-
         }
         return serverResponse;
     }
 
     public void closeConnection() {
-
         try {
             socket.close();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-
         }
     }
 }
