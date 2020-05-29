@@ -1094,6 +1094,8 @@ public class View extends Observable implements IView{
     public void setAssetList(List<String> list){
         assetList.getItems().clear();
         assetList.getItems().addAll(list);
+        //assetList=new ListView<>();
+
     }
 
     public void addAssetToTeam(ActionEvent ae){
@@ -1106,6 +1108,7 @@ public class View extends Observable implements IView{
     }
 
     public void addCoach(){
+        coachList.clear();
         assetToAdd= "Coach";
         if(coachList.isEmpty()){  //emptyList
             setChanged();
@@ -1118,6 +1121,7 @@ public class View extends Observable implements IView{
     }
 
     public void addPlayer(){
+        playerList.clear();
         assetToAdd= "Player";
         if(playerList.isEmpty()){  //emptyList
             setChanged();
@@ -1130,6 +1134,7 @@ public class View extends Observable implements IView{
     }
 
     public void addOwner(){
+        ownerList.clear();
         assetToAdd= "Owner";
         if(ownerList.isEmpty()){  //emptyList
             setChanged();
@@ -1142,6 +1147,7 @@ public class View extends Observable implements IView{
     }
 
     public void addManager(){
+        managerList.clear();
         assetToAdd= "Manager";
         managerP_CHKBX.setDisable(false);
         playerP_CHKBX.setDisable(false);

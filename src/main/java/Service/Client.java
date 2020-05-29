@@ -10,7 +10,7 @@ import java.util.Observable;
  *
  */
 public class Client extends Observable {
-    String serverName = "localhost";
+    String serverName = "132.72.65.132"; //localhost
     int serverPortNumber = 9876;
     Socket socket = null;
 

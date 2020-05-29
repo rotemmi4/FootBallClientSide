@@ -28,7 +28,7 @@ public class Presenter implements Observer {
     public Presenter(Client client,View view) {
         this.client=client;
         this.view = view;
-        this.username="";
+        //this.username="";
     }
 
     @Override
@@ -134,7 +134,7 @@ public class Presenter implements Observer {
                     teamName = splittedAns[5];
                 }
                 if (ans.equals("login failed, user doesn't exist")) {
-                    client.openConnection("checkErrorLogs"+":"+"loginError"+":"+"login failed, user doesn't exist");
+                    client.openConnection("checkErrorLogs"+":"+"loginError"+":"+"login failed, "+username+" doesn't exist");
                     view.alert("Username doesn't exist, try again", Alert.AlertType.ERROR);
                     view.setUi(View.userInstance.blank);
                 } else if (ans.equals("login failed, wrong password")) {
@@ -509,6 +509,7 @@ public class Presenter implements Observer {
 //            }
 //
             if (arg.equals("get available coachs")) {
+                coachsInDB.clear();
                  String ans = client.openConnection("getCoachs");
                 if (!ans.equals("")){
                     String[] splittedans = splitData(ans);
@@ -520,6 +521,7 @@ public class Presenter implements Observer {
             }
 
             if (arg.equals("get available players")) {
+                playersInDB.clear();
                 String ans = client.openConnection("getPlayers");
                 if (!ans.equals("")){
                     String[] splittedans = splitData(ans);
@@ -527,12 +529,11 @@ public class Presenter implements Observer {
                         playersInDB.add(splittedans[i]);
                     }
                 }
-
                 view.playerList.addAll(playersInDB);
-
             }
 
             if (arg.equals("get available owners")) {
+                ownersInDB.clear();
                 String ans = client.openConnection("getOwners");
                 if (!ans.equals("")){
                     String[] splittedans = splitData(ans);
@@ -541,9 +542,9 @@ public class Presenter implements Observer {
                     }
                 }
                 view.ownerList.addAll(ownersInDB);
-
             }
             if (arg.equals("get available managers")) {
+                managersInDB.clear();
                 String ans = client.openConnection("getManagers");
                 if (!ans.equals("")){
                     String[] splittedans = splitData(ans);
@@ -626,31 +627,31 @@ public class Presenter implements Observer {
                 if(view.getAssetToAdd().equals("Owner")){
                     String ans = client.openConnection("addOwnerToTeam" + ":" + view.getAssetNameToAdd()+":"+username);
                     if (ans.equals("Owner added Successful")) {
-                        //client.openConnection("checkErrorLogs"+":"+"registerError"+":"+"user already exist");
+                        client.openConnection("checkEventLogs"+":"+username+":"+view.getAssetNameToAdd()+" added to the system");
                         view.alert("Owner added Successful", Alert.AlertType.INFORMATION);
                     }
                     else if (ans.equals("Owner added isn't Successful")) {
-                        //client.openConnection("checkErrorLogs"+":"+"registerError"+":"+"user already exist");
+                        client.openConnection("checkErrorLogs"+":"+username+":"+view.getAssetNameToAdd()+" already exist");
                         view.alert("Owner added isn't Successful", Alert.AlertType.INFORMATION);
                     }
                 }
                 if(view.getAssetToAdd().equals("Player")) {
                     String ans = client.openConnection("addPlayerToTeam" + ":" + view.getAssetNameToAdd() + ":" + view.getAssetRole() + ":" + username);
                     if (ans.equals("Player added Successful")) {
-                        //client.openConnection("checkErrorLogs"+":"+"registerError"+":"+"user already exist");
+                        client.openConnection("checkEventLogs"+":"+username+":"+view.getAssetNameToAdd()+" added to the system");
                         view.alert("Player added Successful", Alert.AlertType.INFORMATION);
                     } else if (ans.equals("Player added isn't Successful")) {
-                        //client.openConnection("checkErrorLogs"+":"+"registerError"+":"+"user already exist");
+                        client.openConnection("checkErrorLogs"+":"+username+":"+view.getAssetNameToAdd()+" already exist");
                         view.alert("Player added isn't Successful", Alert.AlertType.INFORMATION);
                     }
                 }
                 if(view.getAssetToAdd().equals("Coach")){
                     String ans = client.openConnection("addCoachToTeam" + ":" + view.getAssetNameToAdd() +":"+ view.getAssetRole()+":"+username);
                     if (ans.equals("Coach added Successful")) {
-                        //client.openConnection("checkErrorLogs"+":"+"registerError"+":"+"user already exist");
+                        client.openConnection("checkEventLogs"+":"+username+":"+view.getAssetNameToAdd()+" added to the system");
                         view.alert("Coach added Successful", Alert.AlertType.INFORMATION);
                     } else if (ans.equals("Coach added isn't Successful")) {
-                        //client.openConnection("checkErrorLogs"+":"+"registerError"+":"+"user already exist");
+                        client.openConnection("checkErrorLogs"+":"+username+":"+view.getAssetNameToAdd()+" already exist");
                         view.alert("Coach added isn't Successful", Alert.AlertType.INFORMATION);
                     }
                 }
@@ -658,10 +659,10 @@ public class Presenter implements Observer {
                     String ans = client.openConnection("addManagerToTeam" + ":" + view.getAssetNameToAdd() +":"+ String.valueOf(view.ownerP_CHKBX.isSelected())+":"+
                             String.valueOf(view.playerP_CHKBX.isSelected())+":"+ String.valueOf(view.coachP_CHKBX.isSelected())+":"+ String.valueOf(view.managerP_CHKBX.isSelected())+":"+username);
                     if (ans.equals("Manager added Successful")) {
-                        //client.openConnection("checkErrorLogs"+":"+"registerError"+":"+"user already exist");
+                        client.openConnection("checkEventLogs"+":"+username+":"+view.getAssetNameToAdd()+" added to the system");
                         view.alert("Manager added Successful", Alert.AlertType.INFORMATION);
                     } else if (ans.equals("Manager added isn't Successful")) {
-                        //client.openConnection("checkErrorLogs"+":"+"registerError"+":"+"user already exist");
+                        client.openConnection("checkErrorLogs"+":"+username+":"+view.getAssetNameToAdd()+" already exist");
                         view.alert("Manager added isn't Successful", Alert.AlertType.INFORMATION);
                     }
                 }
@@ -670,13 +671,13 @@ public class Presenter implements Observer {
             if (arg.equals("remove "+ view.getAsserNameToRemove())) {
                     String ans = client.openConnection("removeAsset" + ":" + view.getAsserNameToRemove() + ":" + username);
                     if (ans.equals("Remove Successful")) {
-                        //client.openConnection("checkErrorLogs"+":"+"registerError"+":"+"user already exist");
+                        client.openConnection("checkEventLogs"+":"+username+":"+view.getAssetNameToAdd()+" removed from the system");
                         view.alert("Remove Successful", Alert.AlertType.INFORMATION);
                     } else if (ans.equals("Remove isn't Successful")) {
-                        //client.openConnection("checkErrorLogs"+":"+"registerError"+":"+"user already exist");
+                        client.openConnection("checkErrorLogs"+":"+username+":"+view.getAssetNameToAdd()+" isnt removed from the system");
                         view.alert("Remove isn't Successful", Alert.AlertType.INFORMATION);
                     } else if (ans.equals("The user is not nominate by: " + view.getAsserNameToRemove() + " or the team must have at least one owner")) {
-                        //client.openConnection("checkErrorLogs"+":"+"registerError"+":"+"user already exist");
+                        client.openConnection("checkErrorLogs"+":"+username+":"+"The user is not nominate by " + view.getAsserNameToRemove() + " or the team must have at least one owner");
                         view.alert("The user is not nominate by: " + view.getAsserNameToRemove() + " or the team must have at least one owner", Alert.AlertType.INFORMATION);
                     }
             }
@@ -685,24 +686,19 @@ public class Presenter implements Observer {
 
             if (arg.equals("changeTeamStatus")) {
                 String newStatus = client.openConnection("changeTeamStatus:" + teamName);
+                if (newStatus.equals("true")) {
+                    client.openConnection("checkEventLogs"+":"+username+":"+teamName+" status is active");
+                    view.alert("Remove Successful", Alert.AlertType.INFORMATION);
+                } else if (newStatus.equals("false")) {
+                    client.openConnection("checkEventLogs"+":"+username+":"+teamName+" status is inactive");
+                    view.alert("Remove isn't Successful", Alert.AlertType.INFORMATION);
+                }
                 view.setTeamStatus(newStatus);
             }
 
             if(arg.equals("allTeamAsset")){
                 teamAssets.clear();
                 String ans =client.openConnection("getTeamAssets"+":"+username);
-//                if (ans.equals("Remove Successful")) {
-//                    //client.openConnection("checkErrorLogs"+":"+"registerError"+":"+"user already exist");
-//                    view.alert("Remove Successful for team "+teamName, Alert.AlertType.INFORMATION);
-//                }
-//                else if (ans.equals("Remove isn't Successful")) {
-//                        //client.openConnection("checkErrorLogs"+":"+"registerError"+":"+"user already exist");
-//                        view.alert("Remove isn't Successful for team "+teamName, Alert.AlertType.INFORMATION);
-//                    }
-//                else if (ans.equals("The user is not nominate by: "+ meytalm +"or the team must have at least one coach")) {
-//                    //client.openConnection("checkErrorLogs"+":"+"registerError"+":"+"user already exist");
-//                    view.alert("The user is not nominate by: meytalm or the team must have at least one coach "+teamName, Alert.AlertType.INFORMATION);
-//                }
                 if(!ans.equals("")) {
                     String[] splittedans=splitData(ans);
                     for (int i = 0; i < splittedans.length; i++) {
