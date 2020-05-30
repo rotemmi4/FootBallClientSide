@@ -791,12 +791,121 @@ public class View extends Observable implements IView{
     public ListView<String> refsProposals = new ListView<>();
     public Button approveRequestToBeRef;
     public String approvedReq;
+    public Button referee_viewManageGames;
+    public Button gotoApprove;
 
 
     public void gotoApproveReq(ActionEvent actionEvent){
         switchTo(actionEvent,"Referee_approve.fxml",600,400,"Join A Season");
         setChanged();
         notifyObservers("get requests for referee");
+    }
+
+    public boolean isMainReferee = false;
+    public ListView<String> gamesList = new ListView<>();
+    public Button addEvents;
+    public Button backToReferee;
+    public String gameToManage;
+    public ListView<String> playerList1 = new ListView<>();
+    public ListView<String> playerList2 = new ListView<>();
+
+    public void gotoManageGames(ActionEvent actionEvent){
+        switchTo(actionEvent, "Referee_viewGames.fxml",600,400,"Games To View/Manage");
+        setChanged();
+        notifyObservers("get games of referee");
+        if(!isMainReferee){
+            addEvents.setDisable(true);
+        }else
+            addEvents.setDisable(false);
+
+    }
+
+    public void backToViewGames(ActionEvent actionEvent) {
+        switchTo(actionEvent, "Referee_viewGames.fxml", 600, 400, "Games To View/Manage");
+    }
+
+    public void switchToEventsManage(ActionEvent actionEvent){
+        gameToManage = gamesList.getSelectionModel().getSelectedItem();
+        if(gameToManage != null && !gameToManage.isEmpty() ){
+            switchTo(actionEvent, "Referee_addAlertsToGame.fxml",1001,400,"Games To View/Manage");
+            setChanged();
+            notifyObservers(gameToManage);
+        }
+    }
+
+    public String playerScored;
+    public String playerOffside;
+    public String playerFoul;
+    public String playerYellow;
+    public String playerRed;
+    public String playerInjured;
+    public String playerIn;
+    public String playerOut;
+
+    public void addGoalEventToGame(ActionEvent actionEvent){
+        playerScored = playerList1.getSelectionModel().getSelectedItem();
+        if(playerScored != null && !playerScored.isEmpty() ){
+            setChanged();
+            notifyObservers(playerScored);
+        }
+    }
+
+    public void addOffsideEventToGame(ActionEvent actionEvent){
+        playerOffside = playerList1.getSelectionModel().getSelectedItem();
+        if(playerOffside != null && !playerOffside.isEmpty() ){
+            setChanged();
+            notifyObservers(playerOffside);
+        }
+    }
+
+    public void addFoulEventToGame(ActionEvent actionEvent){
+        playerFoul = playerList1.getSelectionModel().getSelectedItem();
+        if(playerFoul != null && !playerFoul.isEmpty() ){
+            setChanged();
+            notifyObservers(playerFoul);
+        }
+    }
+
+    public void addYellowEventToGame(ActionEvent actionEvent){
+        playerYellow = playerList1.getSelectionModel().getSelectedItem();
+        if(playerYellow != null && !playerYellow.isEmpty() ){
+            setChanged();
+            notifyObservers(playerYellow);
+        }
+    }
+
+    public void addRedEventToGame(ActionEvent actionEvent){
+        playerRed = playerList1.getSelectionModel().getSelectedItem();
+        if(playerRed != null && !playerRed.isEmpty() ){
+            setChanged();
+            notifyObservers(playerRed);
+        }
+    }
+
+    public void addInjuryEventToGame(ActionEvent actionEvent){
+        playerInjured = playerList1.getSelectionModel().getSelectedItem();
+        if(playerInjured != null && !playerInjured.isEmpty() ){
+            setChanged();
+            notifyObservers(playerInjured);
+        }
+    }
+
+    public void addSubstituteEventToGame(ActionEvent actionEvent){
+        playerOut = playerList1.getSelectionModel().getSelectedItem();
+        playerIn = playerList2.getSelectionModel().getSelectedItem();
+
+        if(playerOut != null && !playerOut.isEmpty()  && playerIn != null && !playerIn.isEmpty()){
+            String team1 = playerOut.split(" - ")[0];
+            String team2 = playerIn.split(" - ")[0];
+
+            if(team1.equals(team2)){
+                setChanged();
+                notifyObservers(playerOut+"~"+playerIn);
+            }else{
+                alert("cant substitute players from different teams", Alert.AlertType.WARNING);
+            }
+
+        }
     }
 
     public void approveBTN(ActionEvent actionEvent){
@@ -813,6 +922,7 @@ public class View extends Observable implements IView{
     public void backToReferee(ActionEvent ae){
         switchTo(ae, "Referee.fxml", 600, 400, "Welcome " + login_username_txtfld.getText() + " !");
     }
+
 
 
 
@@ -1086,7 +1196,6 @@ public class View extends Observable implements IView{
     public ArrayList<String> playerList= new ArrayList<>();
     public ArrayList<String> ownerList= new ArrayList<>() ;
     public ArrayList<String> managerList= new ArrayList<>() ;
-
     private String asserNameToAdd;
     private String assetRole;
     private String assetToAdd;
