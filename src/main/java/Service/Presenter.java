@@ -706,32 +706,63 @@ public class Presenter implements Observer {
                     view.setTeamStatus(newStatus);
                 }
 
-                if (arg.equals("allTeamAsset")) {
-                    teamAssets.clear();
-                    String ans = null;
-                    try {
-                        ans = client.openConnection("getTeamAssets" + ":" + username);
-                    } catch (Exception e) {
-                        view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
+            if (arg.equals("allTeamAsset")) {
+                teamAssets.clear();
+                String ans = null;
+                try {
+                    ans = client.openConnection("getTeamAssets" + ":" + username);
+                } catch (Exception e) {
+                    view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
+                }
+                if (!ans.equals("")) {
+                    String[] splittedans = ans.split(":");
+                    for (int i = 0; i < splittedans.length; i++) {
+                        teamAssets.add(splittedans[i]);
                     }
-                    if (!ans.equals("")) {
-                        String[] splittedans = ans.split(":");
-                        for (int i = 0; i < splittedans.length; i++) {
-                            teamAssets.add(splittedans[i]);
-                        }
-                        view.allTeamMembers.getItems().addAll(teamAssets);
+                    view.allTeamMembers.getItems().addAll(teamAssets);
+                }
+            }
+
+            if (arg.equals(view.approvedReq)) {
+                try {
+                    String ans = client.openConnection("refApprovesToJudge" + ":" + this.username + ":" + view.approvedReq);
+                } catch (Exception e) {
+                    view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
+                }
+            }
+
+            if (arg.equals("tm get leagues")) {
+                String leaguesAns = null;
+                try {
+                    leaguesAns = client.openConnection("showLeaguesInSeason");
+                } catch (Exception e) {
+                    view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
+                }
+                String[] leagueList = leaguesAns.split(":");
+                for (int i = 0; i < leagueList.length; i++) {
+                    view.requestLeagueList.getItems().add(leagueList[i]);
+                }
+            }
+
+            if (arg.equals("add team to league request")) {
+                try {
+                    String ans = client.openConnection("addTeamToLeagueRequest" + ":" + view.ownerteamName + ":" + view.tm_addToLeague);
+                    if (ans=="true"){
+                        view.alert("request sent successfully", Alert.AlertType.ERROR);
                     }
+                } catch (Exception e) {
+                    view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
                 }
 
-                if (arg.equals(view.approvedReq)) {
-                    try {
-                        String ans = client.openConnection("refApprovesToJudge" + ":" + this.username + ":" + view.approvedReq);
-                    } catch (Exception e) {
-                        view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
-                    }
-                }
+
+            }
+
+
         }
+
+
     }
+}
 
     //        /**
 //         * ================
@@ -1054,4 +1085,3 @@ public class Presenter implements Observer {
 //            }
 
 
-}

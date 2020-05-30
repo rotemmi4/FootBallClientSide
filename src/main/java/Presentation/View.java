@@ -833,7 +833,8 @@ public class View extends Observable implements IView{
     public Button tm_deleteAsset;
     public Button tm_updateAsset;
     public Button tm_changeStatus;
-    public Button tm_setBuget;
+   // public Button tm_setBuget;
+    public Button tm_addToLeague;
     public CheckBox activate_CHKBX;
     public ChoiceBox<String> homeCourt_CBX;
 
@@ -843,7 +844,7 @@ public class View extends Observable implements IView{
     private boolean validTeam = true;
     private ArrayList<String> courtsByCity;
     private String teamStatus;
-    private String ownerteamName="";
+    public String ownerteamName="";
     String isPlayer="";
     String isCoach="";
     String isOwner="";
@@ -979,9 +980,9 @@ public class View extends Observable implements IView{
                     teamStatus="false";
                     tm_addAsset.setDisable(true);
                     tm_deleteAsset.setDisable(true);
+                    tm_addToLeague.setDisable(true);
                     tm_updateAsset.setDisable(true);
                     tm_changeStatus.setDisable(false);
-                    tm_setBuget.setDisable(true);
                 }
                 else{
 
@@ -995,9 +996,9 @@ public class View extends Observable implements IView{
                     teamStatus="true";
                     tm_addAsset.setDisable(false);
                     tm_deleteAsset.setDisable(false);
+                    tm_addToLeague.setDisable(false);
                     tm_updateAsset.setDisable(false);
                     tm_changeStatus.setDisable(false);
-                    tm_setBuget.setDisable(false);
                 }
 
             }
@@ -1030,43 +1031,43 @@ public class View extends Observable implements IView{
             tm_createTeam.setDisable(true);
             tm_addAsset.setDisable(true);
             tm_deleteAsset.setDisable(true);
+            tm_addToLeague.setDisable(true);
             tm_updateAsset.setDisable(true);
             tm_changeStatus.setDisable(true);
-            tm_setBuget.setDisable(true);
         }
         //Team Manager
         if(teamMemberID(isTeamManager) ){
             tm_createTeam.setDisable(true);
             tm_addAsset.setDisable(false);
+            tm_addToLeague.setDisable(false);
             tm_deleteAsset.setDisable(false);
             tm_updateAsset.setDisable(false);
             tm_changeStatus.setDisable(false);
-            tm_setBuget.setDisable(true);
         }
         //owner
         if(teamMemberID(isOwner)) {
             tm_createTeam.setDisable(false);
             tm_addAsset.setDisable(false);
+            tm_addToLeague.setDisable(false);
             tm_deleteAsset.setDisable(false);
             tm_updateAsset.setDisable(false);
             tm_changeStatus.setDisable(false);
-            tm_setBuget.setDisable(true);
         }
 
         if(teamMemberID(isOwner) && ownerteamName.equals("null")){ //owner have no team
             tm_addAsset.setDisable(true);
             tm_deleteAsset.setDisable(true);
+            tm_addToLeague.setDisable(true);
             tm_updateAsset.setDisable(true);
             tm_changeStatus.setDisable(true);
-            tm_setBuget.setDisable(true);
         }
 
         if(teamMemberID(isOwner) && teamMemberID(teamStatus)==false){ //owner have inactive team
             tm_addAsset.setDisable(true);
             tm_deleteAsset.setDisable(true);
+            tm_addToLeague.setDisable(true);
             tm_updateAsset.setDisable(true);
             tm_changeStatus.setDisable(false);
-            tm_setBuget.setDisable(true);
         }
     }
 
@@ -1226,7 +1227,33 @@ public class View extends Observable implements IView{
         }
     }
 
-    //////////////////////////////////////////////////////////////////////////////////
+
+    ///////////////////////////////////team member add team to league//////////////////////////////
+    public ListView<String> requestLeagueList = new ListView<>();
+    public String leagueToAdd;
+
+    public void TMaddToLeague(ActionEvent actionEvent){
+        requestLeagueList = new ListView<>();
+        switchTo(actionEvent, "TeamMember_AddTeamLeague.fxml", 600, 400,  "add " + ownerteamName +" To League");
+        setChanged();
+        notifyObservers("tm get leagues");
+    }
+
+    public void addToLeagueRequest(){
+
+        leagueToAdd = requestLeagueList.getSelectionModel().getSelectedItem();
+        if(leagueToAdd != null && !leagueToAdd.isEmpty()){
+            setChanged();
+            notifyObservers("add team to league request");
+
+        }
+
+    }
+
+
+
+
+    ////////////////////////////////////change policy//////////////////////////////////////////////
     public ListView<String> changeLeagePolicy = new ListView<>();
     public TextField newPointsWin_txtfld;
     public TextField newPointsLoss_txtfld;
