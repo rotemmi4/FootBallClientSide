@@ -1086,7 +1086,6 @@ public class View extends Observable implements IView{
     public ArrayList<String> playerList= new ArrayList<>();
     public ArrayList<String> ownerList= new ArrayList<>() ;
     public ArrayList<String> managerList= new ArrayList<>() ;
-
     private String asserNameToAdd;
     private String assetRole;
     private String assetToAdd;
