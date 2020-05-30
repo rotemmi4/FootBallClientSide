@@ -827,6 +827,7 @@ public class View extends Observable implements IView{
      **/
 
     public Button tm_updateInfo;
+    public Button tm_personalPage;
     public Button tm_addAsset;
     public Button tm_createTeam;
     public Button tm_logOut;
@@ -1027,6 +1028,8 @@ public class View extends Observable implements IView{
         //setChanged();
         //notifyObservers("teamMember");
         //player or coach
+        tm_personalPage.setDisable(true);
+        tm_updateInfo.setDisable(true);
         if(teamMemberID(isCoach)||teamMemberID(isPlayer)){
             tm_createTeam.setDisable(true);
             tm_addAsset.setDisable(true);
