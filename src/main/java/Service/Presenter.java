@@ -185,10 +185,21 @@ public class Presenter implements Observer {
                         } catch (Exception e) {
                             view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
                         }
-                        if (serverAnswer.equals("added"))
+                        if (serverAnswer.equals("added")) {
+                            try {
+                                client.openConnection("checkEventLogs" + ":" + username + ":" + " added new Season to the system");
+                            } catch (Exception e) {
+                                view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
+                            }
                             view.setDoesSeasonExist(false);
-                        else
+                        } else{
+                            try {
+                                client.openConnection("checkErrorLogs" + ":" + username + ":" + " new Season wasn't added to the system");
+                            } catch (Exception e) {
+                                view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
+                            }
                             view.setDoesSeasonExist(true);
+                    }
                     } else if (serverAnswer.equals("true")) {
                         view.setDoesSeasonExist(true);
                     }
@@ -235,9 +246,19 @@ public class Presenter implements Observer {
                     }
                     if (serverAns.equals("team was added successfully")) {
                         view.alert("team was added to chosen league", Alert.AlertType.INFORMATION);
+                        try {
+                            client.openConnection("checkEventLogs" + ":" + username + ":" + " team was added to chosen league");
+                        } catch (Exception e) {
+                            view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
+                        }
                         view.wasTeamAdded = true;
                     } else {
                         view.alert("something went wrong, check your team has enough owners,coaches and players", Alert.AlertType.WARNING);
+                        try {
+                            client.openConnection("checkErrorLogs" + ":" + username + ":" + " something went wrong team was'nt added to chosen league");
+                        } catch (Exception e) {
+                            view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
+                        }
                         view.wasTeamAdded = false;
                     }
                 } else if (arg.equals(view.getYearPicked())) {
@@ -273,8 +294,18 @@ public class Presenter implements Observer {
                         view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
                     }
                     if (serverAns.equals("true")) {
+                        try {
+                            client.openConnection("checkEventLogs" + ":" + username + ":" + " League added to the system");
+                        } catch (Exception e) {
+                            view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
+                        }
                         view.alert("League added successfully", Alert.AlertType.INFORMATION);
                     } else {
+                        try {
+                            client.openConnection("checkErrorLogs" + ":" + username + ":" + " League wasn't added to the system");
+                        } catch (Exception e) {
+                            view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
+                        }
                         view.alert("League wasn't added", Alert.AlertType.WARNING);
                     }
                 } else if (arg.equals("fill leagues and refs list")) {
@@ -307,9 +338,19 @@ public class Presenter implements Observer {
                     }
                     if (serverAns.equals("true")) {
                         view.wasRefAddedToLeage = true;
+                        try {
+                            client.openConnection("checkEventLogs" + ":" + username + ":" + " added Referee successfully to League");
+                        } catch (Exception e) {
+                            view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
+                        }
                         view.alert("Referee added successfully to League", Alert.AlertType.INFORMATION);
                     } else {
                         view.wasRefAddedToLeage = false;
+                        try {
+                            client.openConnection("checkEventLogs" + ":" + username + ":" + " added Referee to League wasn't successfully");
+                        } catch (Exception e) {
+                            view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
+                        }
                         view.alert("Referee wasn't added to League", Alert.AlertType.WARNING);
                     }
                 } else if (arg.equals("show league list")) {
@@ -332,6 +373,11 @@ public class Presenter implements Observer {
                         view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
                     }
                     if (serverAns.equals("true")) {
+                        try {
+                            client.openConnection("checkEventLogs" + ":" + username + ":" + " Points policy was changed in league - " + view.leagueChangePoints);
+                        } catch (Exception e) {
+                            view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
+                        }
                         view.alert("Points policy was changed in league - " + view.leagueChangePoints, Alert.AlertType.INFORMATION);
                     }
                 } else if (arg.equals("change game schedule policy")) {
@@ -342,6 +388,11 @@ public class Presenter implements Observer {
                         view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
                     }
                     if (serverAns.equals("true")) {
+                        try {
+                            client.openConnection("checkEventLogs" + ":" + username + ":" + " Game policy was changed in league - " + view.leagueChangeRounds);
+                        } catch (Exception e) {
+                            view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
+                        }
                         view.alert("Game policy was changed in league - " + view.leagueChangeRounds, Alert.AlertType.INFORMATION);
                     }
                 } else if (arg.equals("get leagues in db")) {
@@ -364,9 +415,19 @@ public class Presenter implements Observer {
                     }
                     if (serverAns.equals("true")) {
                         view.wasScheduleCreated = true;
+                        try {
+                            client.openConnection("checkEventLogs" + ":" + username + ":" + " New games scheduling created in the system");
+                        } catch (Exception e) {
+                            view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
+                        }
                         view.alert("New games scheduling created", Alert.AlertType.INFORMATION);
                     } else {
                         view.wasScheduleCreated = false;
+                        try {
+                            client.openConnection("checkErrorLogs" + ":" + username + ":" + " New games scheduling wasn't created in the system");
+                        } catch (Exception e) {
+                            view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
+                        }
                         view.alert(serverAns, Alert.AlertType.WARNING);
                     }
                 }
