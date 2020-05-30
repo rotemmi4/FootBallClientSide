@@ -553,7 +553,7 @@ public class Presenter implements Observer {
                         }
                         if (ans.equals("Owner added Successful")) {
                             try {
-                                client.openConnection("checkEventLogs" + ":" + username + ":" + view.getAssetNameToAdd() + " added to the system");
+                                client.openConnection("checkEventLogs" + ":" + username + ":" + view.getAssetNameToAdd() + " added to the team "+teamName);
                             } catch (Exception e) {
                                 view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
                             }
@@ -576,7 +576,7 @@ public class Presenter implements Observer {
                         }
                         if (ans.equals("Player added Successful")) {
                             try {
-                                client.openConnection("checkEventLogs" + ":" + username + ":" + view.getAssetNameToAdd() + " added to the system");
+                                client.openConnection("checkEventLogs" + ":" + username + ":" + view.getAssetNameToAdd() + " added to the team "+teamName);
                             } catch (Exception e) {
                                 view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
                             }
@@ -599,7 +599,7 @@ public class Presenter implements Observer {
                         }
                         if (ans.equals("Coach added Successful")) {
                             try {
-                                client.openConnection("checkEventLogs" + ":" + username + ":" + view.getAssetNameToAdd() + " added to the system");
+                                client.openConnection("checkEventLogs" + ":" + username + ":" + view.getAssetNameToAdd() + " added to the team "+teamName);
                             } catch (Exception e) {
                                 view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
                             }
@@ -623,7 +623,7 @@ public class Presenter implements Observer {
                         }
                         if (ans.equals("Manager added Successful")) {
                             try {
-                                client.openConnection("checkEventLogs" + ":" + username + ":" + view.getAssetNameToAdd() + " added to the system");
+                                client.openConnection("checkEventLogs" + ":" + username + ":" + view.getAssetNameToAdd() + " added to the team "+teamName);
                             } catch (Exception e) {
                                 view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
                             }
@@ -648,7 +648,7 @@ public class Presenter implements Observer {
                     }
                     if (ans.equals("Remove Successful")) {
                         try {
-                            client.openConnection("checkEventLogs" + ":" + username + ":" + view.getAssetNameToAdd() + " removed from the system");
+                            client.openConnection("checkEventLogs" + ":" + username + ":" + view.getAssetNameToAdd() + " removed from the team "+teamName);
                         } catch (Exception e) {
                             view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
                         }
