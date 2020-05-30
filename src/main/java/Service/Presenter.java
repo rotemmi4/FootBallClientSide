@@ -509,6 +509,7 @@ public class Presenter implements Observer {
                     } catch (Exception e) {
                         view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
                     }
+                    teamName=details.get(0);
                     if (ans.equals("team was added to system!")) {
                         try {
                             client.openConnection("checkEventLogs" + ":" + username + ":" + teamName + " added to the system");
@@ -551,14 +552,16 @@ public class Presenter implements Observer {
                         } catch (Exception e) {
                             view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
                         }
-                        if (ans.equals("Owner added Successful")) {
+                        String[] splittedans=ans.split(":");
+                        teamName=splittedans[0];
+                        if (splittedans[1].equals("Owner added Successful")) {
                             try {
                                 client.openConnection("checkEventLogs" + ":" + username + ":" + view.getAssetNameToAdd() + " added to the team "+teamName);
                             } catch (Exception e) {
                                 view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
                             }
                             view.alert("Owner added Successful", Alert.AlertType.INFORMATION);
-                        } else if (ans.equals("Owner added isn't Successful")) {
+                        } else if (splittedans[1].equals("Owner added isn't Successful")) {
                             try {
                                 client.openConnection("checkErrorLogs" + ":" + username + ":" + view.getAssetNameToAdd() + " already exist");
                             } catch (Exception e) {
@@ -574,14 +577,16 @@ public class Presenter implements Observer {
                         } catch (Exception e) {
                             view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
                         }
-                        if (ans.equals("Player added Successful")) {
+                        String[] splittedans=ans.split(":");
+                        teamName=splittedans[0];
+                        if (splittedans[1].equals("Player added Successful")) {
                             try {
                                 client.openConnection("checkEventLogs" + ":" + username + ":" + view.getAssetNameToAdd() + " added to the team "+teamName);
                             } catch (Exception e) {
                                 view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
                             }
                             view.alert("Player added Successful", Alert.AlertType.INFORMATION);
-                        } else if (ans.equals("Player added isn't Successful")) {
+                        } else if (splittedans[1].equals("Player added isn't Successful")) {
                             try {
                                 client.openConnection("checkErrorLogs" + ":" + username + ":" + view.getAssetNameToAdd() + " already exist");
                             } catch (Exception e) {
@@ -597,14 +602,16 @@ public class Presenter implements Observer {
                         } catch (Exception e) {
                             view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
                         }
-                        if (ans.equals("Coach added Successful")) {
+                        String[] splittedans=ans.split(":");
+                        teamName=splittedans[0];
+                        if (splittedans[1].equals("Coach added Successful")) {
                             try {
                                 client.openConnection("checkEventLogs" + ":" + username + ":" + view.getAssetNameToAdd() + " added to the team "+teamName);
                             } catch (Exception e) {
                                 view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
                             }
                             view.alert("Coach added Successful", Alert.AlertType.INFORMATION);
-                        } else if (ans.equals("Coach added isn't Successful")) {
+                        } else if (splittedans[1].equals("Coach added isn't Successful")) {
                             try {
                                 client.openConnection("checkErrorLogs" + ":" + username + ":" + view.getAssetNameToAdd() + " already exist");
                             } catch (Exception e) {
@@ -621,14 +628,16 @@ public class Presenter implements Observer {
                         } catch (Exception e) {
                             view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
                         }
-                        if (ans.equals("Manager added Successful")) {
+                        String[] splittedans=ans.split(":");
+                        teamName=splittedans[0];
+                        if (splittedans[1].equals("Manager added Successful")) {
                             try {
                                 client.openConnection("checkEventLogs" + ":" + username + ":" + view.getAssetNameToAdd() + " added to the team "+teamName);
                             } catch (Exception e) {
                                 view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
                             }
                             view.alert("Manager added Successful", Alert.AlertType.INFORMATION);
-                        } else if (ans.equals("Manager added isn't Successful")) {
+                        } else if (splittedans[1].equals("Manager added isn't Successful")) {
                             try {
                                 client.openConnection("checkErrorLogs" + ":" + username + ":" + view.getAssetNameToAdd() + " already exist");
                             } catch (Exception e) {
@@ -646,21 +655,23 @@ public class Presenter implements Observer {
                     } catch (Exception e) {
                         view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
                     }
-                    if (ans.equals("Remove Successful")) {
+                    String[] splittedans=ans.split(":");
+                    teamName=splittedans[0];
+                    if (splittedans[1].equals("Remove Successful")) {
                         try {
                             client.openConnection("checkEventLogs" + ":" + username + ":" + view.getAssetNameToAdd() + " removed from the team "+teamName);
                         } catch (Exception e) {
                             view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
                         }
                         view.alert("Remove Successful", Alert.AlertType.INFORMATION);
-                    } else if (ans.equals("Remove isn't Successful")) {
+                    } else if (splittedans[1].equals("Remove isn't Successful")) {
                         try {
-                            client.openConnection("checkErrorLogs" + ":" + username + ":" + view.getAssetNameToAdd() + " isnt removed from the system");
+                            client.openConnection("checkErrorLogs" + ":" + username + ":" + view.getAssetNameToAdd() + " isnt removed from team "+teamName);
                         } catch (Exception e) {
                             view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
                         }
                         view.alert("Remove isn't Successful", Alert.AlertType.INFORMATION);
-                    } else if (ans.equals("The user is not nominate by: " + view.getAsserNameToRemove() + " or the team must have at least one owner")) {
+                    } else if (splittedans[1].equals("The user is not nominate by: " + view.getAsserNameToRemove() + " or the team must have at least one owner")) {
                         try {
                             client.openConnection("checkErrorLogs" + ":" + username + ":" + "The user is not nominate by " + view.getAsserNameToRemove() + " or the team must have at least one owner");
                         } catch (Exception e) {
