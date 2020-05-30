@@ -588,7 +588,7 @@ public class Presenter implements Observer {
                             view.alert("Player added Successful", Alert.AlertType.INFORMATION);
                         } else if (splittedans[1].equals("Player added isn't Successful")) {
                             try {
-                                client.openConnection("checkErrorLogs" + ":" + username + ":" + view.getAssetNameToAdd() + " already exist");
+                                client.openConnection("checkErrorLogs" + ":" + username + ":" + view.getAssetNameToAdd() + " cant be added to the team "+teamName);
                             } catch (Exception e) {
                                 view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
                             }
@@ -658,15 +658,25 @@ public class Presenter implements Observer {
                     String[] splittedans=ans.split(":");
                     teamName=splittedans[0];
                     if (splittedans[1].equals("Remove Successful")) {
-                        try {
-                            client.openConnection("checkEventLogs" + ":" + username + ":" + view.getAssetNameToAdd() + " removed from the team "+teamName);
-                        } catch (Exception e) {
-                            view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
-                        }
                         view.alert("Remove Successful", Alert.AlertType.INFORMATION);
-                    } else if (splittedans[1].equals("Remove isn't Successful")) {
+                        if(splittedans[2].equals("false")) {
+                            try {
+                                client.openConnection("checkEventLogs" + ":" + username + ":" + view.getAsserNameToRemove() + " removed from the team " + teamName);
+                            } catch (Exception e) {
+                                view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
+                            }
+                        }
+                        else{
+                            try {
+                                client.openConnection("checkEventLogs" + ":" + username + ":" + view.getAsserNameToRemove()+splittedans[2]+ " removed from the team " + teamName);
+                            } catch (Exception e) {
+                                view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
+                            }
+                        }
+                    }
+                    else if (splittedans[1].equals("Remove isn't Successful")) {
                         try {
-                            client.openConnection("checkErrorLogs" + ":" + username + ":" + view.getAssetNameToAdd() + " isnt removed from team "+teamName);
+                            client.openConnection("checkErrorLogs" + ":" + username + ":" + view.getAsserNameToRemove() + " isnt removed from team "+teamName);
                         } catch (Exception e) {
                             view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
                         }
