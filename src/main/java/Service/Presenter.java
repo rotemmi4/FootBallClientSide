@@ -166,271 +166,7 @@ public class Presenter implements Observer {
             } else if (arg.equals("disconnect")) {
 //                client.closeConnection();
             }
-            /**
-             * Association
-             **/
-            else if (arg instanceof Double) {
-                String sumOfIncome = String.valueOf(view.getSumOfIncome());
-                Calendar cal = new GregorianCalendar();
-                String year = String.valueOf(cal.get(Calendar.YEAR) + 1);
-                String serverAnswer = null;
-                try {
-                    serverAnswer = client.openConnection("checkIfSeasonExist" + ":" + year);
-                } catch (Exception e) {
-                    view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
-                }
-                if (serverAnswer.equals("false")) {
-                    try {
-                        serverAnswer = client.openConnection("addSeason" + ":" + year + ":" + sumOfIncome);
-                    } catch (Exception e) {
-                        view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
-                    }
-                    if (serverAnswer.equals("added")) {
-                        try {
-                            client.openConnection("checkEventLogs" + ":" + username + ":" + " added new Season to the system");
-                        } catch (Exception e) {
-                            view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
-                        }
-                        view.setDoesSeasonExist(false);
-                    } else{
-                        try {
-                            client.openConnection("checkErrorLogs" + ":" + username + ":" + " new Season wasn't added to the system");
-                        } catch (Exception e) {
-                            view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
-                        }
-                        view.setDoesSeasonExist(true);
-                    }
-                } else if (serverAnswer.equals("true")) {
-                    view.setDoesSeasonExist(true);
-                }
-            } else if (arg.equals("get refs in db")) {
-                String serverAns = null;
-                try {
-                    serverAns = client.openConnection("getAllReferees");
-                } catch (Exception e) {
-                    view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
-                }
-                String[] refList = serverAns.split(":");
-                for (int i = 0; i < refList.length; i++) {
-                    view.candidateRefs.getItems().add(refList[i]);
-                }
-            } else if (arg.equals(view.refUsernameToNominate)) {
-                String serverAns = null;
-                try {
-                    serverAns = client.openConnection("inviteRefereeToJudge" + ":" + username + ":" + view.refUsernameToNominate);
-                } catch (Exception e) {
-                    view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
-                }
-                if (serverAns.equals("true")) {
-                    view.alert("Invite sent", Alert.AlertType.INFORMATION);
-                } else {
-                    view.alert("Try Again", Alert.AlertType.WARNING);
-                }
-            } else if (arg.equals("load team requests")) {
-                String serverAns = null;
-                try {
-                    serverAns = client.openConnection("getTeamReqs" + ":" + username);
-                } catch (Exception e) {
-                    view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
-                }
-                String[] reqList = serverAns.split(":");
-                for (int i = 0; i < reqList.length; i++) {
-                    view.requestsList.getItems().add(reqList[i]);
-                }
-            } else if (arg.equals(view.selectedReq)) {
-                String serverAns = null;
-                try {
-                    serverAns = client.openConnection("checkTeamRegistration" + ":" + view.selectedReq);
-                } catch (Exception e) {
-                    view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
-                }
-                if (serverAns.equals("team was added successfully")) {
-                    view.alert("team was added to chosen league", Alert.AlertType.INFORMATION);
-                    try {
-                        client.openConnection("checkEventLogs" + ":" + username + ":" + " team was added to chosen league");
-                    } catch (Exception e) {
-                        view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
-                    }
-                    view.wasTeamAdded = true;
-                } else {
-                    view.alert("something went wrong, check your team has enough owners,coaches and players", Alert.AlertType.WARNING);
-                    try {
-                        client.openConnection("checkErrorLogs" + ":" + username + ":" + " something went wrong team was'nt added to chosen league");
-                    } catch (Exception e) {
-                        view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
-                    }
-                    view.wasTeamAdded = false;
-                }
-            } else if (arg.equals(view.getYearPicked())) {
-                String serverAns = null;
-                try {
-                    serverAns = client.openConnection("getCurrentSeason");
-                } catch (Exception e) {
-                    view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
-                }
-                if (Integer.parseInt(serverAns) == view.getYearPicked()) {
-                    view.setCurrentSeason(true);
-                } else {
-                    view.setCurrentSeason(false);
-                    view.alert("pick another season", Alert.AlertType.INFORMATION);
-                }
-            } else if (arg.equals(view.getLeagueName())) {
-                String serverAns = null;
-                try {
-                    serverAns = client.openConnection("isLeagueExist" + ":" + view.getLeagueName());
-                } catch (Exception e) {
-                    view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
-                }
-                if (serverAns.equals("true")) {
-                    view.setLeagueExist(true);
-                } else {
-                    view.setLeagueExist(false);
-                }
-            } else if (arg.equals("add League")) {
-                String serverAns = null;
-                try {
-                    serverAns = client.openConnection("addLeagueToDB" + ":" + view.getNewLeagueDetails());
-                } catch (Exception e) {
-                    view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
-                }
-                if (serverAns.equals("true")) {
-                    try {
-                        client.openConnection("checkEventLogs" + ":" + username + ":" + " League added to the system");
-                    } catch (Exception e) {
-                        view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
-                    }
-                    view.alert("League added successfully", Alert.AlertType.INFORMATION);
-                } else {
-                    try {
-                        client.openConnection("checkErrorLogs" + ":" + username + ":" + " League wasn't added to the system");
-                    } catch (Exception e) {
-                        view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
-                    }
-                    view.alert("League wasn't added", Alert.AlertType.WARNING);
-                }
-            } else if (arg.equals("fill leagues and refs list")) {
-                String leaguesAns = null;
-                try {
-                    leaguesAns = client.openConnection("showLeaguesInSeason");
-                } catch (Exception e) {
-                    view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
-                }
-                String[] leagueList = leaguesAns.split(":");
-                for (int i = 0; i < leagueList.length; i++) {
-                    view.addRef_leagueList.getItems().add(leagueList[i]);
-                }
-                String refsAns = null;
-                try {
-                    refsAns = client.openConnection("showAllRefs");
-                } catch (Exception e) {
-                    view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
-                }
-                String[] refsList = refsAns.split(":");
-                for (int i = 0; i < refsList.length; i++) {
-                    view.addRef_refsList.getItems().add(refsList[i]);
-                }
-            } else if (arg.equals(view.selectedLeague + " " + view.selectedRef)) {
-                String serverAns = null;
-                try {
-                    serverAns = client.openConnection("addRefToLeague" + ":" + view.selectedLeague + ":" + view.selectedRef);
-                } catch (Exception e) {
-                    view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
-                }
-                if (serverAns.equals("true")) {
-                    view.wasRefAddedToLeage = true;
-                    try {
-                        client.openConnection("checkEventLogs" + ":" + username + ":" + " added Referee successfully to League");
-                    } catch (Exception e) {
-                        view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
-                    }
-                    view.alert("Referee added successfully to League", Alert.AlertType.INFORMATION);
-                } else {
-                    view.wasRefAddedToLeage = false;
-                    try {
-                        client.openConnection("checkEventLogs" + ":" + username + ":" + " added Referee to League wasn't successfully");
-                    } catch (Exception e) {
-                        view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
-                    }
-                    view.alert("Referee wasn't added to League", Alert.AlertType.WARNING);
-                }
-            } else if (arg.equals("show league list")) {
-                String leaguesAns = null;
-                try {
-                    leaguesAns = client.openConnection("showLeaguesInSeason");
-                } catch (Exception e) {
-                    view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
-                }
-                String[] leagueList = leaguesAns.split(":");
-                for (int i = 0; i < leagueList.length; i++) {
-                    view.changeLeagePolicy.getItems().add(leagueList[i]);
-                }
-            } else if (arg.equals("change points policy")) {
-                String serverAns = null;
-                try {
-                    serverAns = client.openConnection("changePointsForLeague" + ":" + view.leagueChangePoints + ":" + view.newPointsWin
-                            + ":" + view.newPointsDraw + ":" + view.newPointsLoss + ":" + view.tieBreaker_goalDifference + ":" + view.tieBreaker_directResults);
-                } catch (Exception e) {
-                    view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
-                }
-                if (serverAns.equals("true")) {
-                    try {
-                        client.openConnection("checkEventLogs" + ":" + username + ":" + " Points policy was changed in league - " + view.leagueChangePoints);
-                    } catch (Exception e) {
-                        view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
-                    }
-                    view.alert("Points policy was changed in league - " + view.leagueChangePoints, Alert.AlertType.INFORMATION);
-                }
-            } else if (arg.equals("change game schedule policy")) {
-                String serverAns = null;
-                try {
-                    serverAns = client.openConnection("changeRoundsForLeague" + ":" + view.leagueChangeRounds + ":" + view.newRounds);
-                } catch (Exception e) {
-                    view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
-                }
-                if (serverAns.equals("true")) {
-                    try {
-                        client.openConnection("checkEventLogs" + ":" + username + ":" + " Game policy was changed in league - " + view.leagueChangeRounds);
-                    } catch (Exception e) {
-                        view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
-                    }
-                    view.alert("Game policy was changed in league - " + view.leagueChangeRounds, Alert.AlertType.INFORMATION);
-                }
-            } else if (arg.equals("get leagues in db")) {
-                String leaguesAns = null;
-                try {
-                    leaguesAns = client.openConnection("showLeaguesInSeason");
-                } catch (Exception e) {
-                    view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
-                }
-                String[] leagueList = leaguesAns.split(":");
-                for (int i = 0; i < leagueList.length; i++) {
-                    view.scheduleGames_leagueList.getItems().add(leagueList[i]);
-                }
-            } else if (arg.equals(view.leagueNameToSchedule)) {
-                String serverAns = null;
-                try {
-                    serverAns = client.openConnection("createScheduleToLeague" + ":" + view.leagueNameToSchedule);
-                } catch (Exception e) {
-                    view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
-                }
-                if (serverAns.equals("true")) {
-                    view.wasScheduleCreated = true;
-                    try {
-                        client.openConnection("checkEventLogs" + ":" + username + ":" + " New games scheduling created in the system");
-                    } catch (Exception e) {
-                        view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
-                    }
-                    view.alert("New games scheduling created", Alert.AlertType.INFORMATION);
-                } else {
-                    view.wasScheduleCreated = false;
-                    try {
-                        client.openConnection("checkErrorLogs" + ":" + username + ":" + " New games scheduling wasn't created in the system");
-                    } catch (Exception e) {
-                        view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
-                    }
-                    view.alert(serverAns, Alert.AlertType.WARNING);
-                }
-            }
+
             /**
              * Team
              **/
@@ -766,208 +502,480 @@ public class Presenter implements Observer {
                 }
             }
 
+
+            //-------------------------------------------------------------------------------------------------
+
             /**
              * Association
              */
 
-            else if(arg instanceof Double){
+            else if (arg instanceof Double) {
                 String sumOfIncome = String.valueOf(view.getSumOfIncome());
                 Calendar cal = new GregorianCalendar();
-                String year =  String.valueOf(cal.get(Calendar.YEAR) + 1);
-                try{
-                String serverAnswer = client.openConnection("checkIfSeasonExist"+":"+year);
-                if(serverAnswer.equals("false")){
-                    serverAnswer = client.openConnection("addSeason"+":"+year+":"+sumOfIncome);
-                    if(serverAnswer.equals("added"))
-                        view.setDoesSeasonExist(false);
-                    else
-                        view.setDoesSeasonExist(true);
-                }else if(serverAnswer.equals("true")){
-                    view.setDoesSeasonExist(true);
-                }
+                String year = String.valueOf(cal.get(Calendar.YEAR) + 1);
+                String serverAnswer = null;
+                try {
+                    serverAnswer = client.openConnection("checkIfSeasonExist" + ":" + year);
                 } catch (Exception e) {
                     view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
                 }
-            }
-
-            else if (arg.equals("get refs in db")) {
-                try{
-                String serverAns = client.openConnection("getAllReferees");
+                if (serverAnswer.equals("false")) {
+                    try {
+                        serverAnswer = client.openConnection("addSeason" + ":" + year + ":" + sumOfIncome);
+                    } catch (Exception e) {
+                        view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
+                    }
+                    if (serverAnswer.equals("added")) {
+                        try {
+                            client.openConnection("checkEventLogs" + ":" + username + ":" + " added new Season to the system");
+                        } catch (Exception e) {
+                            view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
+                        }
+                        view.setDoesSeasonExist(false);
+                    } else{
+                        try {
+                            client.openConnection("checkErrorLogs" + ":" + username + ":" + " new Season wasn't added to the system");
+                        } catch (Exception e) {
+                            view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
+                        }
+                        view.setDoesSeasonExist(true);
+                    }
+                } else if (serverAnswer.equals("true")) {
+                    view.setDoesSeasonExist(true);
+                }
+            } else if (arg.equals("get refs in db")) {
+                String serverAns = null;
+                try {
+                    serverAns = client.openConnection("getAllReferees");
+                } catch (Exception e) {
+                    view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
+                }
                 String[] refList = serverAns.split(":");
                 for (int i = 0; i < refList.length; i++) {
                     view.candidateRefs.getItems().add(refList[i]);
                 }
-                } catch (Exception e) {
-                    view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
-                }
-            }
-
-            else if (arg.equals(view.refUsernameToNominate)) {
+            } else if (arg.equals(view.refUsernameToNominate)) {
+                String serverAns = null;
                 try {
-                    String serverAns = client.openConnection("inviteRefereeToJudge" + ":" + username + ":" + view.refUsernameToNominate);
-                    if (serverAns.equals("true")) {
-                        view.alert("Invite sent", Alert.AlertType.INFORMATION);
-                    } else {
-                        view.alert("Try Again", Alert.AlertType.WARNING);
-                    }
+                    serverAns = client.openConnection("inviteRefereeToJudge" + ":" + username + ":" + view.refUsernameToNominate);
                 } catch (Exception e) {
                     view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
                 }
-            }
-
-            else if (arg.equals("load team requests")) {
+                if (serverAns.equals("true")) {
+                    view.alert("Invite sent", Alert.AlertType.INFORMATION);
+                } else {
+                    view.alert("Try Again", Alert.AlertType.WARNING);
+                }
+            } else if (arg.equals("load team requests")) {
+                String serverAns = null;
                 try {
-                    String serverAns = client.openConnection("getTeamReqs" + ":" + username);
-                    String[] reqList = serverAns.split(":");
-                    for (int i = 0; i < reqList.length; i++) {
-                        view.requestsList.getItems().add(reqList[i]);
-                    }
+                    serverAns = client.openConnection("getTeamReqs" + ":" + username);
                 } catch (Exception e) {
                     view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
                 }
-            }
-            else if(arg.equals(view.selectedReq)) {
+                String[] reqList = serverAns.split(":");
+                for (int i = 0; i < reqList.length; i++) {
+                    view.requestsList.getItems().add(reqList[i]);
+                }
+            } else if (arg.equals(view.selectedReq)) {
+                String serverAns = null;
                 try {
-                    String serverAns = client.openConnection("checkTeamRegistration" + ":" + username + ":" + view.selectedReq);
-                    if (serverAns.equals("team was added successfully")) {
-                        view.alert("team was added to chosen league", Alert.AlertType.INFORMATION);
-                        view.wasTeamAdded = true;
-                    } else {
-                        view.alert("something went wrong, check your team has enough owners,coaches and players", Alert.AlertType.WARNING);
-                        view.wasTeamAdded = false;
-                    }
+                    serverAns = client.openConnection("checkTeamRegistration" + ":" + view.selectedReq);
                 } catch (Exception e) {
                     view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
                 }
-            }
-            else if (arg.equals(view.getYearPicked())) {
+                if (serverAns.equals("team was added successfully")) {
+                    view.alert("team was added to chosen league", Alert.AlertType.INFORMATION);
+                    try {
+                        client.openConnection("checkEventLogs" + ":" + username + ":" + " team was added to chosen league");
+                    } catch (Exception e) {
+                        view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
+                    }
+                    view.wasTeamAdded = true;
+                } else {
+                    view.alert("something went wrong, check your team has enough owners,coaches and players", Alert.AlertType.WARNING);
+                    try {
+                        client.openConnection("checkErrorLogs" + ":" + username + ":" + " something went wrong team was'nt added to chosen league");
+                    } catch (Exception e) {
+                        view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
+                    }
+                    view.wasTeamAdded = false;
+                }
+            } else if (arg.equals(view.getYearPicked())) {
+                String serverAns = null;
                 try {
-                    String serverAns = client.openConnection("getCurrentSeason");
-                    if (Integer.parseInt(serverAns) == view.getYearPicked()) {
-                        view.setCurrentSeason(true);
-                    } else {
-                        view.setCurrentSeason(false);
-                        view.alert("pick another season", Alert.AlertType.INFORMATION);
-                    }
+                    serverAns = client.openConnection("getCurrentSeason");
                 } catch (Exception e) {
                     view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
                 }
-            }
-            else if (arg.equals(view.getLeagueName())) {
+                if (Integer.parseInt(serverAns) == view.getYearPicked()) {
+                    view.setCurrentSeason(true);
+                } else {
+                    view.setCurrentSeason(false);
+                    view.alert("pick another season", Alert.AlertType.INFORMATION);
+                }
+            } else if (arg.equals(view.getLeagueName())) {
+                String serverAns = null;
                 try {
-                    String serverAns = client.openConnection("isLeagueExist" + ":" + view.getLeagueName());
-                    if (serverAns.equals("true")) {
-                        view.setLeagueExist(true);
-                    } else {
-                        view.setLeagueExist(false);
-                    }
+                    serverAns = client.openConnection("isLeagueExist" + ":" + view.getLeagueName());
                 } catch (Exception e) {
                     view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
                 }
-            }
-            else if (arg.equals("add League")) {
+                if (serverAns.equals("true")) {
+                    view.setLeagueExist(true);
+                } else {
+                    view.setLeagueExist(false);
+                }
+            } else if (arg.equals("add League")) {
+                String serverAns = null;
                 try {
-                    String serverAns = client.openConnection("addLeagueToDB" + ":" + view.getNewLeagueDetails());
-                    if (serverAns.equals("true")) {
-                        view.alert("League added successfully", Alert.AlertType.INFORMATION);
-                    } else {
-                        view.alert("League wasn't added", Alert.AlertType.WARNING);
-                    }
+                    serverAns = client.openConnection("addLeagueToDB" + ":" + view.getNewLeagueDetails());
                 } catch (Exception e) {
                     view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
                 }
-            }
-
-            else if(arg.equals("fill leagues and refs list")) {
+                if (serverAns.equals("true")) {
+                    try {
+                        client.openConnection("checkEventLogs" + ":" + username + ":" + " League added to the system");
+                    } catch (Exception e) {
+                        view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
+                    }
+                    view.alert("League added successfully", Alert.AlertType.INFORMATION);
+                } else {
+                    try {
+                        client.openConnection("checkErrorLogs" + ":" + username + ":" + " League wasn't added to the system");
+                    } catch (Exception e) {
+                        view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
+                    }
+                    view.alert("League wasn't added", Alert.AlertType.WARNING);
+                }
+            } else if (arg.equals("fill leagues and refs list")) {
+                String leaguesAns = null;
                 try {
-                    String leaguesAns = client.openConnection("showLeaguesInSeason");
-                    String[] leagueList = leaguesAns.split(":");
-                    for (int i = 0; i < leagueList.length; i++) {
-                        view.addRef_leagueList.getItems().add(leagueList[i]);
-                    }
-                    String refsAns = client.openConnection("showAllRefs");
-                    String[] refsList = refsAns.split(":");
-                    for (int i = 0; i < refsList.length; i++) {
-                        view.addRef_refsList.getItems().add(refsList[i]);
-                    }
+                    leaguesAns = client.openConnection("showLeaguesInSeason");
                 } catch (Exception e) {
                     view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
                 }
-            }
-
-            else if (arg.equals(view.selectedLeague + " " + view.selectedRef)) {
-                try{
-                String serverAns = client.openConnection("addRefToLeague"+":"+view.selectedLeague+":"+view.selectedRef);
-                if(serverAns.equals("true")){
+                String[] leagueList = leaguesAns.split(":");
+                for (int i = 0; i < leagueList.length; i++) {
+                    view.addRef_leagueList.getItems().add(leagueList[i]);
+                }
+                String refsAns = null;
+                try {
+                    refsAns = client.openConnection("showAllRefs");
+                } catch (Exception e) {
+                    view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
+                }
+                String[] refsList = refsAns.split(":");
+                for (int i = 0; i < refsList.length; i++) {
+                    view.addRef_refsList.getItems().add(refsList[i]);
+                }
+            } else if (arg.equals(view.selectedLeague + " " + view.selectedRef)) {
+                String serverAns = null;
+                try {
+                    serverAns = client.openConnection("addRefToLeague" + ":" + view.selectedLeague + ":" + view.selectedRef);
+                } catch (Exception e) {
+                    view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
+                }
+                if (serverAns.equals("true")) {
                     view.wasRefAddedToLeage = true;
+                    try {
+                        client.openConnection("checkEventLogs" + ":" + username + ":" + " added Referee successfully to League");
+                    } catch (Exception e) {
+                        view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
+                    }
                     view.alert("Referee added successfully to League", Alert.AlertType.INFORMATION);
-                }
-                else{
+                } else {
                     view.wasRefAddedToLeage = false;
+                    try {
+                        client.openConnection("checkEventLogs" + ":" + username + ":" + " added Referee to League wasn't successfully");
+                    } catch (Exception e) {
+                        view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
+                    }
                     view.alert("Referee wasn't added to League", Alert.AlertType.WARNING);
                 }
+            } else if (arg.equals("show league list")) {
+                String leaguesAns = null;
+                try {
+                    leaguesAns = client.openConnection("showLeaguesInSeason");
                 } catch (Exception e) {
                     view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
                 }
-            }
-            else if(arg.equals("show league list")){
-                try {
-                    String leaguesAns = client.openConnection("showLeaguesInSeason");
-                    String[] leagueList = leaguesAns.split(":");
-                    for (int i = 0; i < leagueList.length; i++) {
-                        view.changeLeagePolicy.getItems().add(leagueList[i]);
-                    }
-                } catch (Exception e) {
-                    view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
+                String[] leagueList = leaguesAns.split(":");
+                for (int i = 0; i < leagueList.length; i++) {
+                    view.changeLeagePolicy.getItems().add(leagueList[i]);
                 }
-            }
-            else if(arg.equals("change points policy")){
+            } else if (arg.equals("change points policy")) {
+                String serverAns = null;
                 try {
-                    String serverAns = client.openConnection("changePointsForLeague" + ":" + view.leagueChangePoints + ":" + view.newPointsWin
+                    serverAns = client.openConnection("changePointsForLeague" + ":" + view.leagueChangePoints + ":" + view.newPointsWin
                             + ":" + view.newPointsDraw + ":" + view.newPointsLoss + ":" + view.tieBreaker_goalDifference + ":" + view.tieBreaker_directResults);
-                    if (serverAns.equals("true")) {
-                        view.alert("Points policy was changed in league - " + view.leagueChangePoints, Alert.AlertType.INFORMATION);
-                    }
                 } catch (Exception e) {
                     view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
                 }
+                if (serverAns.equals("true")) {
+                    try {
+                        client.openConnection("checkEventLogs" + ":" + username + ":" + " Points policy was changed in league - " + view.leagueChangePoints);
+                    } catch (Exception e) {
+                        view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
+                    }
+                    view.alert("Points policy was changed in league - " + view.leagueChangePoints, Alert.AlertType.INFORMATION);
+                }
+            } else if (arg.equals("change game schedule policy")) {
+                String serverAns = null;
+                try {
+                    serverAns = client.openConnection("changeRoundsForLeague" + ":" + view.leagueChangeRounds + ":" + view.newRounds);
+                } catch (Exception e) {
+                    view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
+                }
+                if (serverAns.equals("true")) {
+                    try {
+                        client.openConnection("checkEventLogs" + ":" + username + ":" + " Game policy was changed in league - " + view.leagueChangeRounds);
+                    } catch (Exception e) {
+                        view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
+                    }
+                    view.alert("Game policy was changed in league - " + view.leagueChangeRounds, Alert.AlertType.INFORMATION);
+                }
+            } else if (arg.equals("get leagues in db")) {
+                String leaguesAns = null;
+                try {
+                    leaguesAns = client.openConnection("showLeaguesInSeason");
+                } catch (Exception e) {
+                    view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
+                }
+                String[] leagueList = leaguesAns.split(":");
+                for (int i = 0; i < leagueList.length; i++) {
+                    view.scheduleGames_leagueList.getItems().add(leagueList[i]);
+                }
+            } else if (arg.equals(view.leagueNameToSchedule)) {
+                String serverAns = null;
+                try {
+                    serverAns = client.openConnection("createScheduleToLeague" + ":" + view.leagueNameToSchedule);
+                } catch (Exception e) {
+                    view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
+                }
+                if (serverAns.equals("true")) {
+                    view.wasScheduleCreated = true;
+                    try {
+                        client.openConnection("checkEventLogs" + ":" + username + ":" + " New games scheduling created in the system");
+                    } catch (Exception e) {
+                        view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
+                    }
+                    view.alert("New games scheduling created", Alert.AlertType.INFORMATION);
+                } else {
+                    view.wasScheduleCreated = false;
+                    try {
+                        client.openConnection("checkErrorLogs" + ":" + username + ":" + " New games scheduling wasn't created in the system");
+                    } catch (Exception e) {
+                        view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
+                    }
+                    view.alert(serverAns, Alert.AlertType.WARNING);
+                }
             }
+            //---------------duplicated---------------------------------------------------
+            //need to check
+//            else if(arg instanceof Double){
+//                String sumOfIncome = String.valueOf(view.getSumOfIncome());
+//                Calendar cal = new GregorianCalendar();
+//                String year =  String.valueOf(cal.get(Calendar.YEAR) + 1);
+//                try{
+//                String serverAnswer = client.openConnection("checkIfSeasonExist"+":"+year);
+//                if(serverAnswer.equals("false")){
+//                    serverAnswer = client.openConnection("addSeason"+":"+year+":"+sumOfIncome);
+//                    if(serverAnswer.equals("added"))
+//                        view.setDoesSeasonExist(false);
+//                    else
+//                        view.setDoesSeasonExist(true);
+//                }else if(serverAnswer.equals("true")){
+//                    view.setDoesSeasonExist(true);
+//                }
+//                } catch (Exception e) {
+//                    view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
+//                }
+//            }
+//
+//            else if (arg.equals("get refs in db")) {
+//                try{
+//                String serverAns = client.openConnection("getAllReferees");
+//                String[] refList = serverAns.split(":");
+//                for (int i = 0; i < refList.length; i++) {
+//                    view.candidateRefs.getItems().add(refList[i]);
+//                }
+//                } catch (Exception e) {
+//                    view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
+//                }
+//            }
+//
+//            else if (arg.equals(view.refUsernameToNominate)) {
+//                try {
+//                    String serverAns = client.openConnection("inviteRefereeToJudge" + ":" + username + ":" + view.refUsernameToNominate);
+//                    if (serverAns.equals("true")) {
+//                        view.alert("Invite sent", Alert.AlertType.INFORMATION);
+//                    } else {
+//                        view.alert("Try Again", Alert.AlertType.WARNING);
+//                    }
+//                } catch (Exception e) {
+//                    view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
+//                }
+//            }
+//
+//            else if (arg.equals("load team requests")) {
+//                try {
+//                    String serverAns = client.openConnection("getTeamReqs" + ":" + username);
+//                    String[] reqList = serverAns.split(":");
+//                    for (int i = 0; i < reqList.length; i++) {
+//                        view.requestsList.getItems().add(reqList[i]);
+//                    }
+//                } catch (Exception e) {
+//                    view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
+//                }
+//            }
+//            else if(arg.equals(view.selectedReq)) {
+//                try {
+//                    String serverAns = client.openConnection("checkTeamRegistration" + ":" + username + ":" + view.selectedReq);
+//                    if (serverAns.equals("team was added successfully")) {
+//                        view.alert("team was added to chosen league", Alert.AlertType.INFORMATION);
+//                        view.wasTeamAdded = true;
+//                    } else {
+//                        view.alert("something went wrong, check your team has enough owners,coaches and players", Alert.AlertType.WARNING);
+//                        view.wasTeamAdded = false;
+//                    }
+//                } catch (Exception e) {
+//                    view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
+//                }
+//            }
+//            else if (arg.equals(view.getYearPicked())) {
+//                try {
+//                    String serverAns = client.openConnection("getCurrentSeason");
+//                    if (Integer.parseInt(serverAns) == view.getYearPicked()) {
+//                        view.setCurrentSeason(true);
+//                    } else {
+//                        view.setCurrentSeason(false);
+//                        view.alert("pick another season", Alert.AlertType.INFORMATION);
+//                    }
+//                } catch (Exception e) {
+//                    view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
+//                }
+//            }
+//            else if (arg.equals(view.getLeagueName())) {
+//                try {
+//                    String serverAns = client.openConnection("isLeagueExist" + ":" + view.getLeagueName());
+//                    if (serverAns.equals("true")) {
+//                        view.setLeagueExist(true);
+//                    } else {
+//                        view.setLeagueExist(false);
+//                    }
+//                } catch (Exception e) {
+//                    view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
+//                }
+//            }
+//            else if (arg.equals("add League")) {
+//                try {
+//                    String serverAns = client.openConnection("addLeagueToDB" + ":" + view.getNewLeagueDetails());
+//                    if (serverAns.equals("true")) {
+//                        view.alert("League added successfully", Alert.AlertType.INFORMATION);
+//                    } else {
+//                        view.alert("League wasn't added", Alert.AlertType.WARNING);
+//                    }
+//                } catch (Exception e) {
+//                    view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
+//                }
+//            }
+//
+//            else if(arg.equals("fill leagues and refs list")) {
+//                try {
+//                    String leaguesAns = client.openConnection("showLeaguesInSeason");
+//                    String[] leagueList = leaguesAns.split(":");
+//                    for (int i = 0; i < leagueList.length; i++) {
+//                        view.addRef_leagueList.getItems().add(leagueList[i]);
+//                    }
+//                    String refsAns = client.openConnection("showAllRefs");
+//                    String[] refsList = refsAns.split(":");
+//                    for (int i = 0; i < refsList.length; i++) {
+//                        view.addRef_refsList.getItems().add(refsList[i]);
+//                    }
+//                } catch (Exception e) {
+//                    view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
+//                }
+//            }
+//
+//            else if (arg.equals(view.selectedLeague + " " + view.selectedRef)) {
+//                try{
+//                String serverAns = client.openConnection("addRefToLeague"+":"+view.selectedLeague+":"+view.selectedRef);
+//                if(serverAns.equals("true")){
+//                    view.wasRefAddedToLeage = true;
+//                    view.alert("Referee added successfully to League", Alert.AlertType.INFORMATION);
+//                }
+//                else{
+//                    view.wasRefAddedToLeage = false;
+//                    view.alert("Referee wasn't added to League", Alert.AlertType.WARNING);
+//                }
+//                } catch (Exception e) {
+//                    view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
+//                }
+//            }
+            //need to check
+//            else if(arg.equals("show league list")){
+//                try {
+//                    String leaguesAns = client.openConnection("showLeaguesInSeason");
+//                    String[] leagueList = leaguesAns.split(":");
+//                    for (int i = 0; i < leagueList.length; i++) {
+//                        view.changeLeagePolicy.getItems().add(leagueList[i]);
+//                    }
+//                } catch (Exception e) {
+//                    view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
+//                }
+//            }
+            //need to check
+//            else if(arg.equals("change points policy")){
+//                try {
+//                    String serverAns = client.openConnection("changePointsForLeague" + ":" + view.leagueChangePoints + ":" + view.newPointsWin
+//                            + ":" + view.newPointsDraw + ":" + view.newPointsLoss + ":" + view.tieBreaker_goalDifference + ":" + view.tieBreaker_directResults);
+//                    if (serverAns.equals("true")) {
+//                        view.alert("Points policy was changed in league - " + view.leagueChangePoints, Alert.AlertType.INFORMATION);
+//                    }
+//                } catch (Exception e) {
+//                    view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
+//                }
+//            }
+            //need to check
+//            else if (arg.equals("change game schedule policy")) {
+//                try {
+//                    String serverAns = client.openConnection("changeRoundsForLeague" + ":" + view.leagueChangeRounds + ":" + view.newRounds);
+//                    if (serverAns.equals("true")) {
+//                        view.alert("Game policy was changed in league - " + view.leagueChangeRounds, Alert.AlertType.INFORMATION);
+//                    }
+//                } catch (Exception e) {
+//                    view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
+//                }
+//            }
+            //need to check
+//            else if (arg.equals("get leagues in db")) {
+//                try {
+//                    String leaguesAns = client.openConnection("showLeaguesInSeason");
+//                    String[] leagueList = leaguesAns.split(":");
+//                    for (int i = 0; i < leagueList.length; i++) {
+//                        view.scheduleGames_leagueList.getItems().add(leagueList[i]);
+//                    }
+//                } catch (Exception e) {
+//                    view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
+//                }
+//            }
+//            else if(arg.equals(view.leagueNameToSchedule)){
+//                try {
+//                    String serverAns = client.openConnection("createScheduleToLeague" + ":" + view.leagueNameToSchedule);
+//                    if (serverAns.equals("true")) {
+//                        view.wasScheduleCreated = true;
+//                        view.alert("New games scheduling created", Alert.AlertType.INFORMATION);
+//                    } else {
+//                        view.wasScheduleCreated = false;
+//                        view.alert(serverAns, Alert.AlertType.WARNING);
+//                    }
+//                } catch (Exception e) {
+//                    view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
+//                }
+//            }
+            //----------------------------------------------------------------------------------------------
 
-            else if (arg.equals("change game schedule policy")) {
-                try {
-                    String serverAns = client.openConnection("changeRoundsForLeague" + ":" + view.leagueChangeRounds + ":" + view.newRounds);
-                    if (serverAns.equals("true")) {
-                        view.alert("Game policy was changed in league - " + view.leagueChangeRounds, Alert.AlertType.INFORMATION);
-                    }
-                } catch (Exception e) {
-                    view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
-                }
-            }
-            else if (arg.equals("get leagues in db")) {
-                try {
-                    String leaguesAns = client.openConnection("showLeaguesInSeason");
-                    String[] leagueList = leaguesAns.split(":");
-                    for (int i = 0; i < leagueList.length; i++) {
-                        view.scheduleGames_leagueList.getItems().add(leagueList[i]);
-                    }
-                } catch (Exception e) {
-                    view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
-                }
-            }
-            else if(arg.equals(view.leagueNameToSchedule)){
-                try {
-                    String serverAns = client.openConnection("createScheduleToLeague" + ":" + view.leagueNameToSchedule);
-                    if (serverAns.equals("true")) {
-                        view.wasScheduleCreated = true;
-                        view.alert("New games scheduling created", Alert.AlertType.INFORMATION);
-                    } else {
-                        view.wasScheduleCreated = false;
-                        view.alert(serverAns, Alert.AlertType.WARNING);
-                    }
-                } catch (Exception e) {
-                    view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
-                }
-            }
             else if(arg.equals("get games of referee")){
                 try {
                     String serverAns = client.openConnection("getAllRefereeMatches" + ":" + username);
