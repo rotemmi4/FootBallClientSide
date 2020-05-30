@@ -1041,7 +1041,7 @@ public class View extends Observable implements IView{
             tm_addAsset.setDisable(false);
             tm_addToLeague.setDisable(false);
             tm_deleteAsset.setDisable(false);
-            tm_updateAsset.setDisable(false);
+            tm_updateAsset.setDisable(true);
             tm_changeStatus.setDisable(false);
         }
         //owner
@@ -1050,7 +1050,7 @@ public class View extends Observable implements IView{
             tm_addAsset.setDisable(false);
             tm_addToLeague.setDisable(false);
             tm_deleteAsset.setDisable(false);
-            tm_updateAsset.setDisable(false);
+            tm_updateAsset.setDisable(true);
             tm_changeStatus.setDisable(false);
         }
 
