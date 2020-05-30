@@ -96,9 +96,9 @@ public class View extends Observable implements IView{
      * =============================================================================================
      * =============================================================================================
      **/
-
     public Button login_signInBtn;
     public Button gotoRegister;
+    public Button gotoSearch;
     public TextField login_username_txtfld;
     public PasswordField login_password_txtfld;
     private boolean login_successful = false;
@@ -117,7 +117,6 @@ public class View extends Observable implements IView{
 
     public void displayRegisterWindow(ActionEvent actionEvent) {
         switchTo(actionEvent , "Register.fxml" , 800, 484, "Register Your User");
-
         register_occupation_choiceBox.getItems().addAll("Fan", "TeamMember" , "Referee" , "Association");
 
         register_verification_txtfield.textProperty().addListener( ((observable, oldValue, newValue) -> {
@@ -237,6 +236,8 @@ public class View extends Observable implements IView{
 
     public void backToLoginScreen(ActionEvent actionEvent){
         switchTo(actionEvent, "Guest.fxml", 800 , 484, "Welcome");
+        gotoSearch.setDisable(true);
+
     }
 
     public ArrayList<String> getLoginDetails() {
@@ -366,6 +367,8 @@ public class View extends Observable implements IView{
             notifyObservers("register");
             if(validate_user){
                 switchTo(actionEvent, "Guest.fxml", 600 , 400, "Welcome");
+                gotoSearch.setDisable(true);
+
             }
         }
     }
@@ -413,6 +416,8 @@ public class View extends Observable implements IView{
 
     public void backtoLogin (ActionEvent actionEvent) {
         switchTo(actionEvent,"Guest.fxml" , 600, 400 , "Welcome");
+        gotoSearch.setDisable(true);
+
     }
 
     public void addLeagueToCurrentSeason (ActionEvent ae){
@@ -1232,7 +1237,7 @@ public class View extends Observable implements IView{
 
     ///////////////////////////////////team member add team to league//////////////////////////////
     public ListView<String> requestLeagueList = new ListView<>();
-    public String leagueToAdd;
+    public String leagueToAdd1;
 
     public void TMaddToLeague(ActionEvent actionEvent){
         requestLeagueList = new ListView<>();
@@ -1243,8 +1248,8 @@ public class View extends Observable implements IView{
 
     public void addToLeagueRequest(){
 
-        leagueToAdd = requestLeagueList.getSelectionModel().getSelectedItem();
-        if(leagueToAdd != null && !leagueToAdd.isEmpty()){
+        leagueToAdd1 = requestLeagueList.getSelectionModel().getSelectedItem();
+        if(leagueToAdd1 != null && !leagueToAdd1.isEmpty()){
             setChanged();
             notifyObservers("add team to league request");
 

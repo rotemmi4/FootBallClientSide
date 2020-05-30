@@ -755,16 +755,15 @@ public class Presenter implements Observer {
             }
 
             if (arg.equals("add team to league request")) {
+                String ans=null;
                 try {
-                    String ans = client.openConnection("addTeamToLeagueRequest" + ":" + view.ownerteamName + ":" + view.tm_addToLeague);
-                    if (ans=="true"){
-                        view.alert("request sent successfully", Alert.AlertType.ERROR);
+                    ans = client.openConnection("addTeamToLeagueRequest" + ":" + view.ownerteamName + ":" + view.leagueToAdd1);
+                    if (ans.equals("true")){
+                        view.alert("request sent successfully", Alert.AlertType.INFORMATION);
                     }
                 } catch (Exception e) {
                     view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
                 }
-
-
             }
 
 
