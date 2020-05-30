@@ -30,6 +30,7 @@ public class Main extends Application {
         View.getInstance().setStageCloseEvent(primaryStage);
 
         primaryStage.setScene(new Scene(root, 710, 636));
+        View.getInstance().gotoSearch.setDisable(true);
         primaryStage.show();
 
     }
