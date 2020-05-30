@@ -176,9 +176,6 @@ public class Presenter implements Observer {
             else if(arg.equals(view.approvedReq)){
                 String ans=client.openConnection("refApprovesToJudge"+":"+this.username+":"+view.approvedReq);
             }
-            else if(arg.equals("disconnect")){
-                client.closeConnection();
-            }
 
 
 
@@ -228,7 +225,7 @@ public class Presenter implements Observer {
                 }
             }
             else if(arg.equals(view.selectedReq)){
-                String serverAns = client.openConnection("checkTeamRegistration"+":"+ view.selectedReq);
+                String serverAns = client.openConnection("checkTeamRegistration"+":"+ username +":"+ view.selectedReq);
                 if(serverAns.equals("team was added successfully")){
                     view.alert("team was added to chosen league", Alert.AlertType.INFORMATION);
                     view.wasTeamAdded = true;
@@ -327,8 +324,131 @@ public class Presenter implements Observer {
                     view.alert(serverAns, Alert.AlertType.WARNING);
                 }
             }
+            else if(arg.equals("get games of referee")){
+                String serverAns = client.openConnection("getAllRefereeMatches"+":"+username);
+                String noDateString = serverAns.substring(22);
+                String[] gameList = serverAns.split("~");
+                if(gameList.length>0){
+                    String[] details = noDateString.split(" Against | at | - Main Referee - ");
+                    String judge = details[details.length-1];
+                    if(judge.equals(username)){
+                        view.isMainReferee = true;
+                    }
+                    else view.isMainReferee = false;
+                }
 
-
+                for(int i = 0; i<gameList.length; i++){
+                    view.gamesList.getItems().add(gameList[i]);
+                }
+            }
+            else if(arg.equals(view.gameToManage)){
+                String[] gameDetails = view.gameToManage.split("- ");
+                String[] teams = gameDetails[1].split(" Against | at ");
+                String serverAns = client.openConnection("getPlayersToManageGame"+":"+teams[0]+":"+teams[1]);
+                String[] playerList = serverAns.split(":");
+                for (int i = 0; i < playerList.length; i++) {
+                    view.playerList1.getItems().add(playerList[i]);
+                    view.playerList2.getItems().add(playerList[i]);
+                }
+            }
+            else if(arg.equals(view.playerScored)){
+                String[] gameDetails = view.gameToManage.split("- ");
+                String[] teams = gameDetails[1].split(" Against | at ");
+                String[] playerDetails = view.playerScored.split("- ");
+                playerDetails[0] = playerDetails[0].trim();
+                String serverAns = client.openConnection("addGoalEvent"+":"+teams[0]+":"+teams[1]+":"+username+":"
+                        +playerDetails[0]+"-"+playerDetails[1]+":"+"Goal");
+                if(serverAns.equals("game hasn't started")){
+                    view.alert(serverAns, Alert.AlertType.WARNING);
+                }
+                else if(serverAns.equals("game is over")){
+                    view.alert(serverAns, Alert.AlertType.WARNING);
+                }
+            }
+            else if(arg.equals(view.playerOffside)){
+                String[] gameDetails = view.gameToManage.split("- ");
+                String[] teams = gameDetails[1].split(" Against | at ");
+                String[] playerDetails = view.playerOffside.split("- ");
+                playerDetails[0] = playerDetails[0].trim();
+                String serverAns = client.openConnection("addOffsideEvent"+":"+teams[0]+":"+teams[1]+":"+username+":"
+                        +playerDetails[0]+"-"+playerDetails[1]+":"+"Offside");
+                if(serverAns.equals("game hasn't started")){
+                    view.alert(serverAns, Alert.AlertType.WARNING);
+                }
+                else if(serverAns.equals("game is over")){
+                    view.alert(serverAns, Alert.AlertType.WARNING);
+                }
+            }
+            else if(arg.equals(view.playerFoul)){
+                String[] gameDetails = view.gameToManage.split("- ");
+                String[] teams = gameDetails[1].split(" Against | at ");
+                String[] playerDetails = view.playerFoul.split("- ");
+                playerDetails[0] = playerDetails[0].trim();
+                String serverAns = client.openConnection("addOffsideEvent"+":"+teams[0]+":"+teams[1]+":"+username+":"
+                        +playerDetails[0]+"-"+playerDetails[1]+":"+"Foul");
+                if(serverAns.equals("game hasn't started")){
+                    view.alert(serverAns, Alert.AlertType.WARNING);
+                }
+                else if(serverAns.equals("game is over")){
+                    view.alert(serverAns, Alert.AlertType.WARNING);
+                }
+            }
+            else if(arg.equals(view.playerYellow)){
+                String[] gameDetails = view.gameToManage.split("- ");
+                String[] teams = gameDetails[1].split(" Against | at ");
+                String[] playerDetails = view.playerYellow.split("- ");
+                playerDetails[0] = playerDetails[0].trim();
+                String serverAns = client.openConnection("addOffsideEvent"+":"+teams[0]+":"+teams[1]+":"+username+":"
+                        +playerDetails[0]+"-"+playerDetails[1]+":"+"Yellow Card");
+                if(serverAns.equals("game hasn't started")){
+                    view.alert(serverAns, Alert.AlertType.WARNING);
+                }
+                else if(serverAns.equals("game is over")){
+                    view.alert(serverAns, Alert.AlertType.WARNING);
+                }
+            }
+            else if(arg.equals(view.playerRed)){
+                String[] gameDetails = view.gameToManage.split("- ");
+                String[] teams = gameDetails[1].split(" Against | at ");
+                String[] playerDetails = view.playerRed.split("- ");
+                playerDetails[0] = playerDetails[0].trim();
+                String serverAns = client.openConnection("addOffsideEvent"+":"+teams[0]+":"+teams[1]+":"+username+":"
+                        +playerDetails[0]+"-"+playerDetails[1]+":"+"Red Card");
+                if(serverAns.equals("game hasn't started")){
+                    view.alert(serverAns, Alert.AlertType.WARNING);
+                }
+                else if(serverAns.equals("game is over")){
+                    view.alert(serverAns, Alert.AlertType.WARNING);
+                }
+            }
+            else if(arg.equals(view.playerInjured)){
+                String[] gameDetails = view.gameToManage.split("- ");
+                String[] teams = gameDetails[1].split(" Against | at ");
+                String[] playerDetails = view.playerInjured.split("- ");
+                playerDetails[0] = playerDetails[0].trim();
+                String serverAns = client.openConnection("addOffsideEvent"+":"+teams[0]+":"+teams[1]+":"+username+":"
+                        +playerDetails[0]+"-"+playerDetails[1]+":"+"Injury");
+                if(serverAns.equals("game hasn't started")){
+                    view.alert(serverAns, Alert.AlertType.WARNING);
+                }
+                else if(serverAns.equals("game is over")){
+                    view.alert(serverAns, Alert.AlertType.WARNING);
+                }
+            }
+            else if(arg.equals(view.playerOut+"~"+view.playerIn)){
+                String[] gameDetails = view.gameToManage.split("- ");
+                String[] teams = gameDetails[1].split(" Against | at ");
+                String playerout = view.playerOut.split(" - ")[1];
+                String playerin = view.playerIn.split(" - ")[1];
+                String serverAns = client.openConnection("addSubstituteEvent"+":"+teams[0]+":"+teams[1]+":"+username+":"
+                        +playerout+"-"+playerin+":"+"Substitute");
+                if(serverAns.equals("game hasn't started")){
+                    view.alert(serverAns, Alert.AlertType.WARNING);
+                }
+                else if(serverAns.equals("game is over")){
+                    view.alert(serverAns, Alert.AlertType.WARNING);
+                }
+            }
 
 
 /*

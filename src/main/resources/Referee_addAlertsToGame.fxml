@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="1001.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Button fx:id="goalEvent" layoutX="443.0" layoutY="75.0" mnemonicParsing="false" onAction="#addGoalEventToGame" text="Add Goal Event" />
+      <ListView fx:id="playerList1" layoutX="26.0" layoutY="61.0" prefHeight="277.0" prefWidth="374.0" />
+      <Label layoutX="26.0" layoutY="14.0" text="Choose Player related to event :" />
+      <Button fx:id="backToView" layoutX="26.0" layoutY="353.0" mnemonicParsing="false" onAction="#backToViewGames" text="Back" />
+      <Button fx:id="offsideEvent" layoutX="443.0" layoutY="113.0" mnemonicParsing="false" onAction="#addOffsideEventToGame" text="Add Offside Event" />
+      <Button fx:id="foulEvent" layoutX="444.0" layoutY="153.0" mnemonicParsing="false" onAction="#addFoulEventToGame" text="Add Foul Event" />
+      <Button fx:id="yellowEvent" layoutX="444.0" layoutY="189.0" mnemonicParsing="false" onAction="#addYellowEventToGame" text="Add Yellow Card Event" />
+      <Button fx:id="redEvent" layoutX="444.0" layoutY="229.0" mnemonicParsing="false" onAction="#addRedEventToGame" text="Add Red Card Event" />
+      <Button fx:id="injuryEvent" layoutX="444.0" layoutY="265.0" mnemonicParsing="false" onAction="#addInjuryEventToGame" text="Add Injury Event" />
+      <Label layoutX="26.0" layoutY="38.0" text="(if substitute event pick player coming off the pitch)">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Label>
+      <ListView fx:id="playerList2" layoutX="606.0" layoutY="60.0" prefHeight="284.0" prefWidth="374.0" />
+      <Label layoutX="606.0" layoutY="12.0" text="For Substitue event:">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Label>
+      <Label layoutX="606.0" layoutY="36.0" text="Pick player coming on the pitch" />
+      <Button fx:id="subsEvent" onAction="#addSubstituteEventToGame" layoutX="441.0" layoutY="299.0" mnemonicParsing="false" text="Add Substitute Event" />
+   </children>
+</AnchorPane>
