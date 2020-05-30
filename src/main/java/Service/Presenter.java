@@ -164,7 +164,7 @@ public class Presenter implements Observer {
                         view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
                     }
                 } else if (arg.equals("disconnect")) {
-                    client.closeConnection();
+                    //client.closeConnection();
                 }
                 /**
                  * Association
@@ -247,7 +247,7 @@ public class Presenter implements Observer {
                     if (serverAns.equals("team was added successfully")) {
                         view.alert("team was added to chosen league", Alert.AlertType.INFORMATION);
                         try {
-                            client.openConnection("checkEventLogs" + ":" + username + ":" + " team was added to chosen league");
+                            client.openConnection("checkEventLogs" + ":" + username + ":" + " team "+teamName+" was added to league "+leagueName);
                         } catch (Exception e) {
                             view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
                         }
