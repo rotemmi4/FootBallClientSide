@@ -14,7 +14,7 @@ public class Client extends Observable {
     int serverPortNumber = 9876;
     Socket socket = null;
 
-    public String openConnection(String data) throws Exception {
+    public String openConnection(String data) throws Exception{
         String serverResponse="";
         try {
             socket = new Socket(serverName, serverPortNumber);
