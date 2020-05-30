@@ -99,7 +99,6 @@ public class View extends Observable implements IView{
 
     public Button login_signInBtn;
     public Button gotoRegister;
-    public Button gotoSearch;
     public TextField login_username_txtfld;
     public PasswordField login_password_txtfld;
     private boolean login_successful = false;

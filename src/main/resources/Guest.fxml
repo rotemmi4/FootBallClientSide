@@ -18,7 +18,6 @@
       <PasswordField fx:id="login_password_txtfld" layoutX="257.0" layoutY="159.0" />
       <Button fx:id="login_signInBtn" layoutX="419.0" layoutY="128.0" mnemonicParsing="false" onAction="#pressedLogInBtn" prefHeight="58.0" prefWidth="73.0" text="Log-In !" />
       <Button fx:id="gotoRegister" layoutX="191.0" layoutY="273.0" mnemonicParsing="false" onAction="#displayRegisterWindow" text="Not Registered? Click here To Create a user !" />
-      <Button fx:id="gotoSearch" layoutX="221.0" layoutY="318.0" mnemonicParsing="false" text="Search something in our system !" />
       <ProgressBar fx:id="progBar" layoutX="292.0" layoutY="212.0" prefHeight="25.0" prefWidth="200.0" progress="0.0" />
       <Label layoutX="195.0" layoutY="213.0" text="Login Progress :" />
 
