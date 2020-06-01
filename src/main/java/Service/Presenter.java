@@ -520,7 +520,7 @@ public class Presenter implements Observer {
 
             if(arg.equals("alert screen")){
                 String s="getAlerts"+":"+username;
-                String ans= null;
+                String ans="";
                 try {
                     ans = client.openConnection(s);
                 } catch (Exception e) {
@@ -532,6 +532,30 @@ public class Presenter implements Observer {
                 }
                 if(!alerts.isEmpty()) {
                     view.addAlerts(alerts);
+                }
+            }
+            if(arg.equals("Register to Notification")){
+                String s="subscribe"+":"+username;
+                String ans="";
+                try {
+                    ans = client.openConnection(s);
+                    if(ans.equals("true")){
+                        view.alert("Succeeded!!", Alert.AlertType.INFORMATION);
+                    }
+                } catch (Exception e) {
+                    view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
+                }
+            }
+            if(arg.equals("Unregister to Notification")){
+                String s="unsubscribe"+":"+username;
+                String ans="";
+                try {
+                    ans = client.openConnection(s);
+                    if(ans.equals("true")){
+                        view.alert("Succeeded!!", Alert.AlertType.INFORMATION);
+                    }
+                } catch (Exception e) {
+                    view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
                 }
             }
             //-------------------------------------------------------------------------------------------------
