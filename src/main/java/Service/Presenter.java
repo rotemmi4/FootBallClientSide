@@ -447,6 +447,7 @@ public class Presenter implements Observer {
                 String newStatus = null;
                 try {
                     newStatus = client.openConnection("changeTeamStatus:" + teamName);
+                    view.alert(newStatus, Alert.AlertType.INFORMATION);
                 } catch (Exception e) {
                     view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
                 }
