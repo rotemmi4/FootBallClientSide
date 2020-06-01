@@ -1,15 +1,12 @@
 package Service;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.Observable;
 
-/**
- * This class implements java socket client
- * @author pankaj
- *
- */
-public class Client extends Observable{
+public class ClientTest {
     String serverName = "132.72.65.132"; //localhost  OR  132.72.65.132
     int serverPortNumber = 9876;
     Socket socket = null;
