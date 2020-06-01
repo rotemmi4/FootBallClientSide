@@ -240,14 +240,17 @@ public class Presenter implements Observer {
             } else if (arg.equals(view.selectedReq)) {
                 String serverAns = null;
                 try {
-                    serverAns = client.openConnection("checkTeamRegistration" + ":" + view.selectedReq);
+                     serverAns = client.openConnection("checkTeamRegistration" + ":" + username + ":" + view.selectedReq);
                 } catch (Exception e) {
                     view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
                 }
+                String[] separated = view.selectedReq.split("[-,]");
+                teamName = separated[2].trim();
+                leagueName = separated[4].trim();
                 if (serverAns.equals("team was added successfully")) {
                     view.alert("team was added to chosen league", Alert.AlertType.INFORMATION);
                     try {
-                        client.openConnection("checkEventLogs" + ":" + username + ":" + " team was added to chosen league");
+                        client.openConnection("checkEventLogs" + ":" + username + ":" + " team "+teamName+" was added to chosen league "+leagueName);
                     } catch (Exception e) {
                         view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
                     }
@@ -255,7 +258,7 @@ public class Presenter implements Observer {
                 } else {
                     view.alert("something went wrong, check your team has enough owners,coaches and players", Alert.AlertType.WARNING);
                     try {
-                        client.openConnection("checkErrorLogs" + ":" + username + ":" + " something went wrong team was'nt added to chosen league");
+                        client.openConnection("checkErrorLogs" + ":" + username + ":" + " something went wrong team "+teamName+" was'nt added to chosen league "+leagueName);
                     } catch (Exception e) {
                         view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
                     }
@@ -293,16 +296,18 @@ public class Presenter implements Observer {
                 } catch (Exception e) {
                     view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
                 }
+                String[] splitted=view.getNewLeagueDetails().split(":");
+                leagueName=splitted[1];
                 if (serverAns.equals("true")) {
                     try {
-                        client.openConnection("checkEventLogs" + ":" + username + ":" + " League added to the system");
+                        client.openConnection("checkEventLogs" + ":" + username + ":" + " League "+leagueName +" added to the system");
                     } catch (Exception e) {
                         view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
                     }
                     view.alert("League added successfully", Alert.AlertType.INFORMATION);
                 } else {
                     try {
-                        client.openConnection("checkErrorLogs" + ":" + username + ":" + " League wasn't added to the system");
+                        client.openConnection("checkErrorLogs" + ":" + username + ":" + " League "+leagueName+  " wasn't added to the system");
                     } catch (Exception e) {
                         view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
                     }
@@ -339,7 +344,7 @@ public class Presenter implements Observer {
                 if (serverAns.equals("true")) {
                     view.wasRefAddedToLeage = true;
                     try {
-                        client.openConnection("checkEventLogs" + ":" + username + ":" + " added Referee successfully to League");
+                        client.openConnection("checkEventLogs" + ":" + username + ":" + " added Referee "+view.selectedRef+" successfully to League "+view.selectedLeague);
                     } catch (Exception e) {
                         view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
                     }
@@ -347,7 +352,7 @@ public class Presenter implements Observer {
                 } else {
                     view.wasRefAddedToLeage = false;
                     try {
-                        client.openConnection("checkEventLogs" + ":" + username + ":" + " added Referee to League wasn't successfully");
+                        client.openConnection("checkEventLogs" + ":" + username + ":" + " added Referee "+view.selectedRef+" to League "+view.selectedLeague+" wasn't successfully");
                     } catch (Exception e) {
                         view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
                     }
@@ -374,7 +379,7 @@ public class Presenter implements Observer {
                 }
                 if (serverAns.equals("true")) {
                     try {
-                        client.openConnection("checkEventLogs" + ":" + username + ":" + " Points policy was changed in league - " + view.leagueChangePoints);
+                        client.openConnection("checkEventLogs" + ":" + username + ":" + " Points policy was changed in league - " + view.leagueChangePoints+" win- "+view.newPointsWin+" draw- "+view.newPointsDraw+" loss- "+view.newPointsLoss);
                     } catch (Exception e) {
                         view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
                     }
@@ -528,6 +533,7 @@ public class Presenter implements Observer {
             }
 
             if (arg.equals("courtByCity")) {
+                courts.clear();
                 ArrayList<String> details = view.getTeamDetails();
                 String ans = null;
                 try {
