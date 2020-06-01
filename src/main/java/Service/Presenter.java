@@ -89,7 +89,7 @@ public class Presenter implements Observer {
                 }
                 String[] splittedAns = ans.split(":");
                 username = details.get(0);
-                if (ans.equals("TeamMember")) {
+                if (splittedAns[0].equals("TeamMember")) {
                     teamName = splittedAns[5];
                 }
                 if (ans.equals("login failed, user doesn't exist")) {
