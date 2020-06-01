@@ -83,7 +83,7 @@ public class Presenter implements Observer {
                 }
                 String[] splittedAns = ans.split(":");
                 username = details.get(0);
-                if (ans.equals("TeamMember")) {
+                if (splittedAns[0].equals("TeamMember")) {
                     teamName = splittedAns[5];
                 }
                 if (ans.equals("login failed, user doesn't exist")) {
@@ -396,7 +396,7 @@ public class Presenter implements Observer {
                 teamName=splittedans[0];
                 if (splittedans[1].equals("Remove Successful")) {
                     view.alert("Remove Successful", Alert.AlertType.INFORMATION);
-                    if(splittedans[2].equals("false")) {
+                    if(splittedans[2].equals("none")) {
                         try {
                             client.openConnection("checkEventLogs" + ":" + username + ":" + view.getAsserNameToRemove() + " removed from the team " + teamName);
                         } catch (Exception e) {
@@ -441,14 +441,14 @@ public class Presenter implements Observer {
                     } catch (Exception e) {
                         view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
                     }
-                    view.alert("Remove Successful", Alert.AlertType.INFORMATION);
+                    view.alert("Status Active", Alert.AlertType.INFORMATION);
                 } else if (newStatus.equals("false")) {
                     try {
                         client.openConnection("checkEventLogs" + ":" + username + ":" + teamName + " status is inactive");
                     } catch (Exception e) {
                         view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
                     }
-                    view.alert("Remove isn't Successful", Alert.AlertType.INFORMATION);
+                    view.alert("Status inactive", Alert.AlertType.INFORMATION);
                 }
                 view.setTeamStatus(newStatus);
             }
