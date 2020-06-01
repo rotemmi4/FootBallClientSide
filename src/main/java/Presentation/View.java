@@ -1227,6 +1227,10 @@ public class View extends Observable implements IView{
     public void addCoach(){
         coachList.clear();
         assetToAdd= "Coach";
+        managerP_CHKBX.setDisable(true);
+        playerP_CHKBX.setDisable(true);
+        coachP_CHKBX.setDisable(true);
+        ownerP_CHKBX.setDisable(true);
         if(coachList.isEmpty()){  //emptyList
             setChanged();
             notifyObservers("get available coachs");
@@ -1240,6 +1244,10 @@ public class View extends Observable implements IView{
     public void addPlayer(){
         playerList.clear();
         assetToAdd= "Player";
+        managerP_CHKBX.setDisable(true);
+        playerP_CHKBX.setDisable(true);
+        coachP_CHKBX.setDisable(true);
+        ownerP_CHKBX.setDisable(true);
         if(playerList.isEmpty()){  //emptyList
             setChanged();
             notifyObservers("get available players");
@@ -1253,6 +1261,10 @@ public class View extends Observable implements IView{
     public void addOwner(){
         ownerList.clear();
         assetToAdd= "Owner";
+        managerP_CHKBX.setDisable(true);
+        playerP_CHKBX.setDisable(true);
+        coachP_CHKBX.setDisable(true);
+        ownerP_CHKBX.setDisable(true);
         if(ownerList.isEmpty()){  //emptyList
             setChanged();
             notifyObservers("get available owners");

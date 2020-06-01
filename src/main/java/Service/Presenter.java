@@ -405,7 +405,7 @@ public class Presenter implements Observer {
                     }
                     else{
                         try {
-                            client.openConnection("checkEventLogs" + ":" + username + ":" + view.getAsserNameToRemove()+splittedans[2]+ " removed from the team " + teamName);
+                            client.openConnection("checkEventLogs" + ":" + username + ":" +splittedans[2]+ " removed from the team " + teamName);
                         } catch (Exception e) {
                             view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
                         }
