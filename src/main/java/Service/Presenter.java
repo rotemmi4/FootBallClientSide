@@ -184,12 +184,12 @@ public class Presenter implements Observer {
              * LogOut
              */
             if(arg.equals("LogOut")){
-                username="";
                 try {
                     String ans = client.openConnection("logout" + ":" + this.username );
                 } catch (Exception e) {
                     view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
                 }
+                username="";
             }
             /**
              * approvedReq
@@ -657,7 +657,7 @@ public class Presenter implements Observer {
             } else if (arg.equals(view.selectedReq)) {
                 String serverAns = null;
                 try {
-                    serverAns = client.openConnection("checkTeamRegistration" + ":" + view.selectedReq);
+                    serverAns = client.openConnection("checkTeamRegistration" + ":" + username + ":" + view.selectedReq);
                 } catch (Exception e) {
                     view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
                 }
@@ -1059,24 +1059,26 @@ public class Presenter implements Observer {
             else if(arg.equals("get games of referee")){
                 try {
                     String serverAns = client.openConnection("getAllRefereeMatches" + ":" + username);
-                    String noDateString = serverAns.substring(22);
-                    String[] gameList = serverAns.split("~");
-                    if (gameList.length > 0) {
-                        String[] details = noDateString.split(" Against | at | - Main Referee - ");
-                        String judge = details[details.length - 1];
-                        if (judge.equals(username)) {
-                            view.isMainReferee = true;
+                    if(serverAns != null && serverAns.length()>0) {
+                        String noDateString = serverAns.substring(22);
+                        String[] gameList = serverAns.split("~");
+                        if (gameList.length > 0) {
+                            String[] details = noDateString.split(" Against | at | - Main Referee - ");
+                            String judge = details[details.length - 1];
+                            if (judge.equals(username)) {
+                                view.isMainReferee = true;
+                            } else {
+                                view.isMainReferee = false;
+                            }
+                            for (int i = 0; i < gameList.length; i++) {
+                                view.gamesList.getItems().add(gameList[i]);
+                            }
                         } else {
-                            view.isMainReferee = false;
+                            view.alert("this referee is not assigned to any matches", Alert.AlertType.WARNING);
                         }
-                        for (int i = 0; i < gameList.length; i++) {
-                            view.gamesList.getItems().add(gameList[i]);
-                        }
-                    }else{
+                    }else {
                         view.alert("this referee is not assigned to any matches", Alert.AlertType.WARNING);
                     }
-
-
                 } catch (Exception e) {
                     view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
                 }
