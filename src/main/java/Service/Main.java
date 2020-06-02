@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Main extends Application {
@@ -46,7 +47,7 @@ public class Main extends Application {
             try {
                 // Create a server socket
                 socket = new Socket("132.72.65.132",9876);
-
+                String loginUser=presenter.getUsername();
                 // Listen for a connection request
 
                 // Create data input and output streams
@@ -56,8 +57,12 @@ public class Main extends Application {
                 while (true) {
                     // Receive message from the client
                     String message = input.readLine();
-                    if(message.equals("test Alert")){
-                        System.out.println(message);
+                    if(message.contains("ALERT")){
+                        String[]s=message.split(",,,");
+                        ArrayList<String> add=transferStringToArray(s[2]);
+                        if(add.contains(loginUser)) {
+                            System.out.println(s[1]);
+                        }
                     }
                 }
             }
@@ -72,5 +77,16 @@ public class Main extends Application {
 
     public static void main(String[] args) throws IOException {
         launch(args);
+    }
+
+    public static ArrayList<String> transferStringToArray(String str){
+        ArrayList<String> arr=new ArrayList<String>();
+        String[]split=str.split(",,");
+        for (String s:split) {
+            if(!arr.contains(s)){
+                arr.add(s);
+            }
+        }
+        return arr;
     }
 }

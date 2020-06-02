@@ -250,6 +250,8 @@ public class View extends Observable implements IView{
     public void backToLoginScreen(ActionEvent actionEvent){
         switchTo(actionEvent, "Guest.fxml", 800 , 484, "Welcome");
         gotoSearch.setDisable(true);
+        setChanged();
+        notifyObservers("LogOut");
 
     }
 
@@ -430,6 +432,8 @@ public class View extends Observable implements IView{
     public void backtoLogin (ActionEvent actionEvent) {
         switchTo(actionEvent,"Guest.fxml" , 600, 400 , "Welcome");
         gotoSearch.setDisable(true);
+        setChanged();
+        notifyObservers("LogOut");
 
 
     }

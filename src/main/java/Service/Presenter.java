@@ -36,6 +36,11 @@ public class Presenter implements Observer {
         return userType;
     }
 
+    public String getUsername(){
+        return username;
+    }
+
+
     @Override
     public void update(Observable o, Object arg) {
         /**
@@ -169,6 +174,12 @@ public class Presenter implements Observer {
                         view.refsProposals.getItems().add(splittedAns[i]);
                     }
                 }
+            }
+            /**
+             * LogOut
+             */
+            if(arg.equals("LogOut")){
+                username="";
             }
             /**
              * approvedReq
