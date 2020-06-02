@@ -47,7 +47,7 @@ public class Main extends Application {
             try {
                 // Create a server socket
                 socket = new Socket("132.72.65.132",9876);
-                String loginUser=presenter.getUsername();
+
                 // Listen for a connection request
 
                 // Create data input and output streams
@@ -56,8 +56,10 @@ public class Main extends Application {
 
                 while (true) {
                     // Receive message from the client
+
                     String message = input.readLine();
                     if(message.contains("ALERT")){
+                        String loginUser=presenter.getUsername();
                         String[]s=message.split(",,,");
                         ArrayList<String> add=transferStringToArray(s[2]);
                         if(add.contains(loginUser)) {
