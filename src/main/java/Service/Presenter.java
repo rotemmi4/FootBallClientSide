@@ -24,6 +24,7 @@ public class Presenter implements Observer {
     private ArrayList<String> managersInDB = new ArrayList<String>();
     private ArrayList<String> teamAssets = new ArrayList<String>();
     private ArrayList<String> alerts=new ArrayList<String>();
+    private Date startGameTime;
 
 
     public Presenter(Client client, View view) {
@@ -847,6 +848,9 @@ public class Presenter implements Observer {
                     view.alert(serverAns, Alert.AlertType.WARNING);
                 }
             }
+            else if (arg.equals("init start game time")){
+                startGameTime = new Date();
+            }
             //---------------duplicated---------------------------------------------------
             //need to check
 //            else if(arg instanceof Double){
@@ -1062,12 +1066,17 @@ public class Presenter implements Observer {
                         String judge = details[details.length - 1];
                         if (judge.equals(username)) {
                             view.isMainReferee = true;
-                        } else view.isMainReferee = false;
+                        } else {
+                            view.isMainReferee = false;
+                        }
+                        for (int i = 0; i < gameList.length; i++) {
+                            view.gamesList.getItems().add(gameList[i]);
+                        }
+                    }else{
+                        view.alert("this referee is not assigned to any matches", Alert.AlertType.WARNING);
                     }
 
-                    for (int i = 0; i < gameList.length; i++) {
-                        view.gamesList.getItems().add(gameList[i]);
-                    }
+
                 } catch (Exception e) {
                     view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
                 }
@@ -1092,8 +1101,9 @@ public class Presenter implements Observer {
                     String[] teams = gameDetails[1].split(" Against | at ");
                     String[] playerDetails = view.playerScored.split("- ");
                     playerDetails[0] = playerDetails[0].trim();
+                    int minute = getGameMinute();
                     String serverAns = client.openConnection("addGoalEvent" + ":" + teams[0] + ":" + teams[1] + ":" + username + ":"
-                            + playerDetails[0] + "-" + playerDetails[1] + ":" + "Goal");
+                            + playerDetails[0] + "-" + playerDetails[1] + ":" + "Goal" + ":" + minute);
                     if (serverAns.equals("game hasn't started")) {
                         view.alert(serverAns, Alert.AlertType.WARNING);
                     } else if (serverAns.equals("game is over")) {
@@ -1110,8 +1120,9 @@ public class Presenter implements Observer {
                     String[] teams = gameDetails[1].split(" Against | at ");
                     String[] playerDetails = view.playerOffside.split("- ");
                     playerDetails[0] = playerDetails[0].trim();
+                    int minute = getGameMinute();
                     String serverAns = client.openConnection("addOffsideEvent" + ":" + teams[0] + ":" + teams[1] + ":" + username + ":"
-                            + playerDetails[0] + "-" + playerDetails[1] + ":" + "Offside");
+                            + playerDetails[0] + "-" + playerDetails[1] + ":" + "Offside" + ":" + minute);
                     if (serverAns.equals("game hasn't started")) {
                         view.alert(serverAns, Alert.AlertType.WARNING);
                     } else if (serverAns.equals("game is over")) {
@@ -1127,8 +1138,9 @@ public class Presenter implements Observer {
                     String[] teams = gameDetails[1].split(" Against | at ");
                     String[] playerDetails = view.playerFoul.split("- ");
                     playerDetails[0] = playerDetails[0].trim();
+                    int minute = getGameMinute();
                     String serverAns = client.openConnection("addOffsideEvent" + ":" + teams[0] + ":" + teams[1] + ":" + username + ":"
-                            + playerDetails[0] + "-" + playerDetails[1] + ":" + "Foul");
+                            + playerDetails[0] + "-" + playerDetails[1] + ":" + "Foul" + ":" + minute);
                     if (serverAns.equals("game hasn't started")) {
                         view.alert(serverAns, Alert.AlertType.WARNING);
                     } else if (serverAns.equals("game is over")) {
@@ -1144,8 +1156,9 @@ public class Presenter implements Observer {
                     String[] teams = gameDetails[1].split(" Against | at ");
                     String[] playerDetails = view.playerYellow.split("- ");
                     playerDetails[0] = playerDetails[0].trim();
+                    int minute = getGameMinute();
                     String serverAns = client.openConnection("addOffsideEvent" + ":" + teams[0] + ":" + teams[1] + ":" + username + ":"
-                            + playerDetails[0] + "-" + playerDetails[1] + ":" + "Yellow Card");
+                            + playerDetails[0] + "-" + playerDetails[1] + ":" + "Yellow Card" + ":" + minute);
                     if (serverAns.equals("game hasn't started")) {
                         view.alert(serverAns, Alert.AlertType.WARNING);
                     } else if (serverAns.equals("game is over")) {
@@ -1161,8 +1174,9 @@ public class Presenter implements Observer {
                     String[] teams = gameDetails[1].split(" Against | at ");
                     String[] playerDetails = view.playerRed.split("- ");
                     playerDetails[0] = playerDetails[0].trim();
+                    int minute = getGameMinute();
                     String serverAns = client.openConnection("addOffsideEvent" + ":" + teams[0] + ":" + teams[1] + ":" + username + ":"
-                            + playerDetails[0] + "-" + playerDetails[1] + ":" + "Red Card");
+                            + playerDetails[0] + "-" + playerDetails[1] + ":" + "Red Card" + ":" + minute);
                     if (serverAns.equals("game hasn't started")) {
                         view.alert(serverAns, Alert.AlertType.WARNING);
                     } else if (serverAns.equals("game is over")) {
@@ -1179,8 +1193,9 @@ public class Presenter implements Observer {
                     String[] teams = gameDetails[1].split(" Against | at ");
                     String[] playerDetails = view.playerInjured.split("- ");
                     playerDetails[0] = playerDetails[0].trim();
+                    int minute = getGameMinute();
                     String serverAns = client.openConnection("addOffsideEvent" + ":" + teams[0] + ":" + teams[1] + ":" + username + ":"
-                            + playerDetails[0] + "-" + playerDetails[1] + ":" + "Injury");
+                            + playerDetails[0] + "-" + playerDetails[1] + ":" + "Injury" + ":" + minute);
                     if (serverAns.equals("game hasn't started")) {
                         view.alert(serverAns, Alert.AlertType.WARNING);
                     } else if (serverAns.equals("game is over")) {
@@ -1196,8 +1211,9 @@ public class Presenter implements Observer {
                     String[] teams = gameDetails[1].split(" Against | at ");
                     String playerout = view.playerOut.split(" - ")[1];
                     String playerin = view.playerIn.split(" - ")[1];
+                    int minute = getGameMinute();
                     String serverAns = client.openConnection("addSubstituteEvent" + ":" + teams[0] + ":" + teams[1] + ":" + username + ":"
-                            + playerout + "-" + playerin + ":" + "Substitute");
+                            + playerout + "-" + playerin + ":" + "Substitute" + ":" + minute);
                     if (serverAns.equals("game hasn't started")) {
                         view.alert(serverAns, Alert.AlertType.WARNING);
                     } else if (serverAns.equals("game is over")) {
@@ -1210,6 +1226,12 @@ public class Presenter implements Observer {
 
         }
 
+    }
+
+    private int getGameMinute() {
+        Date current = new Date();
+        long diffMs = current.getTime() - startGameTime.getTime();
+        return (int) diffMs / 60000;
     }
 }
 

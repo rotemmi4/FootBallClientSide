@@ -845,13 +845,44 @@ public class View extends Observable implements IView{
 //        switchTo(actionEvent, "Referee_viewGames.fxml", 600, 400, "Games To View/Manage");
 //    }
 
+    public Button goalEvent;
+    public Button offsideEvent;
+    public Button foulEvent;
+    public Button yellowEvent;
+    public Button redEvent;
+    public Button injuryEvent;
+    public Button subsEvent;
+    public Button startMatch;
+
     public void switchToEventsManage(ActionEvent actionEvent){
         gameToManage = gamesList.getSelectionModel().getSelectedItem();
         if(gameToManage != null && !gameToManage.isEmpty() ){
             switchTo(actionEvent, "Referee_addAlertsToGame.fxml",1001,400,"Games To View/Manage");
+            goalEvent.setDisable(true);
+            offsideEvent.setDisable(true);
+            foulEvent.setDisable(true);
+            yellowEvent.setDisable(true);
+            redEvent.setDisable(true);
+            injuryEvent.setDisable(true);
+            subsEvent.setDisable(true);
+            startMatch.setDisable(false);
             setChanged();
             notifyObservers(gameToManage);
         }
+    }
+
+    public void startGameAndAddAlerts(ActionEvent actionEvent){
+        goalEvent.setDisable(false);
+        offsideEvent.setDisable(false);
+        foulEvent.setDisable(false);
+        yellowEvent.setDisable(false);
+        redEvent.setDisable(false);
+        injuryEvent.setDisable(false);
+        subsEvent.setDisable(false);
+        startMatch.setDisable(true);
+        setChanged();
+        notifyObservers("init start game time");
+
     }
 
     public String playerScored;
