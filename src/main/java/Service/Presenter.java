@@ -180,6 +180,11 @@ public class Presenter implements Observer {
              */
             if(arg.equals("LogOut")){
                 username="";
+                try {
+                    String ans = client.openConnection("logout" + ":" + this.username );
+                } catch (Exception e) {
+                    view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
+                }
             }
             /**
              * approvedReq

@@ -7,6 +7,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 
 import java.io.*;
@@ -63,6 +64,7 @@ public class Main extends Application {
                         String[]s=message.split(",,,");
                         ArrayList<String> add=transferStringToArray(s[2]);
                         if(add.contains(loginUser)) {
+                            View.getInstance().alert(s[1], Alert.AlertType.INFORMATION);
                             System.out.println(s[1]);
                         }
                     }
