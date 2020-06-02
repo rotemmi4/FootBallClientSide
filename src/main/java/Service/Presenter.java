@@ -41,6 +41,10 @@ public class Presenter implements Observer {
     }
 
 
+    public void newNotification(String content){
+        view.alert(content, Alert.AlertType.INFORMATION);
+    }
+
     @Override
     public void update(Observable o, Object arg) {
         /**
@@ -463,7 +467,6 @@ public class Presenter implements Observer {
                 String newStatus = null;
                 try {
                     newStatus = client.openConnection("changeTeamStatus:" + teamName);
-                    view.alert(newStatus, Alert.AlertType.INFORMATION);
                 } catch (Exception e) {
                     view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
                 }

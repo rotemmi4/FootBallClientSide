@@ -64,7 +64,10 @@ public class Main extends Application {
                         String[]s=message.split(",,,");
                         ArrayList<String> add=transferStringToArray(s[2]);
                         if(add.contains(loginUser)) {
-                            View.getInstance().alert(s[1], Alert.AlertType.INFORMATION);
+                            Platform.runLater(() -> {
+                                presenter.newNotification(s[1]);
+                            });
+                            //View.getInstance().alert(s[1], Alert.AlertType.INFORMATION);
                             System.out.println(s[1]);
                         }
                     }
