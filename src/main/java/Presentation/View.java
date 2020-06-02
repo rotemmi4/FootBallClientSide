@@ -1,5 +1,7 @@
 package Presentation;
 
+import Service.Client;
+import Service.Presenter;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -26,6 +28,7 @@ import java.util.regex.Pattern;
 public class View extends Observable implements IView{
 
     private static View view = null;
+
 
 
 
@@ -193,22 +196,32 @@ public class View extends Observable implements IView{
                 switch (ui) {
                     case systemManager:
                         switchTo(actionEvent, "SystemManager.fxml", 600, 400, "Welcome " + login_username_txtfld.getText() + " !");
+                        unregisterToMatchNotification.setDisable(true);
+                        listAlert.getItems().clear();
                         break;
                     case associationUser:
                         switchTo(actionEvent, "Association.fxml", 600, 400, "Welcome " + login_username_txtfld.getText() + " !");
+                        unregisterToMatchNotification.setDisable(true);
+                        listAlert.getItems().clear();
                         break;
                     case teamMember:
                         switchTo(actionEvent, "TeamMember.fxml", 600, 400, "Welcome " + login_username_txtfld.getText() + " !");
                         initTeamMember();
+                        unregisterToMatchNotification.setDisable(true);
+                        listAlert.getItems().clear();
                         break;
                     case referee:
                         switchTo(actionEvent, "Referee.fxml", 600, 400, "Welcome " + login_username_txtfld.getText() + " !");
+                        unregisterToMatchNotification.setDisable(true);
+                        listAlert.getItems().clear();
                         break;
                     case fan:
                         switchTo(actionEvent, "Fan.fxml", 600, 400, "Welcome " + login_username_txtfld.getText() + " !");
+                        unregisterToMatchNotification.setDisable(true);
+                        listAlert.getItems().clear();
                         break;
                 }
-
+//                unregisterToMatchNotification.setDisable(true);
             }
         }
     }
@@ -237,6 +250,8 @@ public class View extends Observable implements IView{
     public void backToLoginScreen(ActionEvent actionEvent){
         switchTo(actionEvent, "Guest.fxml", 800 , 484, "Welcome");
         gotoSearch.setDisable(true);
+        setChanged();
+        notifyObservers("LogOut");
 
     }
 
@@ -418,6 +433,9 @@ public class View extends Observable implements IView{
     public void backtoLogin (ActionEvent actionEvent) {
         switchTo(actionEvent,"Guest.fxml" , 600, 400 , "Welcome");
         gotoSearch.setDisable(true);
+        setChanged();
+        notifyObservers("LogOut");
+
 
     }
 
@@ -540,6 +558,7 @@ public class View extends Observable implements IView{
 
     public void backToAssociation(ActionEvent ae){
         switchTo(ae, "Association.fxml", 600, 400, "Association Management");
+        setRegNotificationButt();
     }
 
     private boolean isLeagueExist = false,isCurrentSeason = false;
@@ -923,6 +942,7 @@ public class View extends Observable implements IView{
 
     public void backToReferee(ActionEvent ae){
         switchTo(ae, "Referee.fxml", 600, 400, "Welcome " + login_username_txtfld.getText() + " !");
+        setRegNotificationButt();
     }
 
 
@@ -1015,6 +1035,7 @@ public class View extends Observable implements IView{
         playerList.clear();
         switchTo(actionEvent,"teamMember.fxml",600 , 400, "Team Member");
         initTeamMember();
+        setRegNotificationButt();
     }
 
     @Override
@@ -1189,6 +1210,11 @@ public class View extends Observable implements IView{
             tm_updateAsset.setDisable(true);
             tm_changeStatus.setDisable(false);
         }
+        if(!registerNotification){
+            unregisterToMatchNotification.setDisable(true);
+        }else{
+            registerToMatchNotification.setDisable(true);
+        }
     }
 
     ///////////////////////////////////////////add asset////////////////////////////////////////
@@ -1230,6 +1256,10 @@ public class View extends Observable implements IView{
     public void addCoach(){
         coachList.clear();
         assetToAdd= "Coach";
+        managerP_CHKBX.setDisable(true);
+        playerP_CHKBX.setDisable(true);
+        coachP_CHKBX.setDisable(true);
+        ownerP_CHKBX.setDisable(true);
         if(coachList.isEmpty()){  //emptyList
             setChanged();
             notifyObservers("get available coachs");
@@ -1243,6 +1273,10 @@ public class View extends Observable implements IView{
     public void addPlayer(){
         playerList.clear();
         assetToAdd= "Player";
+        managerP_CHKBX.setDisable(true);
+        playerP_CHKBX.setDisable(true);
+        coachP_CHKBX.setDisable(true);
+        ownerP_CHKBX.setDisable(true);
         if(playerList.isEmpty()){  //emptyList
             setChanged();
             notifyObservers("get available players");
@@ -1256,6 +1290,10 @@ public class View extends Observable implements IView{
     public void addOwner(){
         ownerList.clear();
         assetToAdd= "Owner";
+        managerP_CHKBX.setDisable(true);
+        playerP_CHKBX.setDisable(true);
+        coachP_CHKBX.setDisable(true);
+        ownerP_CHKBX.setDisable(true);
         if(ownerList.isEmpty()){  //emptyList
             setChanged();
             notifyObservers("get available owners");
@@ -1489,42 +1527,77 @@ public class View extends Observable implements IView{
      **/
 
     public ListView<String> listAlert=new ListView<String>();
-
+    public String userType="";
+    public boolean registerNotification=false;
+    public Button registerToMatchNotification=new Button();
+    public Button unregisterToMatchNotification=new Button();
 
     public void showNotification(ActionEvent actionEvent){
-//        switchTo(actionEvent, "Notification.fxml",600 , 400, "Notification");
-//        setChanged();
-//        notifyObservers("alert screen");
-        try {
-            Stage stage = new Stage();
-            stage.setTitle("Notifications");
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            Parent root = fxmlLoader.load(getClass().getResource("/Notification.fxml").openStream());
-            Scene scene = new Scene(root, 600, 500);
-            stage.setScene(scene);
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.show();
-        } catch (Exception e) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("APP Dialog");
-            alert.setHeaderText("System Message");
-            alert.setContentText("NOTICE: File NOT Found!");
-            alert.show();
-        }
+
+        switchTo(actionEvent, "Notification.fxml",600 , 400, "Notification");
+        setChanged();
+        notifyObservers("alert screen");
+
     }
 
-//    public void addAlerts(ArrayList<AlertPop> alerts){
-//        for (AlertPop alert :alerts) {
-//            listAlert.getItems().add(alert.showAlert());
-//        }
 
-
-    //}
-
-    //Team Member
+    private void setRegNotificationButt(){
+        if(registerNotification){
+            registerToMatchNotification.setDisable(true);
+            unregisterToMatchNotification.setDisable(false);
+        }
+        else{
+            registerToMatchNotification.setDisable(false);
+            unregisterToMatchNotification.setDisable(true);
+        }
+    }
     public void backTM(ActionEvent actionEvent){
-//        switchTo(actionEvent,"TeamMember.fxml",600 , 400, "Team Member");
+        if(userType.equals("TeamMember")) {
+            switchTo(actionEvent, "TeamMember.fxml", 600, 400, "Team Member");
+            initTeamMember();
+        }else if(userType.equals("Referee")) {
+            switchTo(actionEvent, "Referee.fxml", 600, 400, "Referee");
+        }else if(userType.equals("Association")) {
+            switchTo(actionEvent, "Association.fxml", 600, 400, "Association");
+        }else if(userType.equals("SystemManager")) {
+            switchTo(actionEvent, "SystemManager.fxml", 600, 400, "SystemManager");
+        } else if(userType.equals("Fan")) {
+            switchTo(actionEvent, "Fan.fxml", 600, 400, "Fan");
+        }
 
+    }
+    public void addAlerts(ArrayList<String> alerts){
+        for (String alert :alerts) {
+            if(!alert.equals("")&&!alert.equals(" "))
+                listAlert.getItems().add(alert);
+        }
+    }
+    public void registerToGamesNotification(){
+        int input = JOptionPane.showConfirmDialog(null, "Are you sure you want to sign up and receive notifications for all games in the association?");
+        // 0=yes, 1=no, 2=cancel
+        if(input==0){
+            registerToMatchNotification.setDisable(true);
+            unregisterToMatchNotification.setDisable(false);
+            registerNotification=true;
+            setChanged();
+            notifyObservers("Register to Notification");
+
+        }
+    }
+    public void unregisterToGamesNotification(){
+        int input = JOptionPane.showConfirmDialog(null, "Are you sure you want to disconnect and stop receive notifications for all games in the association?");
+        // 0=yes, 1=no, 2=cancel
+        if(input==0){
+            registerToMatchNotification.setDisable(false);
+            unregisterToMatchNotification.setDisable(true);
+            registerNotification=false;
+            setChanged();
+            notifyObservers("Unregister to Notification");
+
+        }
+    }
+    public void setUserType(String type){
+        userType=type;
     }
 
 //    public void pressSubscribe(ActionEvent actionEvent){

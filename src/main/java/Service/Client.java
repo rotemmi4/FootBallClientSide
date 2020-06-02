@@ -9,10 +9,13 @@ import java.util.Observable;
  * @author pankaj
  *
  */
-public class Client extends Observable {
-    String serverName = "localhost";
+public class Client extends Observable{
+    String serverName = "132.72.65.132"; //localhost  OR  132.72.65.132
     int serverPortNumber = 9876;
     Socket socket = null;
+
+
+
 
     public String openConnection(String data) throws Exception {
         String serverResponse="";
@@ -35,13 +38,11 @@ public class Client extends Observable {
     }
 
     public void closeConnection() {
-
         try {
             socket.close();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-
         }
     }
 }
