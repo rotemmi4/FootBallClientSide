@@ -12,9 +12,12 @@
          </font>
       </Label>
       <Button fx:id="referee_updateInfo" layoutX="72.0" layoutY="84.0" mnemonicParsing="false" text="Update personal info" />
-      <Button fx:id="referee_logout" layoutX="25.0" layoutY="347.0" mnemonicParsing="false" onAction="#backToLoginScreen" text="Log-out" />
-      <Button fx:id="referee_viewManageGames" onAction="#gotoManageGames" layoutX="72.0" layoutY="162.0" mnemonicParsing="false" text="View and mange games" />
+      <Button fx:id="referee_logout" layoutX="513.0" layoutY="349.0" mnemonicParsing="false" onAction="#backToLoginScreen" text="Log-out" />
+      <Button fx:id="referee_viewManageGames" layoutX="72.0" layoutY="162.0" mnemonicParsing="false" onAction="#gotoManageGames" text="View and mange games" />
       <Button fx:id="gotoApprove" layoutX="72.0" layoutY="123.0" mnemonicParsing="false" onAction="#gotoApproveReq" text="Join to season by approve request" />
+      <Button layoutX="38.0" layoutY="256.0" mnemonicParsing="false" onAction="#showNotification" prefHeight="33.0" prefWidth="147.0" text="Notification" />
+      <Button fx:id="registerToMatchNotification" layoutX="38.0" layoutY="297.0" mnemonicParsing="false" onAction="#registerToGamesNotification" prefHeight="34.0" prefWidth="191.0" text="Register to Games Notication" />
+      <Button fx:id="unregisterToMatchNotification" layoutX="38.0" layoutY="341.0" mnemonicParsing="false" onAction="#unregisterToGamesNotification" prefHeight="34.0" prefWidth="191.0" text="Unregister to Games Notification" />
    </children>
 
 </AnchorPane>

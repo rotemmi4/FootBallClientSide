@@ -21,5 +21,8 @@
       <Button fx:id="association_createLeague" layoutX="67.0" layoutY="102.0" mnemonicParsing="false" onAction="#createLeague" text="Create League and add to Season" />
       <Button fx:id="Association_addTeamToLeague" layoutX="339.0" layoutY="102.0" mnemonicParsing="false" onAction="#switchtoAddTeamToLeagueScreen" text="Add Team To League" />
       <Button layoutX="334.0" layoutY="144.0" mnemonicParsing="false" onAction="#switchToAddRefToLeague" text="Add Referee To League" />
+      <Button layoutX="437.0" layoutY="266.0" mnemonicParsing="false" onAction="#showNotification" prefHeight="33.0" prefWidth="147.0" text="Notification" />
+      <Button fx:id="registerToMatchNotification" layoutX="394.0" layoutY="303.0" mnemonicParsing="false" onAction="#registerToGamesNotification" prefHeight="34.0" prefWidth="191.0" text="Register to Games Notication" />
+      <Button fx:id="unregisterToMatchNotification" layoutX="394.0" layoutY="343.0" mnemonicParsing="false" onAction="#unregisterToGamesNotification" prefHeight="34.0" prefWidth="191.0" text="Unregister to Games Notification" />
    </children>
 </AnchorPane>

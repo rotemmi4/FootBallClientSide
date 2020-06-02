@@ -12,6 +12,7 @@ public class Presenter implements Observer {
     private Client client;
     private View view;
     private String username;
+    private String userType="";
     private String verificationCode;
     private String teamName;
     private String leagueName;
@@ -22,12 +23,26 @@ public class Presenter implements Observer {
     private ArrayList<String> ownersInDB = new ArrayList<String>();
     private ArrayList<String> managersInDB = new ArrayList<String>();
     private ArrayList<String> teamAssets = new ArrayList<String>();
+    private ArrayList<String> alerts=new ArrayList<String>();
 
 
     public Presenter(Client client, View view) {
         this.client = client;
         this.view = view;
         //this.username="";
+    }
+
+    public String getUserType() {
+        return userType;
+    }
+
+    public String getUsername(){
+        return username;
+    }
+
+
+    public void newNotification(String content){
+        view.alert(content, Alert.AlertType.INFORMATION);
     }
 
     @Override
@@ -113,8 +128,12 @@ public class Presenter implements Observer {
                 } else {
                     if (ans.equals("Association")) {
                         view.setUi(View.userInstance.associationUser);
+//                        userType="Association";
+                        view.setUserType("Association");
                     } else if (ans.equals("Referee")) {
                         view.setUi(View.userInstance.referee);
+//                        userType="Referee";
+                        view.setUserType("Referee");
                     } else if (splittedAns[0].equals("TeamMember")) {
                         view.setPlayer(splittedAns[2]);
                         view.setOwner(splittedAns[3]);
@@ -123,10 +142,16 @@ public class Presenter implements Observer {
                         view.setTeamStatus(splittedAns[6]);
                         view.setOwnerTeamName(splittedAns[5]);
                         view.setUi(View.userInstance.teamMember);
+//                        userType="TeamMember";
+                        view.setUserType("TeamMember");
                     } else if (ans.equals("SystemManager")) {
                         view.setUi(View.userInstance.systemManager);
+//                        userType="SystemManager";
+                        view.setUserType("SystemManager");
                     } else if (ans.equals("Fan")) {
                         view.setUi(View.userInstance.fan);
+//                        userType="Fan";
+                        view.setUserType("Fan");
                     }
                     try {
                         client.openConnection("checkEventLogs" + ":" + username + ":" + " Logged into the system");
@@ -152,6 +177,17 @@ public class Presenter implements Observer {
                     if (!splittedAns[i].equals("")) {
                         view.refsProposals.getItems().add(splittedAns[i]);
                     }
+                }
+            }
+            /**
+             * LogOut
+             */
+            if(arg.equals("LogOut")){
+                username="";
+                try {
+                    String ans = client.openConnection("logout" + ":" + this.username );
+                } catch (Exception e) {
+                    view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
                 }
             }
             /**
@@ -503,7 +539,46 @@ public class Presenter implements Observer {
                 }
             }
 
-
+            if(arg.equals("alert screen")){
+                String s="getAlerts"+":"+username;
+                String ans="";
+                try {
+                    ans = client.openConnection(s);
+                } catch (Exception e) {
+                    view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
+                }
+                for (String al:ans.split(":")) {
+                    alerts=new ArrayList<String>();
+                    alerts.add(al);
+                }
+                if(!alerts.isEmpty()) {
+                    view.addAlerts(alerts);
+                }
+            }
+            if(arg.equals("Register to Notification")){
+                String s="subscribe"+":"+username;
+                String ans="";
+                try {
+                    ans = client.openConnection(s);
+                    if(ans.equals("true")){
+                        view.alert("Succeeded!!", Alert.AlertType.INFORMATION);
+                    }
+                } catch (Exception e) {
+                    view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
+                }
+            }
+            if(arg.equals("Unregister to Notification")){
+                String s="unsubscribe"+":"+username;
+                String ans="";
+                try {
+                    ans = client.openConnection(s);
+                    if(ans.equals("true")){
+                        view.alert("Succeeded!!", Alert.AlertType.INFORMATION);
+                    }
+                } catch (Exception e) {
+                    view.alert("can't connect to the DB or the Server", Alert.AlertType.ERROR);
+                }
+            }
             //-------------------------------------------------------------------------------------------------
 
             /**
