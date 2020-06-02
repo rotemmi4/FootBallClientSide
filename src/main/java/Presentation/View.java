@@ -939,6 +939,7 @@ public class View extends Observable implements IView{
 
     public void backToReferee(ActionEvent ae){
         switchTo(ae, "Referee.fxml", 600, 400, "Welcome " + login_username_txtfld.getText() + " !");
+        setRegNotificationButt();
     }
 
 
@@ -1523,7 +1524,16 @@ public class View extends Observable implements IView{
     }
 
 
-
+    private void setRegNotificationButt(){
+        if(registerNotification){
+            registerToMatchNotification.setDisable(true);
+            unregisterToMatchNotification.setDisable(false);
+        }
+        else{
+            registerToMatchNotification.setDisable(false);
+            unregisterToMatchNotification.setDisable(true);
+        }
+    }
     public void backTM(ActionEvent actionEvent){
         if(userType.equals("TeamMember")) {
             switchTo(actionEvent, "TeamMember.fxml", 600, 400, "Team Member");
