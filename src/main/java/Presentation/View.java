@@ -557,6 +557,7 @@ public class View extends Observable implements IView{
 
     public void backToAssociation(ActionEvent ae){
         switchTo(ae, "Association.fxml", 600, 400, "Association Management");
+        setRegNotificationButt();
     }
 
     private boolean isLeagueExist = false,isCurrentSeason = false;
@@ -1032,6 +1033,7 @@ public class View extends Observable implements IView{
         playerList.clear();
         switchTo(actionEvent,"teamMember.fxml",600 , 400, "Team Member");
         initTeamMember();
+        setRegNotificationButt();
     }
 
     public ArrayList<String> getTeamDetails() {
