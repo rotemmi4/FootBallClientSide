@@ -240,6 +240,7 @@ public class View extends Observable implements IView{
 
     }
 
+    @Override
     public ArrayList<String> getLoginDetails() {
         ArrayList<String> details = new ArrayList<>();
         details.add(login_username_txtfld.getText());
@@ -637,6 +638,7 @@ public class View extends Observable implements IView{
         }
     }
 
+    @Override
     public String getNewLeagueDetails() {
         StringBuilder details = new StringBuilder();
         details.append(String.valueOf(yearPicked)).append(":").
@@ -820,9 +822,9 @@ public class View extends Observable implements IView{
 
     }
 
-    public void backToViewGames(ActionEvent actionEvent) {
-        switchTo(actionEvent, "Referee_viewGames.fxml", 600, 400, "Games To View/Manage");
-    }
+//    public void backToViewGames(ActionEvent actionEvent) {
+//        switchTo(actionEvent, "Referee_viewGames.fxml", 600, 400, "Games To View/Manage");
+//    }
 
     public void switchToEventsManage(ActionEvent actionEvent){
         gameToManage = gamesList.getSelectionModel().getSelectedItem();
@@ -1015,6 +1017,7 @@ public class View extends Observable implements IView{
         initTeamMember();
     }
 
+    @Override
     public ArrayList<String> getTeamDetails() {
         ArrayList<String> details = new ArrayList<>();
         details.add(teamName_txtfld.getText());

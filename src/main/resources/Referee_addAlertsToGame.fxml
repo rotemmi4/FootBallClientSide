@@ -9,7 +9,7 @@
       <Button fx:id="goalEvent" layoutX="443.0" layoutY="75.0" mnemonicParsing="false" onAction="#addGoalEventToGame" text="Add Goal Event" />
       <ListView fx:id="playerList1" layoutX="26.0" layoutY="61.0" prefHeight="277.0" prefWidth="374.0" />
       <Label layoutX="26.0" layoutY="14.0" text="Choose Player related to event :" />
-      <Button fx:id="backToView" layoutX="26.0" layoutY="353.0" mnemonicParsing="false" onAction="#backToViewGames" text="Back" />
+      <Button fx:id="backToView" layoutX="26.0" layoutY="353.0" mnemonicParsing="false" onAction="#gotoManageGames" text="Back" />
       <Button fx:id="offsideEvent" layoutX="443.0" layoutY="113.0" mnemonicParsing="false" onAction="#addOffsideEventToGame" text="Add Offside Event" />
       <Button fx:id="foulEvent" layoutX="444.0" layoutY="153.0" mnemonicParsing="false" onAction="#addFoulEventToGame" text="Add Foul Event" />
       <Button fx:id="yellowEvent" layoutX="444.0" layoutY="189.0" mnemonicParsing="false" onAction="#addYellowEventToGame" text="Add Yellow Card Event" />
