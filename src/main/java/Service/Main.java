@@ -9,9 +9,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Date;
@@ -19,7 +17,7 @@ import java.util.Date;
 public class Main extends Application {
     private ServerSocket serverSocket;
     private Socket socket;
-    private DataInputStream input ;
+    private BufferedReader input ;
     private DataOutputStream output;
 
     @Override
@@ -52,14 +50,14 @@ public class Main extends Application {
                 // Listen for a connection request
 
                 // Create data input and output streams
-                input = new DataInputStream( socket.getInputStream() );
+                input = new BufferedReader((new InputStreamReader((socket.getInputStream()))));
                 output = new DataOutputStream(socket.getOutputStream());
 
                 while (true) {
                     // Receive message from the client
-                    String message = input.readUTF();
+                    String message = input.readLine();
                     if(message.equals("test Alert")){
-                        System.out.println("get alert!!!!!!!!!!");
+                        System.out.println(message);
                     }
                 }
             }
