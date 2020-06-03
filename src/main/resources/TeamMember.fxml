@@ -12,7 +12,7 @@
             <Font size="36.0" />
         </font>
     </Label>
-   <Button fx:id="tm_logOut" layoutX="515.0" layoutY="354.0" mnemonicParsing="false" onAction="#backtoLogin" text="Log out " />
+   <Button fx:id="tm_logOut" layoutX="515.0" layoutY="354.0" mnemonicParsing="false" onAction="#backToLoginScreen" text="Log out " />
    <Button fx:id="tm_createTeam" layoutX="333.0" layoutY="86.0" mnemonicParsing="false" onAction="#createTeam" prefHeight="33.0" prefWidth="147.0" text="Create new Team" />
    <Button fx:id="tm_addAsset" layoutX="333.0" layoutY="180.0" mnemonicParsing="false" onAction="#addAssetToTeam" prefHeight="33.0" prefWidth="147.0" text="Add asset to Team" />
    <Button fx:id="tm_updateInfo" layoutX="126.0" layoutY="86.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="147.0" text="Change peronal info" />

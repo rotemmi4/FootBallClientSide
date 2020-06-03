@@ -17,7 +17,7 @@
       <Button fx:id="association_changeGamePolicy" layoutX="70.0" layoutY="232.0" mnemonicParsing="false" onAction="#ChangeRoundsPolicyToLeague" text="Change game policy to league" />
       <Button fx:id="association_createGameSchedule" layoutX="70.0" layoutY="270.0" mnemonicParsing="false" onAction="#association_createGameScheduleBTN" text="Create game scheduling to league" />
       <Button fx:id="association_manageFinance" layoutX="70.0" layoutY="308.0" mnemonicParsing="false" text="Manage finance" />
-      <Button fx:id="association_logOut" layoutX="14.0" layoutY="361.0" mnemonicParsing="false" onAction="#backtoLogin" text="Log-out" />
+      <Button fx:id="association_logOut" layoutX="14.0" layoutY="361.0" mnemonicParsing="false" onAction="#backToLoginScreen" text="Log-out" />
       <Button fx:id="association_createLeague" layoutX="67.0" layoutY="102.0" mnemonicParsing="false" onAction="#createLeague" text="Create League and add to Season" />
       <Button fx:id="Association_addTeamToLeague" layoutX="339.0" layoutY="102.0" mnemonicParsing="false" onAction="#switchtoAddTeamToLeagueScreen" text="Add Team To League" />
       <Button layoutX="334.0" layoutY="144.0" mnemonicParsing="false" onAction="#switchToAddRefToLeague" text="Add Referee To League" />
