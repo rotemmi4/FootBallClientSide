@@ -192,6 +192,7 @@ public class View extends Observable implements IView{
             setChanged();
             notifyObservers("login");
             if(login_successful){
+                registerNotification = false;
 //                continueBTN.setDisable(false);
                 switch (ui) {
                     case systemManager:
